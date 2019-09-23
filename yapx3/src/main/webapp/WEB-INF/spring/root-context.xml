@@ -7,7 +7,7 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<!-- <bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@aglpbook.ctffmf4kluru.ap-northeast-2.rds.amazonaws.com:1521:ORCL"/>
 		<property name="username" value="aglpbook"/>
@@ -26,20 +26,20 @@
     
     <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="dataSource" ref="dataSource"/>
-    	<property name="mapperLocations" 
-				  value="classpath*:mapper/**/*.xml"/>
+    	<property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
 		<property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
     
-    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+   <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactoryBean"/>
 	</bean>
+	 -->
 	
-	<bean id="transactionManager" 
+<!-- 	<bean id="transactionManager" 
 		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>	
 
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven transaction-manager="transactionManager" /> -->
 	
 </beans>

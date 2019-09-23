@@ -1,36 +1,36 @@
 package com.kh.yapx3.match.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.kh.yapx3.match.model.vo.Team;
+import com.kh.yapx3.match.model.service.MatchService;
 
-@Controller
+import net.sf.json.JSONArray;
+
+
+@RestController
 @RequestMapping("/match")
 public class MatchController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@RequestMapping("/test")
-	public void apiTest(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		response.setContentType("application/json; charset=utf-8");
+	@Autowired
+	MatchService matchService;
+	
+	
+	@RequestMapping("/matchList")
+	public ResponseEntity<?> matchList(){
+		JSONArray participantDataAll = new JSONArray();
+		participantDataAll = matchService.participantData();
 		
-		Team team = new Team("teamid", "win", "ban1", "ban2", "ban3", "ban4", "ban5");
-		
-		logger.info(team.toString());
-		
-		JSONObject teamObject = new JSONObject(team.toString());
-
-		logger.info(teamObject.toString());
-		
-		new Gson().toJson(teamObject, response.getWriter());
+		return ResponseEntity.ok(participantDataAll);
 	}
 	
 }

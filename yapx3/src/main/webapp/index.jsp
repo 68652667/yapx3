@@ -60,6 +60,12 @@ table, td, th{
 	<div id = "championAll">
 		
 	</div>
+	
+	<!-- 디비에 저장되어있는 게임 아이디 불러오기 -->
+	<button id="matchListAllBtn">게임 아이디 값 불러오기</button>
+	<div id="matchAll">
+		
+	</div>
 </body>
 <script>
 function info(aa){
@@ -82,6 +88,21 @@ function info(aa){
 	}); */
 }
 	$(()=>{
+		$("#matchListAllBtn").on("click", ()=>{
+			$.ajax({
+				url: "${pageContext.request.contextPath}/match/matchList",
+				type : "GET",
+				dataType : "json",
+				success: function(data){
+					console.log(data);
+					$("#matchAll").append(data);
+				},
+				error: function(err){
+					console.log("실패");
+				}
+			});
+		});
+		
 		$("#championAllBtn").on("click", ()=>{
 			$.ajax({
 				url: "${pageContext.request.contextPath}/test/allChampion",

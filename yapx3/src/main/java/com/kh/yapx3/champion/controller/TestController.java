@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,14 +25,20 @@ import com.kh.yapx3.champion.model.service.ApiService;
 import com.kh.yapx3.champion.model.service.NewObject;
 import com.kh.yapx3.champion.model.service.TestService;
 import com.kh.yapx3.champion.model.vo.Camp;
+import com.kh.yapx3.match.model.service.MatchService;
 
 @RestController
 @Controller
 @RequestMapping("/test")
 public class TestController {
 	
+	Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	ApiService apiService;
+	
+	@Autowired
+	MatchService matchService;
 	
 	@Inject
 	private TestService testService;
@@ -49,6 +57,10 @@ public class TestController {
 	public ResponseEntity<?> championAll() {
 		List<Camp> champ = apiService.championAll();
 		champ.sort(Comparator.comparing(Camp::getName));
+		for(int i = 0; i < champ.size(); i++) {
+			System.out.println(champ.get(i).getKey());
+			logger.info(champ.get(i).getName());
+		}
 		return ResponseEntity.ok(champ);
 	}
 	
@@ -79,4 +91,6 @@ public class TestController {
 		mav.addObject("championId",championId);
 		return mav;
 	}
+	
+	
 }

@@ -170,6 +170,7 @@ public class ApiServiceImpl implements ApiService{
 			camp.setName(champ.getValue().getName());
 			listCamp.add(camp);
 		}
+		
 		return listCamp;
 	}
 
@@ -218,9 +219,6 @@ public class ApiServiceImpl implements ApiService{
 			
 			System.out.println("암호화 전 소환사 닉네임: " + challengerLegue.getBody().getEntries().get(i).getSummonerName());
 			System.out.println("암호화 된 소환사 닉네임: " + challengerLegue.getBody().getEntries().get(i).getSummonerId());
-			if(challengerLegue.getBody().getEntries().get(i).getSummonerName().equals("혜나 봄")) {
-				continue;
-			}
 			summonerNameMap.put(challengerLegue.getBody().getEntries().get(i).getSummonerName(), challengerLegue.getBody().getEntries().get(i).getSummonerId());
 		}
 		System.out.println(summonerNameMap);
@@ -236,7 +234,6 @@ public class ApiServiceImpl implements ApiService{
 		ResponseEntity<ChampionMatchLine> championMatchLine = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionMatchLine.class);
 		List<MatchVO> listMatch = new ArrayList<MatchVO>();
 		MatchVO match;
-//		System.out.println(championMatchLine.getBody().getMatches().size());
 		for(int i = 0; i < championMatchLine.getBody().getMatches().size(); i++) {
 //		for(int i = 0; i < 10; i++) {
 			if(championIdCheck == championMatchLine.getBody().getMatches().get(i).getChampion()){
@@ -251,33 +248,6 @@ public class ApiServiceImpl implements ApiService{
 		return listMatch;
 	}
 	
-	//선택한 챔피언만의 정보를 가져온다.
-//	public boolean selectChampion(int championIdCheck){
-//		String urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
-//		HttpHeaders header = new HttpHeaders();
-//	    HttpEntity<String> httpEntity = new HttpEntity<>(header);
-//		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
-//		
-//		for(Map.Entry<String, ChampValue> champ : championAll.getBody().getData().entrySet()) {
-//			System.out.println("champKey: " + champ.getValue().getKey());
-//			if(championIdCheck == champ.getValue().getKey()) {
-//				System.out.println("champGetId: " + champ.getValue().getId());
-//				System.out.println("championIdCheck: " + championIdCheck);
-//				return true;
-//			}
-//		}
-//		System.out.println("쉬었다 가시오!");
-//		return false;
-
-//		for (Map.Entry<String, ChampValue> champ : championAll.getBody().getData().entrySet()) {
-//			if(champ.getValue().getId().equals(championIdCheck)){
-//				System.out.println("champGetId: " + champ.getValue().getId());
-//				System.out.println("championIdCheck: " + championIdCheck);
-//				return true;
-//			}
-//		}
-		
-//	}
 	
 	//소환사 닉네임으로 AccountId 찾기
 	public String summonerSearch(String summonerName) {
@@ -289,45 +259,5 @@ public class ApiServiceImpl implements ApiService{
 		
 		return summonerAccountId.getBody().getAccountId();
 	}
-
-
-	//이번주 로테이션 챔피언을 가져온다.
-//	public List<String> champion() {
-//		List<String> list = new ArrayList<String>();
-//		try {
-//			connection = new URLConnection();
-//			
-//			JSONObject jobj = connection.lotation();
-//			JSONArray jar = (JSONArray) jobj.get("freeChampionIds");
-//			
-//			JSONObject jobj2 = connection.championData();
-//            JSONObject dataObject = jobj2.getJSONObject("data");
-//            
-//            Iterator num = dataObject.keys();
-//            while(num.hasNext()) {
-//                String dataKey = num.next().toString();
-//                JSONObject data = dataObject.getJSONObject(dataKey);
-//                JSONObject data_ = data.getJSONObject("image");
-//                String img = data_.getString("full");
-//                String key = data.getString("key");
-//                for(int i = 0; i<jar.length(); i++) {
-//                    String chap = jar.get(i).toString();
-//                    if(key.equals(chap)) {
-//                        list.add(img);
-//                    }
-//                }
-//            }
-//            
-//		} catch (MalformedURLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return list;
-//	}
-	
-
 	
 }

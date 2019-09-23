@@ -8,5 +8,6 @@
   	<setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
   <typeAliases>
+		<!-- <typeAlias type="com.kh.yapx3.match.model.vo.MatchVo"  alias="matchvo"/> -->
   </typeAliases>
 </configuration>
