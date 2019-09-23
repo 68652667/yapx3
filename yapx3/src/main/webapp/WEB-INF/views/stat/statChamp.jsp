@@ -3,10 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>StatChamp</title>
 </head>
 <body>
+
+	
 
 </body>
 </html>
