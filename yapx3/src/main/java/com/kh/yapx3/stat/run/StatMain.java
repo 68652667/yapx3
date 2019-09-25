@@ -1,6 +1,8 @@
 package com.kh.yapx3.stat.run;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.Connection;
@@ -8,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -17,8 +20,8 @@ import com.kh.yapx3.stat.model.vo.MatchString;
 public class StatMain {
 
 	public static void main(String[] args) throws Exception {
-//		new StatMain().statTest();
-		new StatMain().champTest();
+		new StatMain().statTest();
+//		new StatMain().champTest();
 	}
 	
 	private void champTest() throws Exception {
@@ -27,10 +30,24 @@ public class StatMain {
 		URL url2 = new URL(urlStr2);
 		BufferedReader br2 = new BufferedReader(new InputStreamReader(url2.openConnection().getInputStream()));
 		String sb2 = br2.readLine();
-		JSONObject jobj2 = new JSONObject(sb2.toString());
+		JSONObject chapdata = new JSONObject(sb2.toString());
 		
-		
-		
+		JSONObject chapdataObject = chapdata.getJSONObject("data");
+		Iterator num1 = chapdataObject.keys();
+		while(num1.hasNext()) {
+			String dataKey = num1.next().toString();
+			JSONObject data = chapdataObject.getJSONObject(dataKey);
+			String key = data.getString("key");
+			String id = data.getString("id");
+			
+			File file = new File("ChampStat.sql");
+			
+			FileWriter fw = new FileWriter(file, true);
+			
+			fw.write("insert into stat values ("+key+", '"+id+"', default, default, default, default);\n");
+			
+			fw.close();
+		}
 	}
 
 	public void statTest() throws Exception {
@@ -43,7 +60,7 @@ public class StatMain {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		conn = DriverManager.getConnection("jdbc:oracle:thin:@aglpbook.ctffmf4kluru.ap-northeast-2.rds.amazonaws.com:1521:ORCL", "aglpbook", "aglp1234567890bookkh");
 			
-		String sql = "select m.GAMEID, m.GAMECREATION, m.GAMEDURATION, m.QUEUEID, m.MAPID, m.SEASONID, m.TEAM1, m.TEAM2, m.PARTICIPANT1, m.PARTICIPANT2, m.PARTICIPANT3, m.PARTICIPANT4, m.PARTICIPANT5, m.PARTICIPANT6, m.PARTICIPANT7, m.PARTICIPANT8, m.PARTICIPANT9, m.PARTICIPANT10 from (select rownum num, m.* from (select m.* from match m order by m.gameid) m) m where num between 1 and 10";
+		String sql = "select m.GAMEID, m.GAMECREATION, m.GAMEDURATION, m.QUEUEID, m.MAPID, m.SEASONID, m.TEAM1, m.TEAM2, m.PARTICIPANT1, m.PARTICIPANT2, m.PARTICIPANT3, m.PARTICIPANT4, m.PARTICIPANT5, m.PARTICIPANT6, m.PARTICIPANT7, m.PARTICIPANT8, m.PARTICIPANT9, m.PARTICIPANT10 from (select rownum num, m.* from (select m.* from match m order by m.gameid) m) m where num between 1 and 45000";
 		
 		pstmt = conn.prepareStatement(sql);
 		
@@ -76,20 +93,42 @@ public class StatMain {
 		rset.close();
 		pstmt.close();
 		
+		File file = new File("ChampStatData.sql");
+		
+		FileWriter fw = new FileWriter(file, true);
+		
 		for(MatchString m : list) {
-			JSONObject t1 = new JSONObject(m.getTeam1());
-			JSONObject t2 = new JSONObject(m.getTeam2());
-			JSONObject p1 = new JSONObject(m.getparticipant1());
-			JSONObject p2 = new JSONObject(m.getparticipant2());
-			JSONObject p3 = new JSONObject(m.getparticipant3());
-			JSONObject p4 = new JSONObject(m.getparticipant4());
-			JSONObject p5 = new JSONObject(m.getparticipant5());
-			JSONObject p6 = new JSONObject(m.getparticipant6());
-			JSONObject p7 = new JSONObject(m.getparticipant7());
-			JSONObject p8 = new JSONObject(m.getparticipant8());
-			JSONObject p9 = new JSONObject(m.getparticipant9());
-			JSONObject p10 = new JSONObject(m.getparticipant10());
-		}
+			if(!new JSONObject(m.getTeam1()).getString("ban1").equals("-1") || !new JSONObject(m.getTeam1()).getString("ban1").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam1()).getString("ban1")+";\n");
+			}
+			if(!new JSONObject(m.getTeam1()).getString("ban2").equals("-1") || !new JSONObject(m.getTeam1()).getString("ban2").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam1()).getString("ban2")+";\n");
+			}
+			if(!new JSONObject(m.getTeam1()).getString("ban3").equals("-1") || !new JSONObject(m.getTeam1()).getString("ban3").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam1()).getString("ban3")+";\n");
+			}
+			if(!new JSONObject(m.getTeam1()).getString("ban4").equals("-1") || !new JSONObject(m.getTeam1()).getString("ban4").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam1()).getString("ban4")+";\n");
+			}
+			if(!new JSONObject(m.getTeam1()).getString("ban5").equals("-1") || !new JSONObject(m.getTeam1()).getString("ban5").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam1()).getString("ban5")+";\n");
+			}
+			if(!new JSONObject(m.getTeam2()).getString("ban1").equals("-1") || !new JSONObject(m.getTeam2()).getString("ban1").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam2()).getString("ban1")+";\n");
+			}
+			if(!new JSONObject(m.getTeam2()).getString("ban2").equals("-1") || !new JSONObject(m.getTeam2()).getString("ban2").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam2()).getString("ban2")+";\n");
+			}
+			if(!new JSONObject(m.getTeam2()).getString("ban3").equals("-1") || !new JSONObject(m.getTeam2()).getString("ban3").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam2()).getString("ban3")+";\n");
+			}
+			if(!new JSONObject(m.getTeam2()).getString("ban4").equals("-1") || !new JSONObject(m.getTeam2()).getString("ban4").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam2()).getString("ban4")+";\n");
+			}
+			if(!new JSONObject(m.getTeam2()).getString("ban5").equals("-1") || !new JSONObject(m.getTeam2()).getString("ban5").equals("null")) {
+				fw.write("update stat set ban = ban + 1 where championno = "+new JSONObject(m.getTeam2()).getString("ban5")+";\n");
+			}
+		} fw.close();
 	}
 
 }
