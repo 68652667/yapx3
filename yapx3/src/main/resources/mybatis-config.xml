@@ -10,5 +10,7 @@
   <typeAliases>
   	<typeAlias type="com.kh.yapx3.stat.model.vo.MatchString"
   			   alias="matchString"/>
+  	<typeAlias type="com.kh.yapx3.stat.model.vo.ChampStat"
+  			   alias="ChampStat"/>
   </typeAliases>
 </configuration>
