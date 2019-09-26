@@ -37,7 +37,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <button class="w3-button w3-padding-large" title="Stat">통계</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;">
       <a href="${pageContext.request.contextPath}/stat/statChamp.do" class="w3-bar-item w3-button">챔피언별 통계</a>
-      <a href="#" class="w3-bar-item w3-button">티어별 통계</a>
+      <a href="${pageContext.request.contextPath}/stat/statTear.do" class="w3-bar-item w3-button">티어별 통계</a>
     </div>
   </div>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="Messages">랭킹</a>
@@ -54,7 +54,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:115px; min-height: 768px;">    
+<div class="w3-container w3-content" style="max-width:1024px;margin-top:115px; min-height: 768px;">    
    
 <!-- End Page Container -->
 </div>

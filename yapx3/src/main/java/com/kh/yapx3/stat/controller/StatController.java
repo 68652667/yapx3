@@ -77,6 +77,13 @@ public class StatController {
 		return mav;
 	}
 	
+	@RequestMapping("/statTear.do")
+	public ModelAndView statTear() {
+		ModelAndView mav = new ModelAndView();
+				
+		return mav;
+	}
+	
 	@RequestMapping("/champStatWin.do")
 	public void champStatWin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("application/json; charset=utf-8");
