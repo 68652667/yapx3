@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.yapx3.common.util.CreateRandomString;
 import com.kh.yapx3.user.mail.GmailSend;
@@ -98,6 +99,16 @@ public class MemberController {
 		m.addAttribute( "msg", result>0?"회원가입성공!":"회원가입실패!" );
 		m.addAttribute( "loc", "/" );
 		return "common/msg";
+	}
+	
+	@RequestMapping( "/logoutClick.do" )
+	public String memberLogout( SessionStatus sessionStatus ) {
+		logger.debug( "로그아웃 요청" );
+		if( !sessionStatus.isComplete() ) {
+			sessionStatus.setComplete();
+		}
+		
+		return "redirect:/";
 	}
 	
 	@RequestMapping( "/loginCheck.do" )

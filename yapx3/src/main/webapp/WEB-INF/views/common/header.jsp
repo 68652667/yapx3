@@ -7,12 +7,6 @@
 <html>
 <title>YapYapYap</title>
 <meta charset="UTF-8">
-
-<title>인덱스</title>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-</head>
-
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
@@ -29,7 +23,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but">YapX3</a>
+  <a href="${pageContext.request.contextPath}" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but">YapX3</a>
   <c:if test="${memberLoggedIn!=null}">
   	<a href="${pageContext.request.contextPath}/user/logoutClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
 	    로그아웃
@@ -55,7 +49,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="Messages">랭킹</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications">커뮤니티</button>     
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;;">
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;">
       <a href="#" class="w3-bar-item w3-button">자유게시판</a>
       <a href="#" class="w3-bar-item w3-button">팁게시판</a>
       <a href="#" class="w3-bar-item w3-button">공략게시판</a>
@@ -64,40 +58,3 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   </div>
  </div>
 </div>
-
-<!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1024px;margin-top:115px; min-height: 768px;">    
-   
-<!-- End Page Container -->
-</div>
-
-<footer class="w3-container w3-theme-d5">
-  KH. YapYapYap
-</footer>
- 
-<script>
-// Accordion
-function myFunction(id) {
-  var x = document.getElementById(id);
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-    x.previousElementSibling.className += " w3-theme-d1";
-  } else { 
-    x.className = x.className.replace("w3-show", "");
-    x.previousElementSibling.className = 
-    x.previousElementSibling.className.replace(" w3-theme-d1", "");
-  }
-}
-
-function openNav() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
-</script>
-
-</body>
-</html> 

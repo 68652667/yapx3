@@ -10,9 +10,6 @@ public class Match {
 	private String queueId;
 	private String mapId;
 	private String seasonId;
-	private String gameVersion;
-	private String gameMode;
-	private String gameType;
 	private Team team1;
 	private Team team2;
 	private Participant participants1;
@@ -29,10 +26,9 @@ public class Match {
 	public Match() {}
 
 	public Match(String gameId, String gameCreation, String gameDuration, String queueId, String mapId, String seasonId,
-			String gameVersion, String gameMode, String gameType, Team team1, Team team2, Participant participants1,
-			Participant participants2, Participant participants3, Participant participants4, Participant participants5,
-			Participant participants6, Participant participants7, Participant participants8, Participant participants9,
-			Participant participants10) {
+			Team team1, Team team2, Participant participants1, Participant participants2, Participant participants3,
+			Participant participants4, Participant participants5, Participant participants6, Participant participants7,
+			Participant participants8, Participant participants9, Participant participants10) {
 		super();
 		this.gameId = gameId;
 		this.gameCreation = gameCreation;
@@ -40,9 +36,6 @@ public class Match {
 		this.queueId = queueId;
 		this.mapId = mapId;
 		this.seasonId = seasonId;
-		this.gameVersion = gameVersion;
-		this.gameMode = gameMode;
-		this.gameType = gameType;
 		this.team1 = team1;
 		this.team2 = team2;
 		this.participants1 = participants1;
@@ -103,30 +96,6 @@ public class Match {
 
 	public void setSeasonId(String seasonId) {
 		this.seasonId = seasonId;
-	}
-
-	public String getGameVersion() {
-		return gameVersion;
-	}
-
-	public void setGameVersion(String gameVersion) {
-		this.gameVersion = gameVersion;
-	}
-
-	public String getGameMode() {
-		return gameMode;
-	}
-
-	public void setGameMode(String gameMode) {
-		this.gameMode = gameMode;
-	}
-
-	public String getGameType() {
-		return gameType;
-	}
-
-	public void setGameType(String gameType) {
-		this.gameType = gameType;
 	}
 
 	public Team getTeam1() {
@@ -227,15 +196,14 @@ public class Match {
 
 	@Override
 	public String toString() {
-		return "Match [gameId=" + gameId + ", gameCreation=" + gameCreation + ", gameDuration=" + gameDuration
-				+ ", queueId=" + queueId + ", mapId=" + mapId + ", seasonId=" + seasonId + ", gameVersion="
-				+ gameVersion + ", gameMode=" + gameMode + ", gameType=" + gameType + ", team1=" + team1 + ", team2="
-				+ team2 + ", participants1=" + participants1 + ", participants2=" + participants2 + ", participants3="
-				+ participants3 + ", participants4=" + participants4 + ", participants5=" + participants5
-				+ ", participants6=" + participants6 + ", participants7=" + participants7 + ", participants8="
-				+ participants8 + ", participants9=" + participants9 + ", participants10=" + participants10 + "]";
+		return "{ gameId:\"" + gameId + "\", gameCreation:\"" + gameCreation + "\", gameDuration:\"" + gameDuration
+				+ "\", queueId:\"" + queueId + "\", mapId:\"" + mapId + "\", seasonId:\"" + seasonId + "\", team1:\""
+				+ team1 + "\", team2:\"" + team2 + "\", participants1:\"" + participants1 + "\", participants2:\""
+				+ participants2 + "\", participants3:\"" + participants3 + "\", participants4:\"" + participants4
+				+ "\", participants5:\"" + participants5 + "\", participants6:\"" + participants6
+				+ "\", participants7:\"" + participants7 + "\", participants8:\"" + participants8
+				+ "\", participants9:\"" + participants9 + "\", participants10:\"" + participants10 + "\"}";
 	}
-	
 	
 	
 }
