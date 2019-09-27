@@ -40,7 +40,7 @@ div#memberId-container span.error{color:red;}
 						</div>
 						
 				        <div class="col-md1">	
-				        	<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
+				        	<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="1"/>
 				        </div>
 				    </div>
 				</td>
@@ -84,7 +84,11 @@ $(()=>{
 
 function validate(){
 	var memberId = $("#email");
-	
+	if( $( "#idDuplicateCheck" ).val().length < 4 ) {
+		alert("아이디를 입력하세요.");
+		memberId.focus();
+		return false;
+	}
 	if( $( "#idDuplicateCheck" ).val() == 1 ) {
 		alert("미사용 아이디 입니다.");
 		memberId.focus();
