@@ -261,7 +261,16 @@
 				<version>1.1</version>
 			</dependency>
 		<!-- @웹 소켓 설정 종료@ -->
-	       
+	     
+	     <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.4</version>
+		    <scope>provided</scope>
+		</dependency>
+				
+	    
 	</dependencies>
     <build>
         <plugins>
