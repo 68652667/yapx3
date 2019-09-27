@@ -12,5 +12,13 @@
   			   alias="matchString"/>
   	<typeAlias type="com.kh.yapx3.stat.model.vo.ChampStat"
   			   alias="ChampStat"/>
+  	<typeAlias type="com.kh.yapx3.board.free.model.vo.FreeVO"
+  			   alias="FreeVO"/>
+  	<typeAlias type="com.kh.yapx3.board.free.model.vo.FreeAttachment"
+  			   alias="FreeAttachment"/>
+  	<typeAlias type="com.kh.yapx3.board.free.model.vo.FreeWithFileCount"
+  			   alias="FreeWithFileCount"/>
+	<typeAlias type="com.kh.yapx3.board.free.model.vo.Free"
+			   alias="Free"/>
   </typeAliases>
 </configuration>
