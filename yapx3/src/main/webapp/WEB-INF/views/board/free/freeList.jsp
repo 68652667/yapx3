@@ -11,7 +11,7 @@
 </style>
 <script>
 function makeFree() {
-	location.href = "${pageContext.request.contextPath}/free/freeBoardWrite.do?userEmail="+"nana@gmail.com"+"&userNickname="+"나나";
+	location.href = "${pageContext.request.contextPath}/free/freeBoardWrite.do?userEmail=${memberLoggedIn.userEmail}&userNickname=${memberLoggedIn.userNickname}";
 }
 $(()=>{
 	$("tr[freeBoardNo]").click(function(){
@@ -22,7 +22,10 @@ $(()=>{
 </script>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">
-<p style="text-align: right;"><button type="button" class="btn btn-secondary btn-sm" id="makeFree" onclick="makeFree();">글쓰기</button></p>    
+<c:if test="${memberLoggedIn!=null}">
+	<p style="text-align: right;"><button type="button" class="btn btn-secondary btn-sm" id="makeFree" onclick="makeFree();">글쓰기</button></p>
+</c:if>
+    
    <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
