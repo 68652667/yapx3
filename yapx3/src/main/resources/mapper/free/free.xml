@@ -12,9 +12,13 @@
 		order by free_board_no desc
 	</select>
 	
+	<select id="selectCommentList" resultType="FreeComment">
+		select lpad(' ',(level-1)*5,' ')||COMMENT_CONTENT B, A.* from f_b_c A where FREE_BOARD_NO = #{freeBoardNo} start with COMMENT_LEVEL = 1 connect by prior COMMENT_NO = COMMENT_REF order siblings by COMMENT_NO asc
+	</select>
+	
 	<insert id="insertBoard" parameterType="Free">
-		insert into f_b(FREE_BOARD_NO, USER_EMAIL, FREE_BOARD_TITLE, USER_NICKNAME, FREE_BOARD_CONTENT)
-		values(seq_free.nextval, #{userEmail}, #{freeBoardTitle}, #{userNickName}, #{freeBoardContent})
+		insert into f_b(FREE_BOARD_NO, USER_EMAIL, FREE_BOARD_TITLE, USER_NICKNAME, FREE_BOARD_CONTENT, FREE_YL)
+		values(seq_free.nextval, #{userEmail}, #{freeBoardTitle}, #{userNickName}, #{freeBoardContent}, #{YL})
 		<selectKey keyProperty="freeBoardNo" resultType="_int" order="AFTER">
 			select seq_free.currval from dual
 		</selectKey>
@@ -40,6 +44,7 @@
 		<result column="FREE_BOARD_VIEWS" property="freeBoardViews"/>
 		<result column="FREE_BOARD_LIKE" property="freeBoardLike"/>
 		<result column="FREE_BOARD_LIKELIST" property="freeBoardLikeList"/>
+		<result column="FREE_YL" property="YL"/>
 		<collection property="attachList" ofType="FreeAttachment">
 			<id column="ATTACHMENT_NO" property="AttachmentNo"></id>
 			<result column="FREE_BOARD_NO" property="boardNo"></result>
@@ -48,4 +53,13 @@
 			<result column="UPLOADDATE" property="uploadDate"></result>
 		</collection>
 	</resultMap>
+	
+	<insert id="freeCommentUp">
+		insert into f_b_c 
+		values(seq_free_c.nextval, #{freeBoardNo}, #{userEmail}, #{userNickname}, #{commentContent}, default, #{commentLevel}, #{commentRef})
+	</insert>
+	
+	<delete id="freeCommentDel">
+		delete from f_b_c where COMMENT_NO = #{commentNo}
+	</delete>
 </mapper>

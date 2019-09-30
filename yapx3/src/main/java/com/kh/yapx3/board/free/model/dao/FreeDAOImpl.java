@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.yapx3.board.free.model.service.FreeService;
 import com.kh.yapx3.board.free.model.vo.Free;
 import com.kh.yapx3.board.free.model.vo.FreeAttachment;
+import com.kh.yapx3.board.free.model.vo.FreeComment;
 import com.kh.yapx3.board.free.model.vo.FreeVO;
 import com.kh.yapx3.board.free.model.vo.FreeWithFileCount;
 
@@ -30,9 +31,7 @@ public class FreeDAOImpl implements FreeDAO {
 
 	@Override
 	public int insertBoard(Free free) {
-		System.out.println("인서트 프리");
 		int result = sqlSession.insert("free.insertBoard", free);
-		System.out.println(result);
 		return result;
 	}
 
@@ -44,6 +43,21 @@ public class FreeDAOImpl implements FreeDAO {
 	@Override
 	public FreeVO selectFreeOne(int freeBoardNo) {
 		return sqlSession.selectOne("free.selectFreeOne", freeBoardNo);
+	}
+
+	@Override
+	public int freeCommentUp(FreeComment freeComment) {
+		return sqlSession.insert("free.freeCommentUp", freeComment);
+	}
+
+	@Override
+	public List<FreeComment> selectCommentList(int freeBoardNo) {
+		return sqlSession.selectList("free.selectCommentList", freeBoardNo);
+	}
+
+	@Override
+	public int freeCommentDel(int commentNo) {
+		return sqlSession.delete("free.freeCommentDel", commentNo);
 	}
 	
 }

@@ -13,9 +13,9 @@ public class FreeVO extends Free {
 
 	public FreeVO(int freeBoardNo, String userEmail, String freeBoardTitle, String userNickName,
 			String freeBoardContent, Date freeBoardDate, int freeBoardViews, int freeBoardLike,
-			String freeBoardLikeList, List<FreeAttachment> attachList) {
+			String freeBoardLikeList, String YL,List<FreeAttachment> attachList) {
 		super(freeBoardNo, userEmail, freeBoardTitle, userNickName, freeBoardContent, freeBoardDate, freeBoardViews,
-				freeBoardLike, freeBoardLikeList);
+				freeBoardLike, freeBoardLikeList, YL);
 		this.attachList = attachList;
 	}
 	
