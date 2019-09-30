@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,21 +22,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.yapx3.champion.model.match.GetMatch;
 import com.kh.yapx3.champion.model.matchline.MatchVO;
-import com.kh.yapx3.champion.model.service.ApiService;
+import com.kh.yapx3.champion.model.service.ChampionInfoService;
 import com.kh.yapx3.champion.model.service.NewObject;
 import com.kh.yapx3.champion.model.service.TestService;
 import com.kh.yapx3.champion.model.vo.Camp;
 import com.kh.yapx3.match.model.service.MatchService;
 
 @RestController
-@Controller
 @RequestMapping("/test")
 public class TestController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	ApiService apiService;
+	ChampionInfoService apiService;
 	
 	@Autowired
 	MatchService matchService;
@@ -53,16 +53,16 @@ public class TestController {
 		return ResponseEntity.ok(newObject);
 	}
 	
-	@RequestMapping("/allChampion")
-	public ResponseEntity<?> championAll() {
-		List<Camp> champ = apiService.championAll();
-		champ.sort(Comparator.comparing(Camp::getName));
-		for(int i = 0; i < champ.size(); i++) {
-			System.out.println(champ.get(i).getKey());
-			logger.info(champ.get(i).getName());
-		}
-		return ResponseEntity.ok(champ);
-	}
+//	@RequestMapping("/allChampion")
+//	public ResponseEntity<?> championAll(Model model) {
+//		List<Camp> champ = apiService.championAll();
+//		champ.sort(Comparator.comparing(Camp::getName));
+//		for(int i = 0; i < champ.size(); i++) {
+//			logger.info("챔피언 Id:" + champ.get(i).getKey());
+//			logger.info(champ.get(i).getName());
+//		}
+//		return ResponseEntity.ok(champ);
+//	}
 	
 	@RequestMapping("/champion/info/{id}")
 	@ResponseBody

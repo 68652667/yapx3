@@ -33,7 +33,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 <div class="w3-top" style="top: 3em;">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
+  <a href="${pageContext.request.contextPath}/champion/championView" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
   <a href="${pageContext.request.contextPath}/stat/statChamp.do" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="Account Settings">통계</a>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="Messages">랭킹</a>
   <div class="w3-dropdown-hover w3-hide-small">

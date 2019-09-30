@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="matchlist">
+	<!-- <select id="gameMatchId" resultMap="MatchVo">
+			select * from match where gameid between 1 and 100
+	</select> -->
+	<select id="gameIdAll" resultType="java.lang.String">
+		select gameid from(select rownum rnum, a.* from(select gameid from match  where queueid = 420 ) a) where rnum between 1 and 10000
+	</select>
+	
+	
+	
+</mapper>

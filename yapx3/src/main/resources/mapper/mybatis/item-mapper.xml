@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="item">
+	<select id="itemList" resultMap="items">
+		select * from items
+	</select>
+	<select id="participant" resultType="java.lang.Integer">
+		${sql}
+	</select>
+<!-- 	<select id="participant" resultType="Map">
+		${sql}
+	</select> -->
+	<select id = "itemTable" parameterType="Map">
+		${sql}
+	</select>
+	<select id="participantCall" resultType="String">
+	<!-- select participant1 from(select  rownum rnum, A.* from (select participant1 from match) A ) A where rnum between 1 and 10 -->
+		select participant6 from testmatch
+	</select>
+	<insert id="itemInsert">
+		insert into championitems(itemsname) values(#{itemList})
+	</insert>
+	<select id="createparticipant" parameterType="Map">
+		${sql}
+	</select>
+	<resultMap type="itemvo" id="items">
+		<id column="item_id" property="itemId"/>
+		<result column="name" property="name"/>
+		<result column="description" property="description"/>
+		<result column="image_full" property="imageFull"/>
+		<result column="gold" property="gold"/>
+	</resultMap>
+	
+	
+</mapper>

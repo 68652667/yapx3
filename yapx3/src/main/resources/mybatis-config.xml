@@ -10,5 +10,7 @@
   <typeAliases>
   	<typeAlias type="com.kh.yapx3.stat.model.vo.MatchString"
   			   alias="matchString"/>
+  			   <typeAlias type = "com.kh.yapx3.item.model.vo.ItemVO" alias="itemvo"/>
+		<typeAlias type = "com.kh.yapx3.item.model.vo.Test" alias="test"/>
   </typeAliases>
 </configuration>
