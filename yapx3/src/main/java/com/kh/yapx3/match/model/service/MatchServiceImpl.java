@@ -35,6 +35,7 @@ public class MatchServiceImpl implements MatchService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	int cnt;
+	int sqlFileNameCount = 0;
 	String championNameStr;
 
 	@Autowired
@@ -997,7 +998,7 @@ public class MatchServiceImpl implements MatchService {
 		List<String> sqlList = new ArrayList<String>();
 		org.json.JSONObject jjj;
 		org.json.JSONArray jarr = new org.json.JSONArray();
-		String sql = "insert into(type, timestamp, wardType, participantId, creatorId, itemId, skillSlot, levelUpType, beforeId, afterId) values(";
+		String sql = "insert into(event_no, type, timestamp, wardType, participantId, creatorId, itemId, skillSlot, levelUpType, beforeId, afterId) values(event_seq.nextval, ";
 		
 		for(int i = 0; i < jobj.length(); i++) {
 			jjj = new org.json.JSONObject();
@@ -1027,6 +1028,7 @@ public class MatchServiceImpl implements MatchService {
 				
 				sql = sql + type + ", " + timestamp + ", " + wardType + ", " + participantId + ", " + creatorId + ", " + itemId + 
 					  ", " + skillSlot + ", " + levelUpType + ", " + beforeId + ", " +  afterId + ");";
+				logger.info(sql);
 				return sql;
 			}else if(jobj.getString("type").equals("ITEM_PURCHASED") || jobj.getString("type").equals("ITEM_SOLD") || jobj.getString("type").equals("ITEM_DESTROYED")){
 				
@@ -1044,6 +1046,7 @@ public class MatchServiceImpl implements MatchService {
 				
 				sql = sql + type + ", " + timestamp + ", " + wardType + ", " + participantId + ", " + creatorId + ", " + itemId + 
 						  ", " + skillSlot + ", " + levelUpType + ", " + beforeId + ", " +  afterId + ");";
+				logger.info(sql);
 				return sql;
 			}else if(jobj.getString("type").equals("SKILL_LEVEL_UP")) {
 				
@@ -1063,6 +1066,7 @@ public class MatchServiceImpl implements MatchService {
 				
 				sql = sql + type + ", " + timestamp + ", " + wardType + ", " + participantId + ", " + creatorId + ", " + itemId + 
 						  ", " + skillSlot + ", " + levelUpType + ", " + beforeId + ", " +  afterId + ");";
+				logger.info(sql);
 				return sql;
 			}else if(jobj.getString("type").equals("ITEM_UNDO")) {
 				
@@ -1080,8 +1084,10 @@ public class MatchServiceImpl implements MatchService {
 				afterId = jobj.get("afterId").toString();
 				beforeId = jobj.get("beforeId").toString();
 				
-				sql = sql + type + ", " + timestamp + ", " + wardType + ", " + participantId + ", " + creatorId + ", " + itemId + 
-						  ", " + skillSlot + ", " + levelUpType + ", " + beforeId + ", " +  afterId + ");";
+				sql = sql +"'"+ type + "', " + timestamp + ", '" + wardType + "', " + participantId + ", " + creatorId + ", " + itemId + 
+						  ", " + skillSlot + ", '" + levelUpType + "', " + beforeId + ", " +  afterId + ");";
+				
+				logger.info(sql);
 				return sql;
 			}
 			else {
@@ -1105,44 +1111,73 @@ public class MatchServiceImpl implements MatchService {
 		List<String> itemIdList = new ArrayList<String>();
 		List<String> typeList = new ArrayList<String>();
 		List<String> sqlList = new ArrayList<String>();
+		String apiKey = "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf";
 		try {
 			connection = new URLConnection();
 			int cnt = 0;
 			for(int g = 0; g < gameId.size(); g++) {
-			if( (g+1)  % 5 == 0) {
-				logger.info("잠시 쉬었다 갑니다. ------------------------------------------------------------" + (g + 1)+"번째");
-				Thread.sleep(150000);
-			}else {
-				eventJobj = connection.matchEvent(gameId.get(g));
-				matchJobj = connection.matchGame(gameId.get(g));
 				
-				eventJarr = eventJobj.getJSONArray("frames");
-				matchJarr = matchJobj.getJSONArray("participants");
-				//한게임에 실행되는 코드
-				for(int i = 1; i <= 2; i++) {
-					eventJarrShort = eventJarr.getJSONObject(i).getJSONArray("events");
-					logger.info("eventJarrShort(" + i + ")");
-					for(int j = 0 ; j < eventJarrShort.length(); j++) {
-						for(int k = 0; k < matchJarr.length(); k++) {
-							if(eventJarrShort.getJSONObject(j).has("creatorId") && 
-									(eventJarrShort.getJSONObject(j).getInt("creatorId") == matchJarr.getJSONObject(k).getInt("participantId"))) {
-								sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
-//							logger.info("events"+ "(" + j + "): " + eventJarrShort.getJSONObject(j));
-//							logger.info("championId: " + matchJarr.getJSONObject(k).getInt("championId"));
-							}else if((!eventJarrShort.getJSONObject(j).has("creatorId") && eventJarrShort.getJSONObject(j).has("participantId")) &&
-									(eventJarrShort.getJSONObject(j).getInt("participantId") == matchJarr.getJSONObject(k).getInt("participantId"))){
-								sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
-//							logger.info("events"+ "(" + j + "): " + eventJarrShort.getJSONObject(j));
-//							logger.info("championId: " + matchJarr.getJSONObject(k).getInt("championId"));
+				if( cnt != 0 && cnt%40 == 0) {
+					if(apiKey == "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf") {
+						logger.info("잠시 쉬었다 갑니다. ------------------------------------------------------------" + (g + 1)+"번째");
+						Thread.sleep(600000);
+					}
+					logger.info("현재키: " + apiKey);
+					switch (apiKey) {
+					case "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf": apiKey = "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";break;
+					case "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074": apiKey = "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702";break;
+					case "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702": apiKey = "RGAPI-08f1e023-d233-43fd-aed0-859fd61ea839";break;
+					case "RGAPI-08f1e023-d233-43fd-aed0-859fd61ea839": apiKey = "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf";break;
+					default:break;
+					}
+					logger.info("변경키: " + apiKey);
+				}else {
+					eventJobj = connection.matchEvent(gameId.get(g), apiKey);
+					matchJobj = connection.matchGame(gameId.get(g), apiKey);
+					
+					eventJarr = eventJobj.getJSONArray("frames");
+					matchJarr = matchJobj.getJSONArray("participants");
+					//한게임에 실행되는 코드
+					for(int i = 1; i <= 2; i++) {
+						eventJarrShort = eventJarr.getJSONObject(i).getJSONArray("events");
+						logger.info("eventJarrShort(" + i + ")");
+						for(int j = 0 ; j < eventJarrShort.length(); j++) {
+							for(int k = 0; k < matchJarr.length(); k++) {
+								if(eventJarrShort.getJSONObject(j).has("creatorId") && 
+										(eventJarrShort.getJSONObject(j).getInt("creatorId") == matchJarr.getJSONObject(k).getInt("participantId"))) {
+									sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
+	//							logger.info("events"+ "(" + j + "): " + eventJarrShort.getJSONObject(j));
+	//							logger.info("championId: " + matchJarr.getJSONObject(k).getInt("championId"));
+								}else if((!eventJarrShort.getJSONObject(j).has("creatorId") && eventJarrShort.getJSONObject(j).has("participantId")) &&
+										(eventJarrShort.getJSONObject(j).getInt("participantId") == matchJarr.getJSONObject(k).getInt("participantId"))){
+									sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
+	//							logger.info("events"+ "(" + j + "): " + eventJarrShort.getJSONObject(j));
+	//							logger.info("championId: " + matchJarr.getJSONObject(k).getInt("championId"));
+								}
 							}
 						}
 					}
+					try {
+						
+						File file = new File("/Users/anchangho/git/yapx3/yapx3/eventSQL/eventSQL" + sqlFileNameCount+".sql");
+						FileWriter fw = new FileWriter(file, true);
+						String data = "";
+						int sqlCount = 0;
+				        	for(int j = 0; j < sqlList.size(); j++) {
+				        		data = sqlList.get(j);
+				    			fw.write(data + "\n");
+				    			sqlCount++;
+				    			if(sqlCount == 50000) {
+				    				sqlFileNameCount++;
+				    			}
+				        	}
+						fw.close();
+					}  catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					logger.info("sqlListSize: " + sqlList.size() + "cnt: " + cnt++);
 				}
-				logger.info("sqlListSize: " + sqlList.size() + "cnt: " + ++cnt);
-//				for(int i = 0; i < sqlList.size(); i ++) {
-//					logger.info("sql: " + sqlList.get(i));
-//				}
-			}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

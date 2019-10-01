@@ -7,7 +7,7 @@
 			select * from match where gameid between 1 and 100
 	</select> -->
 	<select id="gameIdAll" resultType="java.lang.String">
-		select gameid from(select rownum rnum, a.* from(select gameid from match  where queueid = 420 ) a) where rnum between 1 and 10000
+		select gameid from match
 	</select>
 	
 	
