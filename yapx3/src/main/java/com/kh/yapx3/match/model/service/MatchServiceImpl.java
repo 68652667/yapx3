@@ -1109,39 +1109,40 @@ public class MatchServiceImpl implements MatchService {
 			connection = new URLConnection();
 			int cnt = 0;
 			for(int g = 0; g < gameId.size(); g++) {
-			if( g + 1 % 10 == 0) {
+			if( (g+1)  % 5 == 0) {
 				logger.info("잠시 쉬었다 갑니다. ------------------------------------------------------------" + (g + 1)+"번째");
 				Thread.sleep(150000);
-			}
-			eventJobj = connection.matchEvent(gameId.get(g));
-			matchJobj = connection.matchGame(gameId.get(g));
-			
-			eventJarr = eventJobj.getJSONArray("frames");
-			matchJarr = matchJobj.getJSONArray("participants");
-			//한게임에 실행되는 코드
-			for(int i = 1; i <= 2; i++) {
-				eventJarrShort = eventJarr.getJSONObject(i).getJSONArray("events");
-				logger.info("eventJarrShort(" + i + ")");
-				for(int j = 0 ; j < eventJarrShort.length(); j++) {
-					for(int k = 0; k < matchJarr.length(); k++) {
-						if(eventJarrShort.getJSONObject(j).has("creatorId") && 
-						   (eventJarrShort.getJSONObject(j).getInt("creatorId") == matchJarr.getJSONObject(k).getInt("participantId"))) {
-							sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
+			}else {
+				eventJobj = connection.matchEvent(gameId.get(g));
+				matchJobj = connection.matchGame(gameId.get(g));
+				
+				eventJarr = eventJobj.getJSONArray("frames");
+				matchJarr = matchJobj.getJSONArray("participants");
+				//한게임에 실행되는 코드
+				for(int i = 1; i <= 2; i++) {
+					eventJarrShort = eventJarr.getJSONObject(i).getJSONArray("events");
+					logger.info("eventJarrShort(" + i + ")");
+					for(int j = 0 ; j < eventJarrShort.length(); j++) {
+						for(int k = 0; k < matchJarr.length(); k++) {
+							if(eventJarrShort.getJSONObject(j).has("creatorId") && 
+									(eventJarrShort.getJSONObject(j).getInt("creatorId") == matchJarr.getJSONObject(k).getInt("participantId"))) {
+								sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
 //							logger.info("events"+ "(" + j + "): " + eventJarrShort.getJSONObject(j));
 //							logger.info("championId: " + matchJarr.getJSONObject(k).getInt("championId"));
-						}else if((!eventJarrShort.getJSONObject(j).has("creatorId") && eventJarrShort.getJSONObject(j).has("participantId")) &&
-								(eventJarrShort.getJSONObject(j).getInt("participantId") == matchJarr.getJSONObject(k).getInt("participantId"))){
-							sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
+							}else if((!eventJarrShort.getJSONObject(j).has("creatorId") && eventJarrShort.getJSONObject(j).has("participantId")) &&
+									(eventJarrShort.getJSONObject(j).getInt("participantId") == matchJarr.getJSONObject(k).getInt("participantId"))){
+								sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
 //							logger.info("events"+ "(" + j + "): " + eventJarrShort.getJSONObject(j));
 //							logger.info("championId: " + matchJarr.getJSONObject(k).getInt("championId"));
+							}
 						}
 					}
 				}
-			}
-				logger.info("sqlListSize: " + sqlList.size());
+				logger.info("sqlListSize: " + sqlList.size() + "cnt: " + ++cnt);
 //				for(int i = 0; i < sqlList.size(); i ++) {
 //					logger.info("sql: " + sqlList.get(i));
 //				}
+			}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

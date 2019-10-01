@@ -53,14 +53,14 @@ public class URLConnection {
 	
 	//Match
 	public JSONObject matchGame(String gameId) throws IOException{
-		urlStr = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";
+		urlStr = "https://kr.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=RGAPI-e91563a2-e6d2-41e9-9803-42fc0d55ee59";
 		JSONObject jobj = urlInput(urlStr);
 		return jobj;
 	}
 	
 	//EnventMatch
 	public JSONObject matchEvent(String gameId) throws IOException{
-		urlStr = "https://kr.api.riotgames.com/lol/match/v4/timelines/by-match/"+ gameId +"?api_key=RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";
+		urlStr = "https://kr.api.riotgames.com/lol/match/v4/timelines/by-match/"+ gameId +"?api_key=RGAPI-e91563a2-e6d2-41e9-9803-42fc0d55ee59";
 		JSONObject jobj = urlInput(urlStr);
 		return jobj;
 	}
