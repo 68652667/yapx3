@@ -35,7 +35,8 @@ public class MatchServiceImpl implements MatchService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	int cnt;
-	int sqlFileNameCount = 0;
+	int sqlFileNameCount = 15;
+	int sqlCount = 0;
 	String championNameStr;
 
 	@Autowired
@@ -1014,49 +1015,49 @@ public class MatchServiceImpl implements MatchService {
 			String afterId = null;
 			if(jobj.getString("type").equals("WARD_PLACED")) {
 				
-				logger.info("--------------------------WARD_PLACED--------------------------");
+//				logger.info("--------------------------WARD_PLACED--------------------------");
 				
-				logger.info("type: " + jobj.getString("type"));
-				logger.info("timestamp: " + jobj.get("timestamp").toString());
-				logger.info("wardType: " + jobj.getString("wardType"));
-				logger.info("creatorId: " + jobj.get("creatorId").toString());
+//				logger.info("type: " + jobj.getString("type"));
+//				logger.info("timestamp: " + jobj.get("timestamp").toString());
+//				logger.info("wardType: " + jobj.getString("wardType"));
+//				logger.info("creatorId: " + jobj.get("creatorId").toString());
 				
 				type = jobj.getString("type");
 				timestamp = jobj.get("timestamp").toString();
 				wardType = jobj.getString("wardType");
 				creatorId = jobj.get("creatorId").toString();
 				
-				sql = sql + type + ", " + timestamp + ", " + wardType + ", " + participantId + ", " + creatorId + ", " + itemId + 
-					  ", " + skillSlot + ", " + levelUpType + ", " + beforeId + ", " +  afterId + ");";
-				logger.info(sql);
+				sql = sql +"'"+ type + "', " + timestamp + ", '" + wardType + "', " + participantId + ", " + creatorId + ", " + itemId + 
+						  ", " + skillSlot + ", '" + levelUpType + "', " + beforeId + ", " +  afterId + ");";
+//				logger.info(sql);
 				return sql;
 			}else if(jobj.getString("type").equals("ITEM_PURCHASED") || jobj.getString("type").equals("ITEM_SOLD") || jobj.getString("type").equals("ITEM_DESTROYED")){
 				
-				logger.info("--------------------------ITEM_PURCHASED, ITEM_SOLD, ITEM_DESTROYED--------------------------");
+//				logger.info("--------------------------ITEM_PURCHASED, ITEM_SOLD, ITEM_DESTROYED--------------------------");
 				
-				logger.info("type: " + jobj.getString("type"));
-				logger.info("timestamp: " + jobj.get("timestamp").toString());
-				logger.info("participantId: " + jobj.get("participantId").toString());
-				logger.info("itemId: " + jobj.get("itemId").toString());
+//				logger.info("type: " + jobj.getString("type"));
+//				logger.info("timestamp: " + jobj.get("timestamp").toString());
+//				logger.info("participantId: " + jobj.get("participantId").toString());
+//				logger.info("itemId: " + jobj.get("itemId").toString());
 				
 				type = jobj.getString("type");
 				timestamp = jobj.get("timestamp").toString();
 				participantId = jobj.get("participantId").toString();
 				itemId = jobj.get("itemId").toString();
 				
-				sql = sql + type + ", " + timestamp + ", " + wardType + ", " + participantId + ", " + creatorId + ", " + itemId + 
-						  ", " + skillSlot + ", " + levelUpType + ", " + beforeId + ", " +  afterId + ");";
-				logger.info(sql);
+				sql = sql +"'"+ type + "', " + timestamp + ", '" + wardType + "', " + participantId + ", " + creatorId + ", " + itemId + 
+						  ", " + skillSlot + ", '" + levelUpType + "', " + beforeId + ", " +  afterId + ");";
+//				logger.info(sql);
 				return sql;
 			}else if(jobj.getString("type").equals("SKILL_LEVEL_UP")) {
 				
-				logger.info("--------------------------SKILL_LEVEL_UP--------------------------");
+//				logger.info("--------------------------SKILL_LEVEL_UP--------------------------");
 				
-				logger.info("type: " + jobj.getString("type"));
-				logger.info("timestamp: " + jobj.get("timestamp").toString());
-				logger.info("participantId: " + jobj.get("participantId").toString());
-				logger.info("skillSlot: " + jobj.get("skillSlot").toString());
-				logger.info("levelUpType: " + jobj.getString("levelUpType"));
+//				logger.info("type: " + jobj.getString("type"));
+//				logger.info("timestamp: " + jobj.get("timestamp").toString());
+//				logger.info("participantId: " + jobj.get("participantId").toString());
+//				logger.info("skillSlot: " + jobj.get("skillSlot").toString());
+//				logger.info("levelUpType: " + jobj.getString("levelUpType"));
 				
 				type = jobj.getString("type");
 				timestamp = jobj.get("timestamp").toString();
@@ -1064,19 +1065,19 @@ public class MatchServiceImpl implements MatchService {
 				skillSlot = jobj.get("skillSlot").toString();
 				levelUpType = jobj.getString("levelUpType");
 				
-				sql = sql + type + ", " + timestamp + ", " + wardType + ", " + participantId + ", " + creatorId + ", " + itemId + 
-						  ", " + skillSlot + ", " + levelUpType + ", " + beforeId + ", " +  afterId + ");";
-				logger.info(sql);
+				sql = sql +"'"+ type + "', " + timestamp + ", '" + wardType + "', " + participantId + ", " + creatorId + ", " + itemId + 
+						  ", " + skillSlot + ", '" + levelUpType + "', " + beforeId + ", " +  afterId + ");";
+//				logger.info(sql);
 				return sql;
 			}else if(jobj.getString("type").equals("ITEM_UNDO")) {
 				
-				logger.info("--------------------------ITEM_UNDO--------------------------");
+//				logger.info("--------------------------ITEM_UNDO--------------------------");
 				
-				logger.info("type: " + jobj.getString("type"));
-				logger.info("timestamp: " + jobj.get("timestamp").toString());
-				logger.info("participantId: " + jobj.get("participantId").toString());
-				logger.info("afterId: " + jobj.get("afterId").toString());
-				logger.info("beforeId: " + jobj.get("beforeId").toString());
+//				logger.info("type: " + jobj.getString("type"));
+//				logger.info("timestamp: " + jobj.get("timestamp").toString());
+//				logger.info("participantId: " + jobj.get("participantId").toString());
+//				logger.info("afterId: " + jobj.get("afterId").toString());
+//				logger.info("beforeId: " + jobj.get("beforeId").toString());
 				
 				type = jobj.getString("type");
 				timestamp = jobj.get("timestamp").toString();
@@ -1087,7 +1088,7 @@ public class MatchServiceImpl implements MatchService {
 				sql = sql +"'"+ type + "', " + timestamp + ", '" + wardType + "', " + participantId + ", " + creatorId + ", " + itemId + 
 						  ", " + skillSlot + ", '" + levelUpType + "', " + beforeId + ", " +  afterId + ");";
 				
-				logger.info(sql);
+//				logger.info(sql);
 				return sql;
 			}
 			else {
@@ -1115,23 +1116,27 @@ public class MatchServiceImpl implements MatchService {
 		try {
 			connection = new URLConnection();
 			int cnt = 0;
-			for(int g = 0; g < gameId.size(); g++) {
-				
+			for(int g = 7262; g < gameId.size(); g++) {
+				sqlList.clear();
+				logger.info("cnt: " + cnt);
 				if( cnt != 0 && cnt%40 == 0) {
 					if(apiKey == "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf") {
-						logger.info("잠시 쉬었다 갑니다. ------------------------------------------------------------" + (g + 1)+"번째");
-						Thread.sleep(600000);
+						logger.info("잠시 쉬었다 갑니다. ------------------------------------------------------------" + (cnt + 1)+"번째");
+						Thread.sleep(60002);
+						cnt++;
 					}
 					logger.info("현재키: " + apiKey);
 					switch (apiKey) {
-					case "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf": apiKey = "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";break;
-					case "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074": apiKey = "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702";break;
-					case "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702": apiKey = "RGAPI-08f1e023-d233-43fd-aed0-859fd61ea839";break;
-					case "RGAPI-08f1e023-d233-43fd-aed0-859fd61ea839": apiKey = "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf";break;
+					case "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf": apiKey = "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074"; break;
+					case "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074": apiKey = "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702"; break;
+					case "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702": apiKey = "RGAPI-11678be1-caf2-439f-b340-d862b570fb90"; break;
+					case "RGAPI-11678be1-caf2-439f-b340-d862b570fb90": apiKey = "RGAPI-24644a67-5304-43dd-b853-51048bd088a3"; break;
+					case "RGAPI-24644a67-5304-43dd-b853-51048bd088a3": apiKey = "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf"; break;
 					default:break;
 					}
 					logger.info("변경키: " + apiKey);
-				}else {
+				}
+					cnt++;
 					eventJobj = connection.matchEvent(gameId.get(g), apiKey);
 					matchJobj = connection.matchGame(gameId.get(g), apiKey);
 					
@@ -1140,12 +1145,14 @@ public class MatchServiceImpl implements MatchService {
 					//한게임에 실행되는 코드
 					for(int i = 1; i <= 2; i++) {
 						eventJarrShort = eventJarr.getJSONObject(i).getJSONArray("events");
-						logger.info("eventJarrShort(" + i + ")");
+//						logger.info("eventJarrShort(" + i + ")");
 						for(int j = 0 ; j < eventJarrShort.length(); j++) {
 							for(int k = 0; k < matchJarr.length(); k++) {
 								if(eventJarrShort.getJSONObject(j).has("creatorId") && 
-										(eventJarrShort.getJSONObject(j).getInt("creatorId") == matchJarr.getJSONObject(k).getInt("participantId"))) {
+								  (eventJarrShort.getJSONObject(j).getInt("creatorId") == matchJarr.getJSONObject(k).getInt("participantId"))) {
+									
 									sqlList.add(participantEvent(eventJarrShort.getJSONObject(j), matchJarr.getJSONObject(k).getInt("championId")));
+									
 	//							logger.info("events"+ "(" + j + "): " + eventJarrShort.getJSONObject(j));
 	//							logger.info("championId: " + matchJarr.getJSONObject(k).getInt("championId"));
 								}else if((!eventJarrShort.getJSONObject(j).has("creatorId") && eventJarrShort.getJSONObject(j).has("participantId")) &&
@@ -1159,16 +1166,17 @@ public class MatchServiceImpl implements MatchService {
 					}
 					try {
 						
-						File file = new File("/Users/anchangho/git/yapx3/yapx3/eventSQL/eventSQL" + sqlFileNameCount+".sql");
+						File file = new File("C:\\Users\\user2\\Desktop\\eventSQL\\sqlEvent"+sqlFileNameCount+".sql");
 						FileWriter fw = new FileWriter(file, true);
 						String data = "";
-						int sqlCount = 0;
+						
 				        	for(int j = 0; j < sqlList.size(); j++) {
 				        		data = sqlList.get(j);
 				    			fw.write(data + "\n");
 				    			sqlCount++;
-				    			if(sqlCount == 50000) {
+				    			if(cnt != 0 && cnt%500 == 0) {
 				    				sqlFileNameCount++;
+				    				logger.info("sqlFileNameCount: " + sqlFileNameCount);
 				    			}
 				        	}
 						fw.close();
@@ -1176,9 +1184,10 @@ public class MatchServiceImpl implements MatchService {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					logger.info("sqlListSize: " + sqlList.size() + "cnt: " + cnt++);
+					logger.info("sqlListSize: " + sqlList.size() + ", api사용 횟수: " +  g);
+					
 				}
-			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
