@@ -29,51 +29,52 @@ public class ChampionDAO {
 	public int championWin(int championId) {
 		int championWin = sqlSession.selectOne("champion.championWin", championId);
 		logger.info("챔피언으로 이긴 횟수: " + championWin);
-		
 		return championWin;
 	}
 
 	public int championLineTop(int championId) {
 		int championLineTop = sqlSession.selectOne("champion.championLineTop", championId);
+		logger.info("해당 챔피언으로 탑을 간 횟수: " + championLineTop);
 		return championLineTop;
 	}
 
 	public int championLineBottom(int championId) {
 		int championLineBottom = sqlSession.selectOne("champion.championLineBottom", championId);
+		logger.info("해당 챔피언으로 바텀을 간 횟수: " + championLineBottom);
 		return championLineBottom;
 	}
 
-	public List<Integer> championLine(int championId) {
-		List<Integer> championLine = new ArrayList<Integer>();
-		Map<String, Integer> championMap = new HashMap<String, Integer>();
-		for(int i = 0; i < 5; i ++) {
-			switch (i) {
-			case 0:
-				championMap.put("TOP", championId);
-				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-				break;
-			case 1:
-				championMap.put("BOTTOM", championId);
-				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-				break;
-			case 2:
-				championMap.put("NONE", championId);
-				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-				break;
-			case 3:
-				championMap.put("MIDDLE", championId);
-				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-				break;
-			case 4:
-				championMap.put("JUNGLE", championId);
-				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-				break;
-			default:
-				break;
-			}
-		}
-		return null;
-	}
+//	public List<Integer> championLine(int championId) {
+//		List<Integer> championLine = new ArrayList<Integer>();
+//		Map<String, Integer> championMap = new HashMap<String, Integer>();
+//		for(int i = 0; i < 5; i ++) {
+//			switch (i) {
+//			case 0:
+//				championMap.put("TOP", championId);
+//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
+//				break;
+//			case 1:
+//				championMap.put("BOTTOM", championId);
+//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
+//				break;
+//			case 2:
+//				championMap.put("NONE", championId);
+//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
+//				break;
+//			case 3:
+//				championMap.put("MIDDLE", championId);
+//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
+//				break;
+//			case 4:
+//				championMap.put("JUNGLE", championId);
+//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//		return null;
+//	}
 
 	
 }

@@ -35,7 +35,7 @@ public class MatchServiceImpl implements MatchService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	int cnt;
-	int sqlFileNameCount = 17;
+	int sqlFileNameCount = 36;
 	int sqlCount = 0;
 	String championNameStr;
 
@@ -1116,7 +1116,7 @@ public class MatchServiceImpl implements MatchService {
 		try {
 			connection = new URLConnection();
 			int cnt = 0;
-			for(int g = 9061; g < gameId.size(); g++) {
+			for(int g = 16022; g < gameId.size(); g++) {
 				sqlList.clear();
 				logger.info("cnt: " + cnt);
 				if( cnt != 0 && cnt%40 == 0) {
@@ -1166,7 +1166,7 @@ public class MatchServiceImpl implements MatchService {
 					}
 					try {
 						
-						File file = new File("C:\\Users\\user2\\Desktop\\eventSQL\\sqlEvent"+sqlFileNameCount+".sql");
+						File file = new File("/Users/anchangho/git/yapx3/yapx3/eventSQL/sqlEvent"+sqlFileNameCount+".sql");
 						FileWriter fw = new FileWriter(file, true);
 						String data = "";
 						
@@ -1174,12 +1174,11 @@ public class MatchServiceImpl implements MatchService {
 				        		data = sqlList.get(j);
 				    			fw.write(data + "\n");
 				    			sqlCount++;
-				    			if(cnt != 0 && cnt%500 == 0) {
-				    				sqlFileNameCount++;
-				    				logger.info("sqlFileNameCount: " + sqlFileNameCount);
-				    				continue;
-				    			}
 				        	}
+				        	if(cnt != 0 && cnt%500 == 0) {
+			    				sqlFileNameCount++;
+			    				logger.info("sqlFileNameCount: " + sqlFileNameCount);
+			    			}
 						fw.close();
 					}  catch (IOException e) {
 						// TODO Auto-generated catch block

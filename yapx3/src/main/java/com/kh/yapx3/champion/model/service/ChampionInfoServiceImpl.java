@@ -257,7 +257,7 @@ public class ChampionInfoServiceImpl implements ChampionInfoService{
 
 	@Override
 	public List<Integer> championLine(int championId) {
-		List<Integer> championLine = championDAO.championLine(championId);
+//		List<Integer> championLine = championDAO.championLine(championId);
 		return null;
 	}
 	
