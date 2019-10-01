@@ -35,7 +35,7 @@ public class MatchServiceImpl implements MatchService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	int cnt;
-	int sqlFileNameCount = 36;
+	int sqlFileNameCount = 50;
 	int sqlCount = 0;
 	String championNameStr;
 
@@ -999,7 +999,7 @@ public class MatchServiceImpl implements MatchService {
 		List<String> sqlList = new ArrayList<String>();
 		org.json.JSONObject jjj;
 		org.json.JSONArray jarr = new org.json.JSONArray();
-		String sql = "insert into(event_no, type, timestamp, wardType, participantId, creatorId, itemId, skillSlot, levelUpType, beforeId, afterId) values(event_seq.nextval, ";
+		String sql = "insert into eventtable(event_no, type, timestamp, wardType, participantId, creatorId, itemId, skillSlot, levelUpType, beforeId, afterId) values(event_seq.nextval, ";
 		
 		for(int i = 0; i < jobj.length(); i++) {
 			jjj = new org.json.JSONObject();
@@ -1116,7 +1116,7 @@ public class MatchServiceImpl implements MatchService {
 		try {
 			connection = new URLConnection();
 			int cnt = 0;
-			for(int g = 16022; g < gameId.size(); g++) {
+			for(int g = 22400; g < gameId.size(); g++) {
 				sqlList.clear();
 				logger.info("cnt: " + cnt);
 				if( cnt != 0 && cnt%40 == 0) {
@@ -1166,7 +1166,7 @@ public class MatchServiceImpl implements MatchService {
 					}
 					try {
 						
-						File file = new File("/Users/anchangho/git/yapx3/yapx3/eventSQL/sqlEvent"+sqlFileNameCount+".sql");
+						File file = new File("C:\\Users\\aa\\git\\yapx3\\yapx3\\eventSQL\\sqlEvent"+sqlFileNameCount+".sql");
 						FileWriter fw = new FileWriter(file, true);
 						String data = "";
 						
