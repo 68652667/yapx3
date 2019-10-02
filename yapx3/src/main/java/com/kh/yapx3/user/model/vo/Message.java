@@ -22,5 +22,6 @@ public class Message {
 	private String messageTitle;
 	private String messageContent;
 	private Date messageDate;
+	private String messageRead;
 	
 }
