@@ -112,6 +112,15 @@ function ULCheck() {
 			</div>
 		    <textarea id="txt" class="form-control" name="tipBoardContent" placeholder="내용" required></textarea>
 			<br />
+			<div>
+				<p style="text-align: right;">
+					<button type="button" class="btn btn-secondary btn-sm">롤 아이콘</button>
+				</p>
+			</div>
+			<div id="iconDiv">
+				
+			</div>
+			<br />
 			<input type="submit" class="btn btn-outline-success" value="저장" >
 		</form>
 	</div>
