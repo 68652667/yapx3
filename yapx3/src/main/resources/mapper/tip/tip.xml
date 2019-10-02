@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tip">
+	<select id="selectTipList" resultType="TipWithFileCount">
+		select A.*,
+		       (select count(*) 
+		        from t_b_a 
+		        where tip_board_no = A.tip_board_no) filecount
+		from t_b A
+		order by tip_board_no desc
+	</select>
+	
+	<select id="selectCommentList" resultType="TipComment">
+		select lpad(' ',(level-1)*5,' ')||COMMENT_CONTENT B, A.* from t_b_c A where TIP_BOARD_NO = #{tipBoardNo} start with COMMENT_LEVEL = 1 connect by prior COMMENT_NO = COMMENT_REF order siblings by COMMENT_NO asc
+	</select>
+	
+	<insert id="insertBoard" parameterType="Tip">
+		insert into t_b(TIP_BOARD_NO, USER_EMAIL, TIP_BOARD_TITLE, USER_NICKNAME, TIP_BOARD_CONTENT, TIP_YL)
+		values(seq_tip.nextval, #{userEmail}, #{tipBoardTitle}, #{userNickName}, #{tipBoardContent}, #{YL})
+		<selectKey keyProperty="tipBoardNo" resultType="_int" order="AFTER">
+			select seq_tip.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAttachment">
+		insert into t_b_a(ATTACHMENT_NO, TIP_BOARD_NO, ORIGINALFILENAME, RENAMEDFILENAME)
+		values(seq_tip_a.nextval, #{boardNo}, #{originalFileName}, #{renamedFileName})
+	</insert>
+	
+	<select id="selectTipOne" resultMap="TipCollectionMap">
+		select a.*, b.* 
+		from t_b a left join t_b_a b on a.tip_board_no = b.tip_board_no
+		where a.tip_board_no = #{tipBoardNo}
+	</select>
+	<resultMap type="TipVO" id="TipCollectionMap">
+		<id column="TIP_BOARD_NO" property="tipBoardNo"/>
+		<result column="USER_EMAIL" property="userEmail"/>
+		<result column="TIP_BOARD_TITLE" property="tipBoardTitle"/>
+		<result column="USER_NICKNAME" property="userNickName"/>
+		<result column="TIP_BOARD_CONTENT" property="tipBoardContent"/>
+		<result column="TIP_BOARD_DATE" property="tipBoardDate"/>
+		<result column="TIP_BOARD_VIEWS" property="tipBoardViews"/>
+		<result column="TIP_BOARD_LIKE" property="tipBoardLike"/>
+		<result column="TIP_BOARD_LIKELIST" property="tipBoardLikeList"/>
+		<result column="TIP_YL" property="YL"/>
+		<collection property="attachList" ofType="TipAttachment">
+			<id column="ATTACHMENT_NO" property="AttachmentNo"></id>
+			<result column="TIP_BOARD_NO" property="boardNo"></result>
+			<result column="ORIGINALFILENAME" property="originalFileName"></result>
+			<result column="RENAMEDFILENAME" property="renamedFileName"></result>
+			<result column="UPLOADDATE" property="uploadDate"></result>
+		</collection>
+	</resultMap>
+	
+	<insert id="tipCommentUp">
+		insert into t_b_c 
+		values(seq_tip_c.nextval, #{tipBoardNo}, #{userEmail}, #{userNickname}, #{commentContent}, default, #{commentLevel}, #{commentRef})
+	</insert>
+	
+	<delete id="tipCommentDel">
+		delete from t_b_c where COMMENT_NO = #{commentNo}
+	</delete>
+</mapper>

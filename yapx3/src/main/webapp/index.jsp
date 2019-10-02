@@ -46,7 +46,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <button class="w3-button w3-padding-large" title="Notifications">커뮤니티</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;;">
       <a href="${pageContext.request.contextPath}/free/freeList.do" class="w3-bar-item w3-button">자유게시판</a>
-      <a href="#" class="w3-bar-item w3-button">팁게시판</a>
+      <a href="${pageContext.request.contextPath}/tip/tipList.do" class="w3-bar-item w3-button">팁게시판</a>
       <a href="#" class="w3-bar-item w3-button">공략게시판</a>
       <a href="#" class="w3-bar-item w3-button">소환사 구인구직</a>
     </div>
