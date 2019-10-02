@@ -25,4 +25,10 @@
 		values( seq_message_no.nextval, #{sendUserEmail}, #{receiveUserEmail}, #{sendUserNickName}, #{receiveNickName}, #{messageTitle}, #{messageContent}, sysdate, 'N'  )
 		
 	</insert>
+	
+	<update id="updateMessage">
+		update message set
+		MESSAGE_READ = #{messageRead}
+		where MESSAGE_NO = #{messageNo} 
+	</update>
 </mapper>

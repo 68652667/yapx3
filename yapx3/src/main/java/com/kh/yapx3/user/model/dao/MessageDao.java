@@ -12,4 +12,6 @@ public interface MessageDao {
 
 	Message selectOnebyNo(int msgNo);
 
+	int updateMessage(Message msg);
+
 }
