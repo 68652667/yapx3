@@ -218,6 +218,60 @@ public class MemberController {
 		return result;
 	}
 	
+	
+	@RequestMapping( "/updatePasswordEnd.do" )
+	public String updatePasswordEnd( @RequestParam String memberId,
+									 @RequestParam String password,
+									 @RequestParam String password_new,
+									 Model m ) {
+		
+		logger.info( "updatePasswordEnd memberId = {}", memberId );
+		//1.업무로직: 회원정보 가져오기
+		Member member = ms.selectOneMember( memberId );
+		
+		String msg = "";
+		String loc = "/user/updatePassword?memberId="+memberId;
+		logger.info( "updatePasswordEnd member = {}", member );
+		
+		//1-2.로그인 성공
+		if( passwordEncoder.matches( password, member.getUserPassword() ) ) {
+			
+			String encodedPassword = passwordEncoder.encode( password_new );
+			logger.debug( "암호화후 : " + encodedPassword );
+			//member객체 대입
+			member.setUserPassword(encodedPassword);
+			
+			int result = ms.updateMember( member );
+			
+			if( result == 1 ) {
+				msg = "비밀번호가 변경되었습니다.";
+			}else {
+				msg = "비밀번호변경중 오류가 발생했습니다.";
+			}
+		}
+		//1-3.비밀번호가 틀린 경우
+		else {
+			msg = "비밀번호가 틀립니다.";
+			
+		}
+		
+		
+		//2. view단 처리
+		m.addAttribute( "msg", msg );
+		m.addAttribute( "loc", loc );
+
+		
+		return "common/msg";
+	}
+	
+	@RequestMapping( "/updatePassword" )
+	public String updatePassword( @RequestParam String memberId,
+								  Model m ) {
+		logger.info( "pass memberId = {}", memberId );
+		m.addAttribute( "memberId", memberId );
+		return "user/updatePassword";
+	}
+	
 	@ResponseBody
 	@RequestMapping( "/activeCheck.do" )
 	public int activeCheck( @RequestParam String memberId,

@@ -30,4 +30,9 @@ public class MessageServiceImpl implements MessageService {
 		return mDao.selectOnebyNo( msgNo );
 	}
 
+	@Override
+	public int updateMessage(Message msg) {
+		return mDao.updateMessage( msg );
+	}
+
 }

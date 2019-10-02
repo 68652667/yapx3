@@ -33,4 +33,9 @@ public class MessageDaoImpl implements MessageDao {
 		return sqlS.selectOne( "message.selectOnebyNo", msgNo );
 	}
 
+	@Override
+	public int updateMessage(Message msg) {
+		return sqlS.update( "message.updateMessage", msg );
+	}
+
 }

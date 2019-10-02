@@ -12,4 +12,6 @@ public interface MessageService {
 
 	Message selectOnebyNo(int msgNo);
 
+	int updateMessage(Message msg);
+
 }

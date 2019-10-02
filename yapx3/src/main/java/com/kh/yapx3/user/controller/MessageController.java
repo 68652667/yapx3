@@ -38,6 +38,10 @@ public class MessageController {
 		logger.info( "getMsg msgNo={}", msgNo );
 		Message msg = ms.selectOnebyNo( msgNo );
 		
+		msg.setMessageRead( "Y" );
+		
+		int result = ms.updateMessage( msg );
+		
 		return msg;
 	}
 	
