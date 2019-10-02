@@ -35,7 +35,7 @@ public class MatchServiceImpl implements MatchService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	int cnt;
-	int sqlFileNameCount = 50;
+	int sqlFileNameCount = 68;
 	int sqlCount = 0;
 	String championNameStr;
 
@@ -1112,26 +1112,27 @@ public class MatchServiceImpl implements MatchService {
 		List<String> itemIdList = new ArrayList<String>();
 		List<String> typeList = new ArrayList<String>();
 		List<String> sqlList = new ArrayList<String>();
-		String apiKey = "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf";
+		String apiKey = "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";
 		try {
 			connection = new URLConnection();
 			int cnt = 0;
-			for(int g = 22400; g < gameId.size(); g++) {
+			for(int g = 30891; g < gameId.size(); g++) {
 				sqlList.clear();
 				logger.info("cnt: " + cnt);
 				if( cnt != 0 && cnt%40 == 0) {
-					if(apiKey == "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf") {
+					if(apiKey == "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074") {
 						logger.info("잠시 쉬었다 갑니다. ------------------------------------------------------------" + (cnt + 1)+"번째");
 						Thread.sleep(60002);
 						cnt++;
 					}
 					logger.info("현재키: " + apiKey);
 					switch (apiKey) {
-					case "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf": apiKey = "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074"; break;
-					case "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074": apiKey = "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702"; break;
-					case "RGAPI-453d67fb-f64c-4bd5-a045-7714b5d19702": apiKey = "RGAPI-11678be1-caf2-439f-b340-d862b570fb90"; break;
-					case "RGAPI-11678be1-caf2-439f-b340-d862b570fb90": apiKey = "RGAPI-24644a67-5304-43dd-b853-51048bd088a3"; break;
-					case "RGAPI-24644a67-5304-43dd-b853-51048bd088a3": apiKey = "RGAPI-39986d2a-9ad9-476e-9b37-45d56cf2c4cf"; break;
+					case "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074": apiKey = "RGAPI-cb866bbf-1423-4dd7-858a-9cb0de8b2f77"; break;
+					//임시키
+					case "RGAPI-cb866bbf-1423-4dd7-858a-9cb0de8b2f77": apiKey = "RGAPI-2bde455d-c4d6-4627-bbcb-4a6aa8da4bbf"; break;
+					case "RGAPI-2bde455d-c4d6-4627-bbcb-4a6aa8da4bbf": apiKey = "RGAPI-b3a6e607-840c-42c0-8f47-727611bf4914"; break;
+					case "RGAPI-b3a6e607-840c-42c0-8f47-727611bf4914": apiKey = "RGAPI-b3ae99d5-9a36-4e4b-baf4-62f827986144"; break;
+					case "RGAPI-b3ae99d5-9a36-4e4b-baf4-62f827986144": apiKey = "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074"; break;
 					default:break;
 					}
 					logger.info("변경키: " + apiKey);
@@ -1166,7 +1167,7 @@ public class MatchServiceImpl implements MatchService {
 					}
 					try {
 						
-						File file = new File("C:\\Users\\aa\\git\\yapx3\\yapx3\\eventSQL\\sqlEvent"+sqlFileNameCount+".sql");
+						File file = new File("C:\\Users\\user2\\git\\yapx3\\yapx3\\eventSQL\\sqlEvent"+sqlFileNameCount+".sql");
 						FileWriter fw = new FileWriter(file, true);
 						String data = "";
 						
