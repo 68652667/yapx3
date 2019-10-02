@@ -25,5 +25,15 @@
 			   alias="Free"/>
 	<typeAlias type="com.kh.yapx3.board.free.model.vo.FreeComment"
 			   alias="FreeComment"/>
+  	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipVO"
+  			   alias="TipVO"/>
+  	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipAttachment"
+  			   alias="TipAttachment"/>
+  	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipWithFileCount"
+  			   alias="TipWithFileCount"/>
+	<typeAlias type="com.kh.yapx3.board.tip.model.vo.Tip"
+			   alias="Tip"/>
+	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipComment"
+			   alias="TipComment"/>
   </typeAliases>
 </configuration>
