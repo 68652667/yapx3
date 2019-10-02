@@ -12,9 +12,9 @@ public class FreeWithFileCount extends Free{
 
 	public FreeWithFileCount(int freeBoardNo, String userEmail, String freeBoardTitle, String userNickName,
 			String freeBoardContent, Date freeBoardDate, int freeBoardViews, int freeBoardLike,
-			String freeBoardLikeList, int fileCount) {
+			String freeBoardLikeList, String YL, int fileCount) {
 		super(freeBoardNo, userEmail, freeBoardTitle, userNickName, freeBoardContent, freeBoardDate, freeBoardViews,
-				freeBoardLike, freeBoardLikeList);
+				freeBoardLike, freeBoardLikeList, YL);
 		this.fileCount = fileCount;
 	}
 	

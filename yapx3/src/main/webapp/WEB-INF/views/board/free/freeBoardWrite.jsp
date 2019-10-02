@@ -60,6 +60,11 @@ function chk_file_type(obj) {
 	}
 	
 }
+function ULCheck() {
+	var yl = $("[name=YL]").val();
+	html = "<iframe width='400' height='250' src='//www.youtube.com/embed/"+yl+"' frameborder='0' allowfullscreen></iframe>";
+	$("#ULSection").html(html);
+}
 </script>
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">    
 	<div id="board-container" >
@@ -71,9 +76,19 @@ function chk_file_type(obj) {
 			<input type="text" class="form-control" placeholder="제목" 
 					name="freeBoardTitle" id="boardTitle" required>
 			<input type="text" class="form-control" 
-					name="userEmail" value="${member.userEmail}" readonly required>
+					name="userEmail" value="${memberLoggedIn.userEmail}" readonly required>
 			<input type="text" class="form-control" 
-					name="userNickName" value="${member.userNickname}" readonly required>
+					name="userNickName" value="${memberLoggedIn.userNickname}" readonly required>
+			<div class="input-group mb-3" style="height: 35.74px;">
+			  <div class="input-group-prepend" style="height: 35.74px;">
+			    <span class="input-group-text" id="basic-addon3">https://youtu.be/</span>
+			  </div>
+			  <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="YL" style="height: 35.74px;">
+			  <div class="input-group-append" style="height: 35.74px;">
+    			<span class="input-group-text" style="height: 35.74px;" onclick="ULCheck();">링크확인</span>
+  			  </div>
+			</div>
+			<div id="ULSection"></div>
 			<!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->
 			<div class="input-group mb-3" style="padding:0px;">
 			  <div class="input-group-prepend" style="padding:0px;">

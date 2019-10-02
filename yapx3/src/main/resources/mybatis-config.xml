@@ -24,6 +24,7 @@
   			   alias="FreeWithFileCount"/>
 	<typeAlias type="com.kh.yapx3.board.free.model.vo.Free"
 			   alias="Free"/>
-
+	<typeAlias type="com.kh.yapx3.board.free.model.vo.FreeComment"
+			   alias="FreeComment"/>
   </typeAliases>
 </configuration>
