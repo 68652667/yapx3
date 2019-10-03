@@ -35,7 +35,7 @@ public class MatchServiceImpl implements MatchService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	int cnt;
-	int sqlFileNameCount = 0;
+	
 	int sqlCount = 0;
 	String championNameStr;
 
@@ -1113,11 +1113,12 @@ public class MatchServiceImpl implements MatchService {
 		List<String> itemIdList = new ArrayList<String>();
 		List<String> typeList = new ArrayList<String>();
 		List<String> sqlList = new ArrayList<String>();
+		int sqlFileNameCount = 78;
 		String apiKey = "RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";
 		try {
 			connection = new URLConnection();
 			int cnt = 0;
-			for(int g = 0; g < gameId.size(); g++) {
+			for(int g = 36681; g < gameId.size(); g++) {
 				sqlList.clear();
 				logger.info("cnt: " + cnt);
 				if( cnt != 0 && cnt%40 == 0) {
