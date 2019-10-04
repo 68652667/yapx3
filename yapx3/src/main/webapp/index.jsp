@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<%@page import="java.net.URL"%>
+<%@page import="java.net.HttpURLConnection"%>
 <!DOCTYPE html>
 <html>
 <title>YapYapYap</title>
@@ -13,9 +16,25 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript"
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link
+	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css"
+	rel="stylesheet" type="text/css">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .em3but {height: 3em;}
+
+img {
+	width : 100;
+	height : 100;
+}
+
 </style>
 <body class="w3-theme-l5">
 
@@ -50,6 +69,46 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:115px; min-height: 768px;">    
    
+   <div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<h1>League Of Legends</h1>
+					<p>전적 검색</p>
+					<br>
+					<form role="form">
+						<div class="form-group">
+							<label class="control-label" for="exampleInputEmail1">소환사 이름</label> 
+							<input class="form-control" id="exampleInputEmail1"
+								   placeholder="소환사 이름을 입력하세요." 
+								   type="text" name="username"
+								   style="width : 500px; text-align : center; margin-left: 100px;">
+						</div>
+						<button type="button" class="btn btn-default">Search</button>
+						<table id="summonerStatus" style="text-align: center; margin-left: 100px;"></table>
+						<table id="summonerRank" style="text-align: center; margin-left: 100px; margin-top : 10px;"></table>
+					</form>
+					<br> <br>
+					<form role="form">
+						<button id="spectatorBoolean" style="display: none;">인게임정보</button>
+					</form>
+					<br /><br />
+					<form role="form">
+						<div class="form-group">
+							<label class="control-label" for="exampleInputEmail1">금주의 로테이션</label> 
+							<table id="championLote" style="text-align: center; margin-left: 100px; margin-top : 10px;">
+								
+							</table>
+						</div>
+					</form>
+						<form id="frm" name="frm">
+						<input type="hidden" name="summonerName" id="summonerView" />
+						<input type="hidden" name="summonerId" id="summonerId" />
+						</form>
+				</div>
+			</div>
+		</div>
+   
+   
 <!-- End Page Container -->
 </div>
 
@@ -79,6 +138,103 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+</script>
+
+<script>
+	$( () => {
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/summoner/champion",
+			type : "GET",
+			dataType : "json",
+			success : function( data ){
+				console.log( data );
+				var chamHmtml = "<img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/";
+				var chamHmtml2 = "'>";
+
+				for(var i = 0; i < data.length; i++){
+					var html = chamHmtml + data[i] + chamHmtml2;
+					if( i%5 == 4 ){	
+						html += "<br/>";
+					}
+					$("#championLote").append( html );
+				}
+			},
+			error : function( xhr, txtStatus, err ){
+				console.log( xhr, txtStatus, err );
+			}
+		});
+		
+		
+		
+		$(".btn").on("click", function(){
+			$("#summonerRank").html("");
+			$("#spectatorBoolean").attr("style","display: none;");
+			var summonerName = $(".form-control").val().replace(/ /g,"%20");
+			
+			console.log( summonerName );
+			var summonerId;
+			
+			$.ajax({
+ 				url : "${pageContext.request.contextPath}/summoner/search?summonerName=" + summonerName,
+				type : "GET",
+				async : false,
+				dataType : "json",
+				success : function( data ){
+					console.log( data );
+					var html = "<tr>" +
+							   "<td>" + "<img src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/profileicon/"+ data.profileIconId +".png'></td>" +
+							   "</tr>" +
+							   "<tr>" +
+							   "<td>" + "닉네임 : " + data.name + "</td>" +
+							   "</tr>" +
+							   "<tr>" +
+							   "<td>" + "레벨 : " + data.summonerLevel + "</td>" +
+							   "</tr>";
+					$("#summonerStatus").html(html);		
+					summonerId = data.id;
+					$("#summonerView").attr("value",data.name);
+					$("#summonerId").attr("value",data.id);
+				},
+				error : function( xhr, txtStatus, err ){
+					console.log( xhr, txtStatus, err );
+				},
+			});
+			
+			console.log( summonerId );
+			
+		
+		});
+		
+		
+		//소환사 프로필클릭시 상세보기로 이동
+		$("#summonerStatus").on('click',function(){
+			
+			var Name = $("#summonerView").val();
+			var summonerId2 = $("#summonerId").val();
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/summoner/summonerView?Name="+Name+"&summonerId="+summonerId2,
+				type : "GET",
+				dataType : "text",
+				data : {
+					"Name" : Name,
+					"summonerId" : summonerId2
+				},
+				success : function(data){
+					console.log(data);
+				location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name="+Name+"&summonerId="+summonerId2;
+				},
+				error : function( xhr, txtStatus, err ){
+					console.log( xhr, txtStatus, err );
+				}
+			});
+			
+		});
+		
+		
+	});
+	
 </script>
 
 </body>
