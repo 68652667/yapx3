@@ -13,6 +13,7 @@
 		<param-value>
 			<!-- /WEB-INF/spring/*-context.xml -->
 			/WEB-INF/spring/root-context.xml
+			/WEB-INF/spring/spring-security-context.xml
 		</param-value>
 	</context-param>
 	
