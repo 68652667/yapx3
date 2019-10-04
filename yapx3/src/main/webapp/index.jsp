@@ -30,22 +30,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
-<div class="w3-top">
- <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but">YapX3</a>
-  <c:if test="${memberLoggedIn!=null}">
-  	<a href="${pageContext.request.contextPath}/user/logoutClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-	    로그아웃
-	  </a>
-  </c:if>
-  <c:if test="${memberLoggedIn==null}">
-	  <a href="${pageContext.request.contextPath}/user/loginClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-	    로그인
-	  </a>
-  </c:if>
- </div>
-</div>
+
 <div class="w3-top" style="top: 3em;">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
@@ -61,11 +46,67 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <button class="w3-button w3-padding-large" title="Notifications">커뮤니티</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;;">
       <a href="${pageContext.request.contextPath}/free/freeList.do" class="w3-bar-item w3-button">자유게시판</a>
-      <a href="#" class="w3-bar-item w3-button">팁게시판</a>
+      <a href="${pageContext.request.contextPath}/tip/tipList.do" class="w3-bar-item w3-button">팁게시판</a>
       <a href="#" class="w3-bar-item w3-button">공략게시판</a>
       <a href="${pageContext.request.contextPath}/board/viewRoom.do" class="w3-bar-item w3-button">소환사 구인구직</a>
     </div>
   </div>
+ </div>
+</div>
+
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but">YapX3</a>
+  <c:if test="${memberLoggedIn!=null}">
+	<a href="${pageContext.request.contextPath}/user/logoutClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+	 	 로그아웃
+	</a>
+	<div class="w3-dropdown-hover w3-bar-item w3-button w3-hide-small w3-right w3-padding-large" id="btnHoverCheck" title="${memberLoggedIn.userNickname}">
+		<img src="${pageContext.request.contextPath}/resources/images/login_icon.png" width="30" height="30" alt="${memberLoggedIn.userNickname}"/>  
+		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+		    <button class="w3-bar-item w3-button" onclick="messageClick();" title="" id="messageBtn" >쪽지함</button>
+			<button class="w3-bar-item w3-button" onclick="myPassClick();" title="">비밀번호 변경</button>
+			<button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button>
+			<button class="w3-bar-item w3-button" onclick="myBoardClick();" title="">내글보기</button>
+		</div>
+	</div>
+	<script>
+		$(()=>{
+			$( "#btnHoverCheck" ).hover(function(){
+				
+				messageCount();
+			});
+		});
+		
+		function messageCount() {
+			var memberId = "${memberLoggedIn.userEmail}";
+			console.log( "memberId : ", memberId );
+			$.ajax({
+				url : "${pageContext.request.contextPath}/message/messageCount.do",
+				data : { memberId : memberId },
+				//dataType : "json",
+				success: data => {
+					console.log( data ); //json타입이 js object로 변환되어 전달됨.
+					if( data > 0 ) {
+						$( "#messageBtn" ).html( "<span>쪽지함<span style = 'color:red;'>( " + data + " )</span></span>" );
+					}else {
+						$( "#messageBtn" ).html( "<span>쪽지함</span>" );
+					}
+				},
+				error: ( jqxhr, textStatus, errorThrown ) => {
+					console.log( "ajax처리실퍠!", jqxhr, textStatus, errorThrown );
+				}
+			
+			});
+		}
+	</script>
+  </c:if>
+  <c:if test="${memberLoggedIn==null}">
+	  <a href="${pageContext.request.contextPath}/user/loginClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+	    로그인
+	  </a>
+  </c:if>
  </div>
 </div>
 
@@ -101,6 +142,25 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+function messageClick() {
+	var popup = "width=400,height=600,resizable=no,scrollbars=no,status=no";
+	window.open( "${pageContext.request.contextPath}/message/message?memberId=${memberLoggedIn.userEmail}", "", popup ).focus();
+}
+
+function myPassClick() {
+	var popup = "width=500,height=150,resizable=no,scrollbars=no,status=no";
+	window.open( "${pageContext.request.contextPath}/user/updatePassword?memberId=${memberLoggedIn.userEmail}", "", popup ).focus();
+}
+
+function bookmarkClick() {
+	alert( "bookmarkClick" );	
+}
+
+function myBoardClick() {
+	alert( "myBoardClick" );	
+}
+
 </script>
 
 </body>

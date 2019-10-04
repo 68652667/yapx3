@@ -12,6 +12,8 @@
   			   alias="user"/>
     <typeAlias type="com.kh.yapx3.board.summonerJobs.model.vo.summonerJobsChatRoom" 
  			   alias="summonerjobschatroom"/>
+	<typeAlias type="com.kh.yapx3.user.model.vo.Message" 
+  			   alias="message"/>
   	<typeAlias type="com.kh.yapx3.stat.model.vo.MatchString"
   			   alias="matchString"/>
   	<typeAlias type="com.kh.yapx3.stat.model.vo.ChampStat"
@@ -24,6 +26,17 @@
   			   alias="FreeWithFileCount"/>
 	<typeAlias type="com.kh.yapx3.board.free.model.vo.Free"
 			   alias="Free"/>
-
+	<typeAlias type="com.kh.yapx3.board.free.model.vo.FreeComment"
+			   alias="FreeComment"/>
+  	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipVO"
+  			   alias="TipVO"/>
+  	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipAttachment"
+  			   alias="TipAttachment"/>
+  	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipWithFileCount"
+  			   alias="TipWithFileCount"/>
+	<typeAlias type="com.kh.yapx3.board.tip.model.vo.Tip"
+			   alias="Tip"/>
+	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipComment"
+			   alias="TipComment"/>
   </typeAliases>
 </configuration>

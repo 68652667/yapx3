@@ -13,6 +13,7 @@ public class Free {
 	protected int freeBoardViews;
 	protected int freeBoardLike;
 	protected String freeBoardLikeList;
+	protected String YL;
 	
 	public Free() {
 		
@@ -91,7 +92,7 @@ public class Free {
 	}
 
 	public Free(int freeBoardNo, String userEmail, String freeBoardTitle, String userNickName, String freeBoardContent,
-			Date freeBoardDate, int freeBoardViews, int freeBoardLike, String freeBoardLikeList) {
+			Date freeBoardDate, int freeBoardViews, int freeBoardLike, String freeBoardLikeList, String YL) {
 		super();
 		this.freeBoardNo = freeBoardNo;
 		this.userEmail = userEmail;
@@ -102,6 +103,15 @@ public class Free {
 		this.freeBoardViews = freeBoardViews;
 		this.freeBoardLike = freeBoardLike;
 		this.freeBoardLikeList = freeBoardLikeList;
+		this.YL = YL;
+	}
+
+	public String getYL() {
+		return YL;
+	}
+
+	public void setYL(String yL) {
+		YL = yL;
 	}
 
 	@Override
@@ -109,7 +119,9 @@ public class Free {
 		return "{ freeBoardNo:\"" + freeBoardNo + "\", userEmail:\"" + userEmail + "\", freeBoardTitle:\""
 				+ freeBoardTitle + "\", userNickName:\"" + userNickName + "\", freeBoardContent:\"" + freeBoardContent
 				+ "\", freeBoardDate:\"" + freeBoardDate + "\", freeBoardViews:\"" + freeBoardViews
-				+ "\", freeBoardLike:\"" + freeBoardLike + "\", freeBoardLikeList:\"" + freeBoardLikeList + "}";
+				+ "\", freeBoardLike:\"" + freeBoardLike + "\", freeBoardLikeList:\"" + freeBoardLikeList + "\", YL:\""
+				+ YL + "}";
 	}
+
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.yapx3.board.free.model.service.FreeService;
 import com.kh.yapx3.board.free.model.vo.Free;
 import com.kh.yapx3.board.free.model.vo.FreeAttachment;
+import com.kh.yapx3.board.free.model.vo.FreeComment;
 import com.kh.yapx3.board.free.model.vo.FreeVO;
 import com.kh.yapx3.board.free.model.vo.FreeWithFileCount;
 import com.kh.yapx3.common.util.HelloSpringUtils;
@@ -44,7 +45,13 @@ public class FreeController {
 	public ModelAndView freeBoardView(ModelAndView mav, @RequestParam int freeBoardNo) {
 		mav.setViewName("board/free/freeBoardView");
 		FreeVO free = freeService.selectFreeOne(freeBoardNo);
+		
+		List<FreeComment> commentList = null;
+		commentList = freeService.selectCommentList(freeBoardNo);
+		
 		mav.addObject("free", free);
+		mav.addObject("commentList", commentList);
+		
 		return mav;
 	}
 	
@@ -67,6 +74,7 @@ public class FreeController {
 									MultipartFile[] upFile,
 									Free free) {
 		try {
+			
 			String saveDirectory
 			= request.getSession()
 					 .getServletContext()
@@ -103,6 +111,25 @@ public class FreeController {
 		} catch(Exception e) {e.printStackTrace();}
 		
 		return "common/msg";
+	}
+	
+	@RequestMapping("/freeCommentUp.do")
+	public ModelAndView freeCommentUp(ModelAndView mav, 
+								HttpServletRequest request, 
+								FreeComment freeComment) {
+		System.out.println(freeComment);
+		int result = freeService.freeCommentUp(freeComment);
+		mav.setViewName("redirect:/free/freeBoardView.do?freeBoardNo="+freeComment.getFreeBoardNo());
+		return mav;
+	}
+	
+	@RequestMapping("/freeCommentDel.do")
+	public ModelAndView freeCommentDel(ModelAndView mav, 
+			HttpServletRequest request, 
+			@RequestParam int commentNo, @RequestParam int freeBoardNo) {
+		int result = freeService.freeCommentDel(commentNo);
+		mav.setViewName("redirect:/free/freeBoardView.do?freeBoardNo="+freeBoardNo);
+		return mav;
 	}
 	
 
