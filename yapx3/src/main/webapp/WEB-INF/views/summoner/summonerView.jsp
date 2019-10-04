@@ -2300,9 +2300,9 @@ margin: 0 8px;
 				$("#top3 li:eq(1) div div#top3Image").append(Top2[0]);
 				$("#top3 li:eq(2) div div#top3Image").append(Top3[0]);
 				
-				$("#top3 li:eq(0) div div#top3WonLose").append("<b style='color: red;'>"+(Top1[2]/Top1[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top1[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top1[3]+"패)</span>"+"<span>"+(Top1[4].toFixed(1))+"평점</span>");
-				$("#top3 li:eq(1) div div#top3WonLose").append("<b style='color: red;'>"+(Top2[2]/Top2[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top2[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top2[3]+"패)</span>"+"<span>"+(Top2[4].toFixed(1))+"평점</span>");
-				$("#top3 li:eq(2) div div#top3WonLose").append("<b style='color: red;'>"+(Top3[2]/Top3[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top3[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top3[3]+"패)</span>"+"<span>"+(Top3[4].toFixed(1))+"평점</span>");
+				$("#top3 li:eq(0) div div#top3WonLose").append("<b style='color: red;'>"+((Top1[2]/Top1[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top1[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top1[3]+"패)</span>"+"<span>"+(Top1[4].toFixed(1))+"평점</span>");
+				$("#top3 li:eq(1) div div#top3WonLose").append("<b style='color: red;'>"+((Top2[2]/Top2[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top2[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top2[3]+"패)</span>"+"<span>"+(Top2[4].toFixed(1))+"평점</span>");
+				$("#top3 li:eq(2) div div#top3WonLose").append("<b style='color: red;'>"+((Top3[2]/Top3[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top3[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top3[3]+"패)</span>"+"<span>"+(Top3[4].toFixed(1))+"평점</span>");
 				
 										
 				},

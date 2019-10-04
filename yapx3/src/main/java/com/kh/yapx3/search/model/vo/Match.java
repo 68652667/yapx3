@@ -1,7 +1,6 @@
 package com.kh.yapx3.search.model.vo;
 
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -391,16 +390,6 @@ public class Match {
 				+ participants8 + ", participants9=" + participants9 + ", participants10=" + participants10 + ", test1="
 				+ test1 + ", test2=" + test2 + ", myItemBuild=" + myItemBuild + ", mySkillBuild=" + mySkillBuild + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
-
-	
-
 	
 	
 	

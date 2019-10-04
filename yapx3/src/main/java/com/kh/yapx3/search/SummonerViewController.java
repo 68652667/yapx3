@@ -621,59 +621,6 @@ public class SummonerViewController{
 			e.printStackTrace();
 		}
 	}
-	
-	
-//	@RequestMapping("/champion")
-//	public void champion(HttpServletRequest request, HttpServletResponse response) throws ParserConfigurationException, SAXException {
-//		
-//		response.setContentType("application/json; charset=utf-8");
-//		
-//		String urlStr = "https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-75b06c3a-71bc-4298-ad56-5f64414b6e8f";
-//		String urlStr2 = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/en_US/champion.json";
-//		try {
-//			URL url = new URL(urlStr);
-//			URL url2 = new URL(urlStr2);
-//			BufferedReader br = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
-//			BufferedReader br2 = new BufferedReader(new InputStreamReader(url2.openConnection().getInputStream()));
-//			
-//			String sb = br.readLine();
-//			String sb2 = br2.readLine();
-//			
-//			JSONObject jobj = new JSONObject(sb.toString());
-//			JSONObject jobj2 = new JSONObject(sb2.toString());
-//			
-//			JSONArray jar = (JSONArray) jobj.get("freeChampionIds");
-//			JSONObject dataObject = jobj2.getJSONObject("data");
-//			
-//			Iterator num = dataObject.keys();
-//			
-//			List<String> list = new ArrayList<String>();
-//			
-//			while(num.hasNext()) {
-//				String dataKey = num.next().toString();
-//				
-//				JSONObject data = dataObject.getJSONObject(dataKey);
-//				JSONObject data_ = data.getJSONObject("image");
-//				String img = data_.getString("full");
-//				
-//				String key = data.getString("key");
-//
-//				for(int i = 0; i<jar.length(); i++) {
-//					String chap = jar.get(i).toString();
-//					if(key.equals(chap)) {
-//						list.add(img);
-//					}
-//				}
-//			}
-//			response.setCharacterEncoding("utf-8");
-//			
-//			new Gson().toJson(list, response.getWriter());
-//			
-//		} catch (MalformedURLException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+
 	
 }

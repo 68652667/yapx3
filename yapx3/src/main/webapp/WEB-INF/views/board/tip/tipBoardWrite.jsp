@@ -11,9 +11,22 @@ div#board-container input{margin-bottom:15px;}
 /* 부트스트랩 : 파일라벨명 정렬*/
 div#board-container label.custom-file-label{text-align:left;}
 #txt{min-height: 200px;}
+#body{
+margin: 0;
+    padding: 3;
+    border: 1px solid #ced4da;
+    border-radius: 1px solid #ced4da;
+    background-color: #FFFFFF;
+    font-size: 9pt;
+    font-family: 굴림;
+    line-height: 1.4;
+    overflow-y: scroll;
+    word-wrap: break-word;
+    min-height: 200px;
+    text-align: left;
+}
 </style>
 <script>
-/* textarea에도 required속성을 적용가능하지만, 공백이 입력된 경우 대비 유효성검사를 실시함. */
 function validate(){
 	var content = $("[name=boardContent]").val();
 	if(content.trim().length==0){
@@ -65,6 +78,10 @@ function ULCheck() {
 	html = "<iframe width='400' height='250' src='//www.youtube.com/embed/"+yl+"' frameborder='0' allowfullscreen></iframe>";
 	$("#ULSection").html(html);
 }
+function txt(e) {
+	var body = $("#body").html();
+	$("#txtfield").html(body);
+}
 </script>
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">    
 	<div id="board-container" >
@@ -110,7 +127,10 @@ function ULCheck() {
 			    <label class="custom-file-label" for="upFile2">파일을 선택하세요</label>
 			  </div>
 			</div>
-		    <textarea id="txt" class="form-control" name="tipBoardContent" placeholder="내용" required></textarea>
+		    <textarea id="txtfield" class="form-control" name="tipBoardContent" placeholder="내용" required></textarea>
+		    <br />
+		    <div id="body" contenteditable="true" onkeyup="txt();">
+		    </div>
 			<br />
 			<div>
 				<p style="text-align: right;">
