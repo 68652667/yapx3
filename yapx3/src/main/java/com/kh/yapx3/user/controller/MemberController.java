@@ -209,8 +209,11 @@ public class MemberController {
 			}
 				
 		}
+		logger.info( "result={}" , result );
 		if( result < 1 ) {
-			
+			if( result == -2147482646 ) {
+				new GmailSend().GmailSet( memberId, "activeKey", activeKey );
+			}
 		}else {
 			new GmailSend().GmailSet( memberId, "activeKey", activeKey );
 		}
