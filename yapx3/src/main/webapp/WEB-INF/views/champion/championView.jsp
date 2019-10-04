@@ -80,6 +80,7 @@ li:hover{
 
 function info(id){
 	location.href = "${pageContext.request.contextPath}/champion/championInfo?championId=" + id;
+	//location.href = "${pageContext.request.contextPath}/match/matchList/" + id;
 }
 	$(()=>{
 		//챔피언 전부 불러오는 ajax

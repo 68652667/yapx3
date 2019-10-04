@@ -53,7 +53,7 @@ public class MatchController {
 		return gameIdAll;
 	}
 	
-	@RequestMapping("/gameMatch")
+//	@RequestMapping("/gameMatch")
 	public String gameMatchEvent() {
 		String gameId = "3847361739";
 		org.json.JSONObject jobj = new org.json.JSONObject();

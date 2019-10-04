@@ -13,9 +13,15 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .em3but {height: 3em;}
+#championPerkPage{
+	display:inline;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -46,17 +52,83 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   </div>
  </div>
 </div>
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:115px; min-height: 768px;">
 
-
-
-sssssssss
-
-
-
-
-
-
-
+	<c:forEach items="${championLaneList }" var="lane">
+		${lane.championLane }
+		${lane.championLaneCount }
+	</c:forEach>
+	<hr />
+	<c:forEach items="${championSpellList }" var="spell">
+		${spell.summonerSpell1id }
+		${spell.summonerSpell2id }
+		${spell.summonerSpellCountStr }
+		<hr />
+	</c:forEach>
+	<br />
+	
+	<table class="table table-bordered">
+		<thead>
+	      <tr>
+	      	<th><h2>룬</h2></th>
+	      </tr>
+	    </thead>
+		<c:forEach items="${championPerkList}" var="perk">
+		
+			<tr>
+				<td>
+					<div class="championPerkDiv">
+						<div class="championPerkPage">
+							<div class="perkPraimaryTitle">
+								perkPrimaryStyle: ${perk.perkPrimaryStyle }
+							</div>
+							<div class="perkRow">
+								<div class="rowPerk1_0">
+									perk0: ${perk.perk0 }
+								</div>
+							</div>
+							<div class="perkRow">
+								<div class="rowPerk1_1">
+									perk1: ${perk.perk1 }
+								</div>
+							</div>
+							<div class="perkRow">
+								<div class="rowPerk1_2">
+									perk2: ${perk.perk2 }
+								</div>
+							</div>
+							<div class="perkRow">
+								<div class="rowPerk1_3">
+									perk3: ${perk.perk3 }
+								</div>
+							</div>
+						</div>
+						<div class="championPerkPage">
+							<div class="perkSubTitle">
+								perkSubStyle: ${perk.perkSubStyle } <br /> 
+							</div>
+							<div class="perkRow">
+								<div class="rowPerk2_0">
+									perk4: ${perk.perk4 } <br />
+								</div>
+							</div>
+							<div class="perkRow">
+								<div class="rowPerk2_1">
+									perk5: ${perk.perk5 } <br />
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<%-- statPerk0: ${perk.statPerk0 } 
+			statPerk1: ${perk.statPerk1 } 
+			statPerk2: ${perk.statPerk2 }  --%>
+			<hr />
+		</c:forEach>
+	</table>
+	<br />
+</div>
 
 <footer class="w3-container w3-theme-d5">
   KH. YapYapYap

@@ -80,7 +80,7 @@ public class MatchDAO {
 //            	String sql = "select participant" + i +" from(select  rownum rnum, A.* from (select PARTICIPANT" + i + " from match where PARTICIPANT" + i + " like  '%championId:\""+ championId +"\"%' and PARTICIPANT" + i + " like '%spell1Id:\"4\"%' ) A ) A where rnum between 1 and 10";
 //            	String sql = "select participant" + i +" from match where PARTICIPANT" + i + " like  '%championId:\"" + championId + "\"%' and (PARTICIPANT" + i + " like '%spell1Id:\"4\"%' or PARTICIPANT" + i + " like '%spell2Id:\"4\"%')";
             	//모든 챔피언 픽률
-            	String sql = "select PARTICIPANT" + i +" from testmatch";
+            	String sql = "select PARTICIPANT" + i +" from testmatch where queueid=420";
 //            	String sql = "select PARTICIPANT1 from testmatch";
             	logger.info(sql);
             	stmt = con.createStatement();
@@ -156,17 +156,17 @@ public class MatchDAO {
            Class.forName(driver); // 드라이버 로딩
            con = DriverManager.getConnection(url, id, password); // DB 커넥션 맺기
 
-           String sql = "select PARTICIPANT10 from testmatch";
+           String sql = "select PARTICIPANT9 from testmatch where queueid=420";
            logger.info(sql);
            stmt = con.createStatement();
            rs = stmt.executeQuery(sql);
            
            while(rs.next()) {
-        	   participant1.add(rs.getString("participant10")); 
-        	   logger.info("participant10처리중...");           		
+        	   participant1.add(rs.getString("participant9")); 
+        	   logger.info("participant9처리중...");           		
            }
            
-           jobj1.accumulate("participant10", participant1);
+           jobj1.accumulate("participant9", participant1);
            jarr.add(jobj1);
        } catch (Exception e) {
            e.printStackTrace();

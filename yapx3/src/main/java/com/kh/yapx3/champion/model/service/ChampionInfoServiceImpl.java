@@ -29,6 +29,7 @@ import com.kh.yapx3.champion.model.dao.ChampionDAO;
 import com.kh.yapx3.champion.model.matchline.ChampionMatchLine;
 import com.kh.yapx3.champion.model.matchline.MatchVO;
 import com.kh.yapx3.champion.model.summoner.Summoner;
+import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 import com.kh.yapx3.champion.model.vo.MatchInfoVO;
 import com.kh.yapx3.match.model.vo.SortChampionVo;
 
@@ -256,9 +257,38 @@ public class ChampionInfoServiceImpl implements ChampionInfoService{
 	}
 
 	@Override
-	public List<Integer> championLine(int championId) {
-//		List<Integer> championLine = championDAO.championLine(championId);
-		return null;
+	public List<Map<String, String>> championLine(int championId) {
+		List<Map<String, String>> championLine = championDAO.championLineAll(championId);
+		List<Map<String, String>> lineList = new ArrayList<Map<String, String>>();
+		for(int i = 0; i < championLine.size(); i++) {
+			logger.info("mapList: " + championLine.get(i).get("LANE"));
+		}
+		for(int i = 0; i < championLine.size(); i++) {
+			if(lineList.size() == 2) {
+				logger.info("lineList Size = 2");
+				break;
+			}else {
+				if(championLine.get(i).get("LANE").toString().equals("NONE")) {
+					logger.info("LANE: NONE");
+				}else {
+					logger.info("LANE: anyone");
+					lineList.add(championLine.get(i));
+				}
+			}
+		}
+		return lineList;
+	}
+
+	@Override
+	public Map<Integer, String> summonerSkillList(int championId) {
+		Map<Integer, String> championLine = championDAO.summonerSkill(championId);
+		return championLine;
+	}
+
+//챔피언 룬 통계정보	
+	@Override
+	public List<ChampionInfoVO> championRune(int championId) {
+		return championDAO.championRune(championId);
 	}
 	
 }

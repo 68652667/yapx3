@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.kh.yapx3.champion.model.matchline.MatchVO;
 import com.kh.yapx3.champion.model.vo.Camp;
+import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 
 public interface ChampionInfoService {
 	
@@ -33,7 +34,11 @@ public interface ChampionInfoService {
 
 	public int championLineBottom(int championId);
 
-	public List<Integer> championLine(int championId);
+	public List<Map<String, String>> championLine(int championId);
+
+	public Map<Integer, String> summonerSkillList(int championId);
+
+	public List<ChampionInfoVO> championRune(int championId);
 	
 //	public List<ChampionMastery> chMastery();
 }

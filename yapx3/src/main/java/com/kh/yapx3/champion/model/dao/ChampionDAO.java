@@ -1,15 +1,21 @@
 package com.kh.yapx3.champion.model.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 
 @Repository
 public class ChampionDAO {
@@ -44,37 +50,45 @@ public class ChampionDAO {
 		return championLineBottom;
 	}
 
-//	public List<Integer> championLine(int championId) {
-//		List<Integer> championLine = new ArrayList<Integer>();
-//		Map<String, Integer> championMap = new HashMap<String, Integer>();
-//		for(int i = 0; i < 5; i ++) {
-//			switch (i) {
-//			case 0:
-//				championMap.put("TOP", championId);
-//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-//				break;
-//			case 1:
-//				championMap.put("BOTTOM", championId);
-//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-//				break;
-//			case 2:
-//				championMap.put("NONE", championId);
-//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-//				break;
-//			case 3:
-//				championMap.put("MIDDLE", championId);
-//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-//				break;
-//			case 4:
-//				championMap.put("JUNGLE", championId);
-//				championLine.add(sqlSession.selectOne("champion.championLine", championMap));
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//		return null;
-//	}
+	public List<Map<String, String>> championLineAll(int championId){
+		List<Map<String, String>> lineList = sqlSession.selectList("champion.championLineAll", championId);
+		return lineList;
+	}
+	public Map<Integer, String> summonerSkill(int championId){
+		List<Map<String, Integer>> summonerSkillId1List = sqlSession.selectList("champion.summonerSkillId1", championId);
+		List<Map<String, Integer>> summonerSkillId2List = sqlSession.selectList("champion.summonerSkillId2", championId);
+		//객체로 불러오기
+		List<ChampionInfoVO> spellList = sqlSession.selectList("champion.summonerSkillRank", championId);
+		int count = 0;
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		ChampionInfoVO summonerSpellVo;
+		for(int i = 0 ; i < spellList.size(); i++) {
+			summonerSpellVo = new ChampionInfoVO();
+			for(int j = 0; j < spellList.size(); j++) {
+				if((spellList.get(i).getSummonerSpell1id() == spellList.get(j).getSummonerSpell2id())&&
+				   (spellList.get(i).getSummonerSpell2id() == spellList.get(j).getSummonerSpell1id())) {
+						count = spellList.get(i).getCount() + spellList.get(j).getCount();
+						map.put(count, String.valueOf(spellList.get(i).getSummonerSpell2id())+","+String.valueOf(spellList.get(i).getSummonerSpell1id()) );
+				}
+			}
+		}
+		
+		
+		Map<String, Integer> summonerSkillSum = new HashMap<String, Integer>();
+		
+		//순서 정렬
+		logger.info("sortSummonerSkill: " + summonerSkillSum);
+		return map;
+	}
 
+	public List<ChampionInfoVO> championRune(int championId) {
+		List<ChampionInfoVO> championPerkList = sqlSession.selectList("champion.championPerk",championId);
+		List<ChampionInfoVO> sendChampionPerkList = new ArrayList<ChampionInfoVO>();
+		for(int i = 0; i<2; i++) {
+			sendChampionPerkList.add(championPerkList.get(i));
+		}
+		
+		return sendChampionPerkList;
+	}
 	
 }
