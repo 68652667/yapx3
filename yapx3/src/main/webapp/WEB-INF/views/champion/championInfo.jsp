@@ -19,8 +19,11 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .em3but {height: 3em;}
-#championPerkPage{
+.championPerkPage{
 	display:inline;
+}
+.championPerkPage img{
+	width: 35px;
 }
 </style>
 <body class="w3-theme-l5">
@@ -66,67 +69,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		<hr />
 	</c:forEach>
 	<br />
-	
-	<table class="table table-bordered">
-		<thead>
-	      <tr>
-	      	<th><h2>룬</h2></th>
-	      </tr>
-	    </thead>
-		<c:forEach items="${championPerkList}" var="perk">
 		
-			<tr>
-				<td>
-					<div class="championPerkDiv">
-						<div class="championPerkPage">
-							<div class="perkPraimaryTitle">
-								perkPrimaryStyle: ${perk.perkPrimaryStyle }
-							</div>
-							<div class="perkRow">
-								<div class="rowPerk1_0">
-									perk0: ${perk.perk0 }
-								</div>
-							</div>
-							<div class="perkRow">
-								<div class="rowPerk1_1">
-									perk1: ${perk.perk1 }
-								</div>
-							</div>
-							<div class="perkRow">
-								<div class="rowPerk1_2">
-									perk2: ${perk.perk2 }
-								</div>
-							</div>
-							<div class="perkRow">
-								<div class="rowPerk1_3">
-									perk3: ${perk.perk3 }
-								</div>
-							</div>
-						</div>
-						<div class="championPerkPage">
-							<div class="perkSubTitle">
-								perkSubStyle: ${perk.perkSubStyle } <br /> 
-							</div>
-							<div class="perkRow">
-								<div class="rowPerk2_0">
-									perk4: ${perk.perk4 } <br />
-								</div>
-							</div>
-							<div class="perkRow">
-								<div class="rowPerk2_1">
-									perk5: ${perk.perk5 } <br />
-								</div>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<%-- statPerk0: ${perk.statPerk0 } 
-			statPerk1: ${perk.statPerk1 } 
-			statPerk2: ${perk.statPerk2 }  --%>
-			<hr />
-		</c:forEach>
-	</table>
+	<jsp:include page ="/WEB-INF/views/common/ChampionInfoTable.jsp" >
+	
 	<br />
 </div>
 
