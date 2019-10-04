@@ -38,4 +38,9 @@ public class MessageDaoImpl implements MessageDao {
 		return sqlS.update( "message.updateMessage", msg );
 	}
 
+	@Override
+	public int insertMessage(Message msg) {
+		return sqlS.insert( "message.insertMessage", msg );
+	}
+
 }

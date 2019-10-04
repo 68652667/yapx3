@@ -18,7 +18,7 @@ public class Message {
 	private String sendUserEmail;
 	private String receiveUserEmail;
 	private String sendUserNickName;
-	private String receiveNickName;
+	private String receiveUserNickName;
 	private String messageTitle;
 	private String messageContent;
 	private Date messageDate;

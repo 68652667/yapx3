@@ -14,4 +14,6 @@ public interface MessageService {
 
 	int updateMessage(Message msg);
 
+	int insertMessage(Message msg);
+
 }

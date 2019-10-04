@@ -14,4 +14,6 @@ public interface MessageDao {
 
 	int updateMessage(Message msg);
 
+	int insertMessage(Message msg);
+
 }

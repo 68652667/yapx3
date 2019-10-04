@@ -52,4 +52,16 @@ public class MessageController {
 		List<Message> list = ms.selectMessage( memberId );
 		m.addAttribute( "list", list );
 	}
+	
+	@RequestMapping( "/sendMsg.do" )
+	public String sendMsg( Message msg, Model m ) {
+		
+		logger.info( "send msg = {}", msg);
+		int result = ms.insertMessage( msg );
+		
+		//2.view단처리
+		m.addAttribute( "msg", result>0?"쪽지 보내기 성공!":"쪽지 보내기 실패!" );
+		m.addAttribute( "loc", "/message/message?memberId=" + msg.getSendUserEmail() );
+		return "common/msg";
+	}
 }
