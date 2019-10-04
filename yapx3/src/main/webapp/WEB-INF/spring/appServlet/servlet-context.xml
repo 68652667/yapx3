@@ -39,17 +39,17 @@
                 <beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
 			</beans:list>
 		</beans:property>
-	</beans:bean>
+	</beans:bean> 
 	
 	<context:component-scan base-package="com.kh.yapx3" />
 	
-	<interceptors>
+	<!-- <interceptors>
 		<interceptor>
 			<mapping path="/**"/>
 			<beans:bean id="loggerInterceptor" 
 						class="com.kh.yapx3.common.interceptor.LoggerInterceptor"/>
 		</interceptor>
-	</interceptors>
+	</interceptors> -->
 	
 		<!-- sockjs관련 빈등록하기 -->
 	<websocket:handlers>

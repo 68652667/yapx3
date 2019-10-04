@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -52,7 +53,7 @@ img {
 
 <div class="w3-top" style="top: 3em;">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
+  <a href="${pageContext.request.contextPath}/champion/championView" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Stat">통계</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;">
@@ -320,4 +321,3 @@ function myBoardClick() {
 </script>
 
 </body>
-</html> 
