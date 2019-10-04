@@ -22,7 +22,7 @@
 	
 	<insert id="insertMessage" parameterType="message">
 		insert into message( MESSAGE_NO, SEND_USER_EMAIL, RECEIVE_USER_EMAIL, SEND_USER_NICKNAME, RECEIVE_USER_NICKNAME, MESSAGE_TITLE, MESSAGE_CONTENT, MESSAGE_DATE, MESSAGE_READ ) 
-		values( seq_message_no.nextval, #{sendUserEmail}, #{receiveUserEmail}, #{sendUserNickName}, #{receiveNickName}, #{messageTitle}, #{messageContent}, sysdate, 'N'  )
+		values( seq_message_no.nextval, #{sendUserEmail}, #{receiveUserEmail}, #{sendUserNickName}, #{receiveUserNickName}, #{messageTitle}, #{messageContent}, sysdate, 'N'  )
 		
 	</insert>
 	

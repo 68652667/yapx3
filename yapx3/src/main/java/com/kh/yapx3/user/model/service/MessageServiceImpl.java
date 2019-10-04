@@ -35,4 +35,9 @@ public class MessageServiceImpl implements MessageService {
 		return mDao.updateMessage( msg );
 	}
 
+	@Override
+	public int insertMessage(Message msg) {
+		return mDao.insertMessage( msg );
+	}
+
 }

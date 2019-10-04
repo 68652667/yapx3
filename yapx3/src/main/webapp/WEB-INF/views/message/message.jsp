@@ -31,9 +31,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	border-top: 1px solid #444444;
     border-collapse: collapse;
 }
+
 th, td {
   border-top: 1px solid #444444;
   border-bottom: 1px solid #444444;
+}
+
+.noneBorder {
+	border:none;
+	border-right:0px; 
+	border-top:0px; 
+	boder-left:0px; 
+	boder-bottom:0px;
 }
 
 </style>
@@ -56,7 +65,7 @@ th, td {
 		</tr>
 		<c:forEach items="${list }" var="msg" varStatus="vs">
 			<tr class="msgBtn" msgNo="${msg.messageNo }" >
-				<td><button class="w3-button w3-block w3-hover-light-grey" title="쪽지보내기">${msg.sendUserNickName }</button></td>
+				<td><button class="w3-button w3-block w3-hover-light-grey" id="sendNickName" >${msg.sendUserNickName }</button></td>
 				<td><button class="w3-button w3-block w3-hover-light-grey" title="내용보기">${msg.messageTitle }</button></td>
 				<td>${msg.messageDate }</td>
 			
@@ -65,12 +74,12 @@ th, td {
 	</table>
 </div>
 
-<!-- 로그인모달 : https://getbootstrap.com/docs/4.1/components/modal/#live-demo -->
-<div class="modal fade" id="msgModal"  data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- 모달 : https://getbootstrap.com/docs/4.1/components/modal/#live-demo -->
+<div class="modal fade" id="msgModal"  data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="receiveModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">받은 쪽지</h5>
+        <h5 class="modal-title" id="receiveModalLabel">받은 쪽지</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -94,17 +103,72 @@ th, td {
  	  </div>
  	  
  	  <div class="modal-footer">
-       	<button class="btn btn-primary">답장쓰기</button>
+       	<button class="btn btn-primary btnMsgModal">답장쓰기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="sendMsgModal"  data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="sendModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sendModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="modal-body">
+	    <form name="sendMsgForm" id="sendMsgForm" action="${pageContext.request.contextPath}/message/sendMsg.do" method="post" onsubmit="return validate();" >
+	     	<table class="table">
+	     		<tr>
+			        <td colspan='3'>
+			        	<label for="messageTitle2">제목 : </label>
+	     				<input type="text" id="messageTitle2" name="messageTitle" /> 
+			        </td>
+		        </tr>
+		        <tr>
+		        	<td colspan='3' >
+		        		<textarea id="messageContent2"  name="messageContent" cols="42" rows="15" style="resize:none;" ></textarea>
+		        	</td>
+		        </tr>
+		    </table>
+	    	<input type="hidden" name="receiveUserEmail" id="receiveUserEmail2" value="0"/>
+	    	<input type="hidden" name="receiveUserNickName" id="receiveUserNickName2" value="0"/>
+	    	<input type="hidden" name="sendUserEmail" id="sendUserEmail2" value="0"/>
+	    	<input type="hidden" name="sendUserNickName" id="sendUserNickName2" value="0"/>
+	    
+	    </form>
+ 	  </div>
+ 	  
+ 	  <div class="modal-footer">
+       	<button class="btn btn-primary sendMsgBtn">보내기</button>
       </div>
     </div>
   </div>
 </div>
 <script>
+function validate(){
+	if($( "#messageTitle2" ).val().trim().length<4){
+		alert("제목은 4글자 이상이어야 합니다.");
+		$( "#messageTitle2" ).focus();
+		return false;
+	}
+	if($( "#messageContent2" ).val().trim().length<4){
+		alert("내용은 4글자 이상이어야 합니다.");
+		$( "#messageContent2" ).focus();
+		return false;
+	}
+	return true;
+}
+
+$( "#closeBtn" ).on( "click", function() {
+	console.log( "close" );
+	self.close();
+});
+
 $(()=>{
-	$( "#closeBtn" ).on( "click", function() {
-		console.log( "close" );
-		self.close();
-	});
+	var saveMsgData;
 	
 	$( ".msgBtn" ).on( "click", function() {
 		var msgNo = $( this ).attr( "msgNo" );
@@ -115,11 +179,17 @@ $(()=>{
 				url : "${pageContext.request.contextPath}/message/getMsg.do",
 				data : { msgNo : msgNo },
 				success: data => {
+					saveMsgData = data;
 					console.log( data ); //json타입이 js object로 변환되어 전달됨.
 					$( "#userNickname" ).html( "To. " + data.sendUserNickName );
 					$( "#messageTitle" ).html( data.messageTitle );
 					$( "#messageDate" ).html( saveDate );
 					$( "#messageContent" ).val( data.messageContent );
+					$( "#receiveUserEmail2" ).val( data.sendUserEmail );
+					$( "#receiveUserNickName2" ).val( data.sendUserNickName );
+					$( "#sendUserEmail2" ).val( data.receiveUserEmail );
+					$( "#sendUserNickName2" ).val( data.receiveUserNickName );
+					$( "#sendModalLabel" ).text( data.sendUserNickName + "에게 쪽지쓰기" );
 					$( "#msgModal" ).modal("show");
 				},
 				error: ( jqxhr, textStatus, errorThrown ) => {
@@ -130,6 +200,15 @@ $(()=>{
 			
 		});
 		
+	});
+	
+	$( ".btnMsgModal" ).on( "click", function() {
+		$( "#sendMsgModal" ).modal( "show" );
+	});
+	
+
+	$( ".sendMsgBtn" ).on( "click", function() {
+		$( "#sendMsgForm" ).submit();
 	});
 });
 	
