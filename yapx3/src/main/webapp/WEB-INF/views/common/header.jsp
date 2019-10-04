@@ -41,7 +41,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <a href="${pageContext.request.contextPath}/free/freeList.do" class="w3-bar-item w3-button">자유게시판</a>
       <a href="${pageContext.request.contextPath}/tip/tipList.do" class="w3-bar-item w3-button">팁게시판</a>
       <a href="#" class="w3-bar-item w3-button">공략게시판</a>
-      <a href="#" class="w3-bar-item w3-button">소환사 구인구직</a>
+      <a href="${pageContext.request.contextPath}/board/viewRoom.do" class="w3-bar-item w3-button">소환사 구인구직</a>
     </div>
   </div>
  </div>
@@ -53,7 +53,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but">YapX3</a>
+  <a href="${pageContext.request.contextPath}" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but">YapX3</a>
   <c:if test="${memberLoggedIn!=null}">
 	<a href="${pageContext.request.contextPath}/user/logoutClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
 	 	 로그아웃

@@ -16,6 +16,8 @@
 
   	<typeAlias type="com.kh.yapx3.user.model.vo.Member" 
   			   alias="user"/>
+    <typeAlias type="com.kh.yapx3.board.summonerJobs.model.vo.summonerJobsChatRoom" 
+ 			   alias="summonerjobschatroom"/>
 	<typeAlias type="com.kh.yapx3.user.model.vo.Message" 
   			   alias="message"/>
   	<typeAlias type="com.kh.yapx3.stat.model.vo.MatchString"
