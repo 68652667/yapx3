@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="free">
+	<select id="selectFreeList" resultType="FreeWithFileCount">
+		select A.*,
+		       (select count(*) 
+		        from f_b_attach 
+		        where free_board_no = A.free_board_no) filecount
+		from f_b A
+		order by free_board_no desc
+	</select>
+	
+	<select id="selectCommentList" resultType="FreeComment">
+		select lpad(' ',(level-1)*5,' ')||COMMENT_CONTENT B, A.* from f_b_c A where FREE_BOARD_NO = #{freeBoardNo} start with COMMENT_LEVEL = 1 connect by prior COMMENT_NO = COMMENT_REF order siblings by COMMENT_NO asc
+	</select>
+	
+	<insert id="insertBoard" parameterType="Free">
+		insert into f_b(FREE_BOARD_NO, USER_EMAIL, FREE_BOARD_TITLE, USER_NICKNAME, FREE_BOARD_CONTENT, FREE_YL)
+		values(seq_free.nextval, #{userEmail}, #{freeBoardTitle}, #{userNickName}, #{freeBoardContent}, #{YL})
+		<selectKey keyProperty="freeBoardNo" resultType="_int" order="AFTER">
+			select seq_free.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAttachment">
+		insert into f_b_attach(ATTACHMENT_NO, FREE_BOARD_NO, ORIGINALFILENAME, RENAMEDFILENAME)
+		values(seq_free_a.nextval, #{boardNo}, #{originalFileName}, #{renamedFileName})
+	</insert>
+	
+	<select id="selectFreeOne" resultMap="FreeCollectionMap">
+		select a.*, b.* 
+		from f_b a left join f_b_attach b on a.free_board_no = b.free_board_no
+		where a.free_board_no = #{freeBoardNo}
+	</select>
+	<resultMap type="FreeVO" id="FreeCollectionMap">
+		<id column="FREE_BOARD_NO" property="freeBoardNo"/>
+		<result column="USER_EMAIL" property="userEmail"/>
+		<result column="FREE_BOARD_TITLE" property="freeBoardTitle"/>
+		<result column="USER_NICKNAME" property="userNickName"/>
+		<result column="FREE_BOARD_CONTENT" property="freeBoardContent"/>
+		<result column="FREE_BOARD_DATE" property="freeBoardDate"/>
+		<result column="FREE_BOARD_VIEWS" property="freeBoardViews"/>
+		<result column="FREE_BOARD_LIKE" property="freeBoardLike"/>
+		<result column="FREE_BOARD_LIKELIST" property="freeBoardLikeList"/>
+		<result column="FREE_YL" property="YL"/>
+		<collection property="attachList" ofType="FreeAttachment">
+			<id column="ATTACHMENT_NO" property="AttachmentNo"></id>
+			<result column="FREE_BOARD_NO" property="boardNo"></result>
+			<result column="ORIGINALFILENAME" property="originalFileName"></result>
+			<result column="RENAMEDFILENAME" property="renamedFileName"></result>
+			<result column="UPLOADDATE" property="uploadDate"></result>
+		</collection>
+	</resultMap>
+	
+	<insert id="freeCommentUp">
+		insert into f_b_c 
+		values(seq_free_c.nextval, #{freeBoardNo}, #{userEmail}, #{userNickname}, #{commentContent}, default, #{commentLevel}, #{commentRef})
+	</insert>
+	
+	<delete id="freeCommentDel">
+		delete from f_b_c where COMMENT_NO = #{commentNo}
+	</delete>
+</mapper>

@@ -3,5 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="stat">
+	<select id="selectChampStat" resultType="ChampStat">
+		select * from stat order by win/pick desc
+	</select>
+	
+	<select id="selectChampPick" resultType="ChampStat">
+		select * from stat order by pick desc
+	</select>
+	
+	<select id="selectChampBan" resultType="ChampStat">
+		select * from stat order by ban desc
+	</select>
+	
+	<select id="selectChampStatB" resultType="ChampStat">
+		select * from stat order by win/pick asc
+	</select>
+	
+	<select id="selectChampPickB" resultType="ChampStat">
+		select * from stat order by pick asc
+	</select>
+	
+	<select id="selectChampBanB" resultType="ChampStat">
+		select * from stat order by ban asc
+	</select>
 
 </mapper>
