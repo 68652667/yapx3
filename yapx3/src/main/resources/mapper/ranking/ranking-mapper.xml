@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ranking">
+	<!-- 랭커목록 -->
+	<select id="champmaster" parameterType="String" resultType="Map">
+		select * from (select rownum rank, A.* from(select summoner_name, ${value} play
+		from champmaster
+		order by 2 desc) A ) A where rank between 1 and 10
+	</select>
+	<!-- <insert id="champMaster" parameterType="java.util.List">
+		insert all
+		<foreach collection="list" item="item" index="index">
+		into champmaster(summoner_name)
+		values
+		(
+			#{item}
+		)
+		</foreach>
+		select * from dual
+	</insert> -->
+</mapper>

@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -16,6 +15,7 @@ import javax.swing.JOptionPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class GmailSend {
 	Logger logger = LoggerFactory.getLogger( getClass() );
@@ -31,7 +31,7 @@ public class GmailSend {
         p.put("mail.smtp.auth","true");
         // gmail 포트
             
-        Authenticator auth = new MyAuthentication();    //구글 계정 인증
+        MyAuthentication auth = new MyAuthentication();    //구글 계정 인증
           
         //session 생성 및  MimeMessage생성
         Session session = Session.getDefaultInstance(p, auth);
