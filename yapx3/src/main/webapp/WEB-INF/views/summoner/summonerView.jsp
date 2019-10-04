@@ -4,6 +4,7 @@
 <%@page import="java.net.URL"%>
 <%@page import="java.net.HttpURLConnection"%>
 <%@page import="com.kh.yapx3.search.model.vo.*"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <%
 
@@ -13,14 +14,14 @@
 	
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/jquery.ajax-cross-origin.min.js"></script>
+
+
 <style>
 
 	ul{
+	list-style: none;
+	}
+	ol{
 	list-style: none;
 	}
 	
@@ -158,7 +159,36 @@ overflow: hidden;
 /* 상세정보 - 스킬빌드 */
 
 .SKBQ td, .SKBW td, .SKBE td, .SKBR td{
-	width: 20px;
+	width: 35px;
+	border: 1px solid white;
+	text-align: center;
+	
+}
+
+/* 상세정보 - 아이템빌드 */
+.title{
+
+	padding: 7px 14px 9px;
+    background: #fff;
+    border-bottom: 1px solid #cdd2d2;
+	font-size: 12px;
+    line-height: 16px;
+    color: #333;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.myItemBuild{
+	padding-top: 8px;
+}
+
+.ItemTime{
+	margin-left: 60px;
+}
+
+.ItemList{
+	margin-top: 8px;
+	margin-bottom: 8px;
 }
 
 
@@ -203,12 +233,8 @@ margin: 0 8px;
 	#summonerRank img {width:35px; height: 30px;}
 	
 /* 	#summonerStatus img{width: } */
-	</style>
-<meta charset="UTF-8">
-<title>소환사 상세보기</title>
-</head>
-<body>
-
+</style>
+	
 <input type="hidden" name="summonerName" id="summonerName" value="<%=summonerName%>"/>
 <input type="hidden" name="summonerId" id="summonerId" value="<%=summonerId%>"/>
 	
@@ -569,7 +595,7 @@ margin: 0 8px;
 						html += "<tr>";
 						}
 						else{
-						html +="<tr style='background-color: white; border-color:white;'>";	
+						html +="<tr style='background-color: white; border-color: white;'>";	
 						}
 						html += "<td>"+data[i].participants<%=i%>.champLevel+"<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></td>";
 						html += "<td><table style='border: none;'><tr>";
@@ -628,7 +654,6 @@ margin: 0 8px;
 						html += "</tr>";
 						<%} %>
 						html += "</table></td></tr></div>";
-						html += "<span>------------------------------------------------------------------------------------</span>";
 						/*더보기2팀*/
 						html += "<div class='GameDetailResult_"+data[i].participants6.win+"'>";
 						html += "<tr class='more'><td colspan='8'><table>";
@@ -702,20 +727,29 @@ margin: 0 8px;
 						html += "<div class='myBuild'>"
 						
 						//내 아이템빌드 
-						html += "<div class='myItemBuild' style='display: flex;'><ul>";
-			 			
+						html += "<div class='myItemBuild' style='display: inline;'>";
+			 			html += "<div class='title'>아이템 빌드</div>";
+						html +="<ul class='ItemList' style=''>";
 			 			
 			 			//내 아이템빌드 - 이미지삽입
 			 			
 			 			for(var zz1 = 0; zz1<itemRe.length; zz1++){
+			 					 html +="<li class='Item' style='display: inline-block;'>";
+			 					 html +="<div class='ItemBar' style=''></div>";
+			 					 html +="<ol class='Items' style='display: flex;'>";
 			 				for(var yy1 = 0; yy1<itemRe[zz1].length; yy1++){
-			 					 html +="<li><img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+itemRe[zz1][yy1]+".png'/>";
-			 					if(zz1!=0 && yy1%3==0){
-// 			 						var times = ((Number(timeRe[zz1][yy1])+Number(timeRe[zz1][yy1+1])+Number(timeRe[zz1][yy1+2]))/timeRe[zz1].length).toFixed(0);
- 			 						var times = (Number(timeRe[zz1][yy1]).toFixed(0));
-			 						html +="<span>"+times+"분</span></li>";
-			 					}
+			 					 html +="<li><img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+itemRe[zz1][yy1]+".png'/></li>";
+			 					
 			 						
+			 				}
+			 				html +="</ol>";
+			 				
+			 				for(var yy1 = 0; yy1<itemRe[zz1].length; yy1++){
+			 				if(zz1!=0 && yy1%3==0){
+//			 						var times = ((Number(timeRe[zz1][yy1])+Number(timeRe[zz1][yy1+1])+Number(timeRe[zz1][yy1+2]))/timeRe[zz1].length).toFixed(0);
+			 						var times = (Number(timeRe[zz1][yy1]).toFixed(0));
+		 						html +="<div class='ItemTime' style='position: absolute;'>"+times+"분</div>";
+		 					}
 			 				}
 			 			}
 						
@@ -724,6 +758,7 @@ margin: 0 8px;
 						
 						//mySkillBuild
 						html +="<div class='mySkillBuild'>";
+						html += "<div class='title'>스킬 빌드</div>";
 						html +="<table id='mySkillBuildTable'>";
 						html +="<tbody id='SKBContainer'>";
 						html +="<tr class=SKBQ>";
@@ -829,6 +864,7 @@ margin: 0 8px;
 						
 //myRuneBuild
 						html += "<div class='myRuneBuild'>";
+						html += "<div class='title'>룬 빌드</div>";
 						html += "<div class='perk-wrap' stlye='display:flex;'>";
 						html +="<div class='perk-page'>";
 						
@@ -915,7 +951,7 @@ margin: 0 8px;
 			 					html += "?image=e_grayscale&v=1'></div>";
 			 				}
 			 				
-			 				html += "<div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perk/9111.png";
+			 				html += "<div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perk/9105.png";
 			 				if(me.perk2 == 9105){
 			 					html +=	"'></div>";
 			 				}
@@ -1574,7 +1610,7 @@ margin: 0 8px;
 			 					html += "?image=e_grayscale&v=1'></div>";
 			 				}
 			 				
-			 				html += "<div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perk/9111.png";
+			 				html += "<div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perk/9105.png";
 			 				if(me.perk4 == 9105|| me.perk5 == 9105){
 			 					html +=	"'></div>";
 			 				}
@@ -2264,9 +2300,9 @@ margin: 0 8px;
 				$("#top3 li:eq(1) div div#top3Image").append(Top2[0]);
 				$("#top3 li:eq(2) div div#top3Image").append(Top3[0]);
 				
-				$("#top3 li:eq(0) div div#top3WonLose").append("<b style='color: red;'>"+(Top1[2]/Top1[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top1[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top1[3]+"패)</span>"+"<span>"+Top1[4]+"평점</span>");
-				$("#top3 li:eq(1) div div#top3WonLose").append("<b style='color: red;'>"+(Top2[2]/Top2[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top2[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top2[3]+"패)</span>"+"<span>"+Top2[4]+"평점</span>");
-				$("#top3 li:eq(2) div div#top3WonLose").append("<b style='color: red;'>"+(Top3[2]/Top3[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top3[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top3[3]+"패)</span>"+"<span>"+Top3[4]+"평점</span>");
+				$("#top3 li:eq(0) div div#top3WonLose").append("<b style='color: red;'>"+(Top1[2]/Top1[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top1[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top1[3]+"패)</span>"+"<span>"+(Top1[4].toFixed(1))+"평점</span>");
+				$("#top3 li:eq(1) div div#top3WonLose").append("<b style='color: red;'>"+(Top2[2]/Top2[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top2[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top2[3]+"패)</span>"+"<span>"+(Top2[4].toFixed(1))+"평점</span>");
+				$("#top3 li:eq(2) div div#top3WonLose").append("<b style='color: red;'>"+(Top3[2]/Top3[1])*100+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top3[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top3[3]+"패)</span>"+"<span>"+(Top3[4].toFixed(1))+"평점</span>");
 				
 										
 				},
@@ -2346,7 +2382,7 @@ margin: 0 8px;
 	});
 	</script>
 	
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	
 
-</body>
-</html>
+
