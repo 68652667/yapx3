@@ -156,14 +156,7 @@ overflow: hidden;
 
 }
 
-/* 상세정보 - 스킬빌드 */
 
-.SKBQ td, .SKBW td, .SKBE td, .SKBR td{
-	width: 35px;
-	border: 1px solid white;
-	text-align: center;
-	
-}
 
 /* 상세정보 - 아이템빌드 */
 .title{
@@ -187,16 +180,76 @@ overflow: hidden;
 }
 
 .ItemList{
-	margin-top: 8px;
-	margin-bottom: 8px;
+	margin-left: 30%;
 }
 
 
-/* 룬 - 맨 오른쪽 룬 마진값 */
+/* 상세정보 - 스킬빌드 */
+
+#mySkillBuildTable{
+	margin: 0 auto;
+}
+
+.SKBQ td, .SKBW td, .SKBE td, .SKBR td{
+	width: 35px;
+	border: 1px solid white;
+	text-align: center;
+	
+}
+
+
+
+
+/* - 룬페이지 - */
+.perk-wrap{
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+	text-align: center;
+    align-items: flex-end;
+}
+
+/* 룬 - 첫번째룬 (프라이머리) */
+.perk-page{
+	display: inline-block;
+	
+}
+
+#perk-page_row_mark img{
+	margin-top: 10px; 
+	margin-bottom: 10px;
+	margin-left: 70%;
+}
+
+#perk-page_row{
+	margin-top: 10px; 
+	margin-bottom: 10px;
+}
+
+
+
+/* 룬 - 가운데 룬 (서브) */
+
+.perk-page2{
+	display: inline-block;
+	margin-left: 200px;
+	margin-right: 200px;
+}
+
+/* 룬 - 맨 오른쪽 룬(스탯)  */
+.fragment-page{
+	display: flex;
+}
+.fragment-row1, .fragment-row2, .fragment-row3{
+	display: flex;
+}
 
 #fragment1, #fragment2, #fragment3{
 	margin-left: 10px;
+	display: flex;
+	
 }
+
 
 
 
@@ -865,7 +918,7 @@ margin: 0 8px;
 //myRuneBuild
 						html += "<div class='myRuneBuild'>";
 						html += "<div class='title'>룬 빌드</div>";
-						html += "<div class='perk-wrap' stlye='display:flex;'>";
+						html += "<div class='perk-wrap'>";
 						html +="<div class='perk-page'>";
 						
 						
@@ -879,7 +932,7 @@ margin: 0 8px;
 			 			//정밀 - 8000
 			 			if(me.perkPrimaryStyle == 8000){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8000.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8000.png'></div></div>";
 			 				//1줄
 			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perk/8005.png";
 			 				if(me.perk0 == 8005){
@@ -1006,7 +1059,7 @@ margin: 0 8px;
 			 			//지배 - 8100
 			 			if(me.perkPrimaryStyle == 8100){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8100.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8100.png'></div></div>";
 			 				//1줄
 			 				
 			 				PrimaryNum1 = 8112; 
@@ -1161,7 +1214,7 @@ margin: 0 8px;
 			 			//마법 - 8200
 			 			if(me.perkPrimaryStyle == 8200){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8200.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8200.png'></div></div>";
 			 				// 1줄
 			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perk/8214.png";
 			 				if(me.perk0 == 8214){
@@ -1277,7 +1330,7 @@ margin: 0 8px;
 			 			//8300 영감
 			 			if(me.perkPrimaryStyle == 8300){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8300.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8300.png'></div></div>";
 			 				//1줄
 			 				
 			 				PrimaryNum1 = 8351; 
@@ -1413,7 +1466,7 @@ margin: 0 8px;
 			 			// 8400 결의
 			 			if(me.perkPrimaryStyle == 8400){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8400.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8400.png'></div></div>";
 			 				//1줄
 			 				
 			 				PrimaryNum1 = 8437; 
@@ -1571,7 +1624,7 @@ margin: 0 8px;
 // 			 				var Line8000_2 = [9104,9105,9103];
 // 			 				var Line8000_3 = [8014,8017,8299];
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8000.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8000.png'></div></div>";
 			 				
 			 				//2줄
 			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perk/9101.png";
@@ -1665,7 +1718,7 @@ margin: 0 8px;
 			 			//지배 - 8100
 			 			if(me.perkSubStyle == 8100){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8000.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8000.png'></div></div>";
 			 				
 			 				
 			 				//2줄
@@ -1781,7 +1834,7 @@ margin: 0 8px;
 			 			//마법 - 8200
 			 			if(me.perkSubStyle == 8200){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8200.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8200.png'></div></div>";
 			 				
 			 				//2줄
 			 				
@@ -1873,7 +1926,7 @@ margin: 0 8px;
 			 			//8300 영감
 			 			if(me.perkSubStyle == 8300){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8300.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8300.png'></div></div>";
 			 				
 			 				//2줄
 			 				PrimaryNum1 = 8306; 
@@ -1977,7 +2030,7 @@ margin: 0 8px;
 			 			// 8400 결의
 			 			if(me.perkSubStyle == 8400){
 			 				
-			 				html += "<div id='perk-page_row' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8400.png'></div></div>";
+			 				html += "<div id='perk-page_row_mark' style='display: table;'><div style='display: table-cell'><img src='//opgg-static.akamaized.net/images/lol/perkStyle/8400.png'></div></div>";
 			 				
 			 				//2줄
 			 				PrimaryNum1 = 8446; 
@@ -2099,7 +2152,7 @@ margin: 0 8px;
 			 			html +="<div class='page-divider'></div>";
 						html +="<div class='fragment-page'>";
 						
-						html +="<div class='fragment-detail' style='display:flex;'>";
+						html +="<div class='fragment-detail'>";
 						
 						html +="<div class='fragment-row1'>";
 			 			html +="<div id='fragment1'><img src='//opgg-static.akamaized.net/images/lol/perkShard/5008.png"+(me.statPerk0 == 5008?"'>":"?image=e_grayscale&v=1'>")+"</div>";
