@@ -61,7 +61,7 @@ img {
       <a href="${pageContext.request.contextPath}/stat/statTear.do" class="w3-bar-item w3-button">티어별 통계</a>
     </div>
   </div>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="Messages">랭킹</a>
+  <a href="${pageContext.request.contextPath}/ranking/ladder.do?page=1" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="Messages">랭킹</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications">커뮤니티</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;;">
