@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="champion">
+	<insert id="champInsert" parameterType="java.util.Map">
+		<foreach collection="map" item="item" separator=" , ">
+		insert into (champion_no, champion_name) values (#{item.championKey}, #{item.championName})
+		</foreach>
+	</insert>
+	<select id="championCount" resultType="java.lang.Integer">
+		select count(*) from participantall where championid = #{id}
+	</select>
+	<select id="championWin" resultType="java.lang.Integer">
+		select count(*) from participantall where championid = #{id} and win = 'true'
+	</select>
+	<select id="championLineAll" parameterType="Integer" resultType="Map">
+		SELECT T1.lane, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.lane order by count(*) desc
+	</select>
+	<select id="summonerSkillRank" parameterType="Integer" resultMap="summonerSpell">
+		SELECT T1.spell1id, T1.spell2id, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.spell1id, T1.spell2id order by count(*) desc
+	</select>
+	<select id="summonerSkillId1" parameterType="Integer" resultType="Map">
+		SELECT T1.spell1id, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.spell1id order by count(*) desc
+	</select>
+	<select id="summonerSkillId2" parameterType="Integer" resultType="Map">
+		SELECT COUNT(*), T1.spell2id FROM participantall T1 where championid=${value} GROUP BY T1.spell2id order by count(*) desc
+	</select>
+	<select id="championPerk" parameterType="Integer" resultMap="championPerk">
+		SELECT T1.perk0, t1.perk1,t1.perk2, t1.perk3, t1.perk4, t1.perk5, t1.perkprimarystyle, t1.perksubstyle, t1.statperk0, t1.statperk1, t1.statperk2,  COUNT(*) FROM 
+		participantall T1 where championid=${value} 
+		GROUP BY T1.perk0, t1.perk1,t1.perk2, t1.perk3, t1.perk4, t1.perk5,t1.perkprimarystyle, t1.perksubstyle, t1.statperk0, t1.statperk1, t1.statperk2  
+		order by count(*) desc
+	</select>
+	
+	<resultMap type="Info" id="summonerSpell">
+		<result column="spell1id" property="summonerSpell1id"/>
+		<result column="spell2id" property="summonerSpell2id"/>
+		<result column="COUNT(*)" property="count"/>
+	</resultMap>
+	
+	<resultMap type="Info" id="championPerk">
+		<result column="perk0" property="perk0"/>
+		<result column="perk1" property="perk1"/>
+		<result column="perk2" property="perk2"/>
+		<result column="perk3" property="perk3"/>
+		<result column="perk4" property="perk4"/>
+		<result column="perk5" property="perk5"/>
+		<result column="perkprimarystyle" property="perkPrimaryStyle"/>
+		<result column="perksubstyle" property="perkSubStyle"/>
+		<result column="statperk0" property="statPerk0"/>
+		<result column="statperk1" property="statPerk1"/>
+		<result column="statperk2" property="statPerk2"/>
+		<result column="COUNT(*)" property="count"/>
+	</resultMap>
+</mapper>

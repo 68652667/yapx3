@@ -52,7 +52,7 @@ public class Participant {
 	private String statPerk0;
 	private String statPerk1;
 	private String statPerk2;
-	private String lane;
+	private String accountId;
 	private String summonerName;
 	private String timestamp;
 	private String type;
@@ -70,8 +70,9 @@ public class Participant {
 			String perk1Var2, String perk1Var3, String perk2, String perk2Var1, String perk2Var2, String perk2Var3,
 			String perk3, String perk3Var1, String perk3Var2, String perk3Var3, String perk4, String perk4Var1,
 			String perk4Var2, String perk4Var3, String perk5, String perk5Var1, String perk5Var2, String perk5Var3,
-			String perkPrimaryStyle, String perkSubStyle, String statPerk0, String statPerk1, String statPerk2, String lane,
-			String summonerName, String timestamp, String type, String afterId, String levelUpType, String skillSlot) {
+			String perkPrimaryStyle, String perkSubStyle, String statPerk0, String statPerk1, String statPerk2,
+			String accountId, String summonerName, String timestamp, String type, String afterId, String levelUpType,
+			String skillSlot) {
 		super();
 		this.participantId = participantId;
 		this.teamId = teamId;
@@ -123,7 +124,7 @@ public class Participant {
 		this.statPerk0 = statPerk0;
 		this.statPerk1 = statPerk1;
 		this.statPerk2 = statPerk2;
-		this.lane = lane;
+		this.accountId = accountId;
 		this.summonerName = summonerName;
 		this.timestamp = timestamp;
 		this.type = type;
@@ -532,6 +533,14 @@ public class Participant {
 		this.statPerk2 = statPerk2;
 	}
 
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+
 	public String getSummonerName() {
 		return summonerName;
 	}
@@ -580,14 +589,6 @@ public class Participant {
 		this.skillSlot = skillSlot;
 	}
 
-	public String getLane() {
-		return lane;
-	}
-
-	public void setLane(String lane) {
-		this.lane = lane;
-	}
-
 	@Override
 	public String toString() {
 		return "{ participantId:\"" + participantId + "\", teamId:\"" + teamId + "\", championId:\"" + championId
@@ -606,7 +607,7 @@ public class Participant {
 				+ "\", perk4Var3:\"" + perk4Var3 + "\", perk5:\"" + perk5 + "\", perk5Var1:\"" + perk5Var1
 				+ "\", perk5Var2:\"" + perk5Var2 + "\", perk5Var3:\"" + perk5Var3 + "\", perkPrimaryStyle:\""
 				+ perkPrimaryStyle + "\", perkSubStyle:\"" + perkSubStyle + "\", statPerk0:\"" + statPerk0
-				+ "\", statPerk1:\"" + statPerk1 + "\", statPerk2:\"" + statPerk2 + "\", lane:\"" + lane
+				+ "\", statPerk1:\"" + statPerk1 + "\", statPerk2:\"" + statPerk2 + "\", accountId:\"" + accountId
 				+ "\", summonerName:\"" + summonerName + "\", timestamp:\"" + timestamp + "\", type:\"" + type
 				+ "\", afterId:\"" + afterId + "\", levelUpType:\"" + levelUpType + "\", skillSlot:\"" + skillSlot
 				+ "\"}";

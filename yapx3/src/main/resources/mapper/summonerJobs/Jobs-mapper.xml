@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="summonerjobschatroom">
+	<select id="viewRoom" resultType="summonerJobsChatRoom">
+		select * from p_b
+		where finish_yn = 'N'
+	</select>
+	
+	<insert id="createRoom" parameterType="summonerJobsChatRoom">
+		insert into P_B
+		values(seq_pb_no.nextval, 
+			   #{userEmail}, 
+			   seq_pb_rno.nextval, 
+			   #{partnerBoardTitle}, 
+			   #{userNickname}, 
+			   #{summonerNickname}, 
+			   #{summonerTier}, 
+			   #{partnerBoardMaxno},
+			   #{boardPersonnelNo},
+			   #{chatContent}, 
+			   #{expulisionList}, 
+			   'Y', 
+			   'N')
+	</insert>
+	
+	<select id="selectRobi">
+		select A.*, B*
+		from P_B A left join attachment B
+			on A.PARTNER_BOARD_NO = B.PARTNER_BOARD_NO
+		where A.PARTNER_BOARD_NO = #{PARTNER_BOARD_NO}
+	</select>
+	
+	<select id="visitRoom" resultType="summonerJobsChatRoom">
+		select *
+		from P_B
+		where room_id = #{roomId} 
+	</select>
+	
+	<select id="findUserEmail" resultType="summonerJobsChatRoom">
+		select *
+		from p_b
+		where user_Email = #{userEmail} and finish_Yn = 'N'
+	</select>
+	
+	<select id="selectRoom" resultType="summonerJobsChatRoom">
+        select room_id
+		from p_b
+		where PARTNER_BOARD_NO = #{boardNo}
+	</select>
+	
+	<select id="selectUserId" resultType="int">
+        select NVL(count(*), 0)
+		from p_b
+		where user_email = #{userEmail} and finish_Yn = 'N'
+	</select>
+	
+	<update id="boardPersonnelNo">
+		update p_b set board_personnel_no = board_personnel_no + 1
+		where room_id = #{roomId}
+	</update>
+	
+	<update id="updateRoom">
+		update p_b set chat_content = #{chatContent}
+		where room_id = #{roomId}
+	</update>
+	
+	<update id="outRoomboardPersonnelNo">
+		update p_b set board_personnel_no = board_personnel_no - 1
+		where room_id = #{roomId}
+	</update>
+	
+	<update id="deleteRoom" >
+		update p_b set finish_Yn = 'Y'
+		where room_id = #{roomId}
+	</update>
+	
+	<select id="checkBoardNo" resultType="int">
+		select board_personnel_no
+		from p_b
+		where room_id = #{roomId}
+	</select>
+	
+</mapper>

@@ -1,8 +1,12 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<%@page import="java.net.URL"%>
+<%@page import="java.net.HttpURLConnection"%>
 <!DOCTYPE html>
 <html>
 <title>YapYapYap</title>
@@ -23,9 +27,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript"
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link
+	href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css"
+	rel="stylesheet" type="text/css">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .em3but {height: 3em;}
+
+img {
+	width : 100;
+	height : 100;
+}
+
 </style>
 <body class="w3-theme-l5">
 
@@ -33,7 +53,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 <div class="w3-top" style="top: 3em;">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
+  <a href="${pageContext.request.contextPath}/champion/championView" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Stat">통계</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;">
@@ -48,7 +68,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <a href="${pageContext.request.contextPath}/free/freeList.do" class="w3-bar-item w3-button">자유게시판</a>
       <a href="${pageContext.request.contextPath}/tip/tipList.do" class="w3-bar-item w3-button">팁게시판</a>
       <a href="#" class="w3-bar-item w3-button">공략게시판</a>
-      <a href="#" class="w3-bar-item w3-button">소환사 구인구직</a>
+      <a href="${pageContext.request.contextPath}/board/viewRoom.do" class="w3-bar-item w3-button">소환사 구인구직</a>
     </div>
   </div>
  </div>
@@ -113,6 +133,46 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:115px; min-height: 768px;">    
    
+   <div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<h1>League Of Legends</h1>
+					<p>전적 검색</p>
+					<br>
+					<form role="form">
+						<div class="form-group">
+							<label class="control-label" for="exampleInputEmail1">소환사 이름</label> 
+							<input class="form-control" id="exampleInputEmail1"
+								   placeholder="소환사 이름을 입력하세요." 
+								   type="text" name="username"
+								   style="width : 500px; text-align : center; margin-left: 100px;">
+						</div>
+						<button type="button" class="btn btn-default">Search</button>
+						<table id="summonerStatus" style="text-align: center; margin-left: 100px;"></table>
+						<table id="summonerRank" style="text-align: center; margin-left: 100px; margin-top : 10px;"></table>
+					</form>
+					<br> <br>
+					<form role="form">
+						<button id="spectatorBoolean" style="display: none;">인게임정보</button>
+					</form>
+					<br /><br />
+					<form role="form">
+						<div class="form-group">
+							<label class="control-label" for="exampleInputEmail1">금주의 로테이션</label> 
+							<table id="championLote" style="text-align: center; margin-left: 100px; margin-top : 10px;">
+								
+							</table>
+						</div>
+					</form>
+						<form id="frm" name="frm">
+						<input type="hidden" name="summonerName" id="summonerView" />
+						<input type="hidden" name="summonerId" id="summonerId" />
+						</form>
+				</div>
+			</div>
+		</div>
+   
+   
 <!-- End Page Container -->
 </div>
 
@@ -163,5 +223,101 @@ function myBoardClick() {
 
 </script>
 
+<script>
+	$( () => {
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/summoner/champion",
+			type : "GET",
+			dataType : "json",
+			success : function( data ){
+				console.log( data );
+				var chamHmtml = "<img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/";
+				var chamHmtml2 = "'>";
+
+				for(var i = 0; i < data.length; i++){
+					var html = chamHmtml + data[i] + chamHmtml2;
+					if( i%5 == 4 ){	
+						html += "<br/>";
+					}
+					$("#championLote").append( html );
+				}
+			},
+			error : function( xhr, txtStatus, err ){
+				console.log( xhr, txtStatus, err );
+			}
+		});
+		
+		
+		
+		$(".btn").on("click", function(){
+			$("#summonerRank").html("");
+			$("#spectatorBoolean").attr("style","display: none;");
+			var summonerName = $(".form-control").val().replace(/ /g,"%20");
+			
+			console.log( summonerName );
+			var summonerId;
+			
+			$.ajax({
+ 				url : "${pageContext.request.contextPath}/summoner/search?summonerName=" + summonerName,
+				type : "GET",
+				async : false,
+				dataType : "json",
+				success : function( data ){
+					console.log( data );
+					var html = "<tr>" +
+							   "<td>" + "<img src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/profileicon/"+ data.profileIconId +".png'></td>" +
+							   "</tr>" +
+							   "<tr>" +
+							   "<td>" + "닉네임 : " + data.name + "</td>" +
+							   "</tr>" +
+							   "<tr>" +
+							   "<td>" + "레벨 : " + data.summonerLevel + "</td>" +
+							   "</tr>";
+					$("#summonerStatus").html(html);		
+					summonerId = data.id;
+					$("#summonerView").attr("value",data.name);
+					$("#summonerId").attr("value",data.id);
+				},
+				error : function( xhr, txtStatus, err ){
+					console.log( xhr, txtStatus, err );
+				},
+			});
+			
+			console.log( summonerId );
+			
+		
+		});
+		
+		
+		//소환사 프로필클릭시 상세보기로 이동
+		$("#summonerStatus").on('click',function(){
+			
+			var Name = $("#summonerView").val();
+			var summonerId2 = $("#summonerId").val();
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/summoner/summonerView?Name="+Name+"&summonerId="+summonerId2,
+				type : "GET",
+				dataType : "text",
+				data : {
+					"Name" : Name,
+					"summonerId" : summonerId2
+				},
+				success : function(data){
+					console.log(data);
+				location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name="+Name+"&summonerId="+summonerId2;
+				},
+				error : function( xhr, txtStatus, err ){
+					console.log( xhr, txtStatus, err );
+				}
+			});
+			
+		});
+		
+		
+	});
+	
+</script>
+
 </body>
-</html> 

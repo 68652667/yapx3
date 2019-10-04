@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -37,17 +39,36 @@
                 <beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
 			</beans:list>
 		</beans:property>
-	</beans:bean>
+	</beans:bean> 
 	
 	<context:component-scan base-package="com.kh.yapx3" />
 	
-	<interceptors>
+	<!-- <interceptors>
 		<interceptor>
 			<mapping path="/**"/>
 			<beans:bean id="loggerInterceptor" 
 						class="com.kh.yapx3.common.interceptor.LoggerInterceptor"/>
 		</interceptor>
-	</interceptors>
+	</interceptors> -->
+	
+		<!-- sockjs관련 빈등록하기 -->
+	<websocket:handlers>
+		<websocket:mapping handler="echoHandler" path="/robi.do"/>
+		<websocket:sockjs />
+	</websocket:handlers>
+	
+	<beans:bean id="echoHandler" class="com.kh.yapx3.board.summonerJobs.ws.EchoHandler" />
+
+	<!-- stomp관련 빈등록하기 -->
+	<websocket:message-broker application-destination-prefix="/spring">
+		<websocket:stomp-endpoint path="/stomp">
+			<websocket:handshake-interceptors>
+				<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+			</websocket:handshake-interceptors>
+			<websocket:sockjs session-cookie-needed="true"/>
+		</websocket:stomp-endpoint>
+		<websocket:simple-broker prefix="/hello, /chat"/>
+	</websocket:message-broker>
 	
 	<!-- #13.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->
 	<beans:bean id="multipartResolver" 
