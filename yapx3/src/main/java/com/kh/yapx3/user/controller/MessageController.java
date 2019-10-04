@@ -32,6 +32,11 @@ public class MessageController {
 		return count;
 	}
 	
+	/**
+	 * 
+	 * @param msgNo
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping( "/getMsg.do" )
 	public Message getMsg( @RequestParam int msgNo ) {

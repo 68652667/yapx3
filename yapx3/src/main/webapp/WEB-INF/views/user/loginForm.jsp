@@ -232,6 +232,8 @@ $(()=>{
 					alert( "인증키를 해당 이메일로 발송하였습니다." );
 				}else if( data == -10 ) {
 					alert( "회원가입된 이메일입니다." );
+				}else if( data == -2147482646 ) {
+					alert( "인증키를 해당 이메일로 발송하였습니다." );
 				}
 			},
 			error: ( jqxhr, textStatus, errorThrown ) => {
