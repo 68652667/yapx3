@@ -204,7 +204,7 @@ function openNav() {
 }
 
 function messageClick() {
-	var popup = "width=400,height=600,resizable=no,scrollbars=no,status=no";
+	var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
 	window.open( "${pageContext.request.contextPath}/message/message?memberId=${memberLoggedIn.userEmail}", "", popup ).focus();
 }
 

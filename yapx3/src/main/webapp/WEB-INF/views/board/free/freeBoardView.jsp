@@ -65,13 +65,21 @@ $(()=>{
 		
 	});
 	
+	$( "#btnSendMsg" ).on("click", function() {
+		var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
+		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=${free.userEmail}&sendNickName=${free.userNickName }", "", popup ).focus();
+	});
+	
 });
 </script>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">
 	글번호 : ${free.freeBoardNo } <br />
 	제목 : ${free.freeBoardTitle } <br />
-	글쓴이 : ${free.userNickName } 
+	글쓴이 : 
+	<div class="w3-button" id="btnSendMsg" title="쪽지보내기" >
+	${free.userNickName } 
+	</div>
 	<br />
 	<c:forEach items="${free.attachList}" var="a" varStatus="vs">
 		<img src="${pageContext.request.contextPath}/resources/upload/board/${a.renamedFileName}" alt="" style="width: 400px;"/>

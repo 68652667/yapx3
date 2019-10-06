@@ -96,7 +96,7 @@ th, td {
 	        </tr>
 	        <tr>
 	        	<td colspan='3' >
-	        		<textarea id="messageContent" cols="42" rows="15" disabled readonly style="resize:none;" ></textarea>
+	        		<textarea id="messageContent" cols="51" rows="15" disabled readonly style="resize:none;" ></textarea>
 	        	</td>
 	        </tr>
 	    </table>
@@ -129,7 +129,7 @@ th, td {
 		        </tr>
 		        <tr>
 		        	<td colspan='3' >
-		        		<textarea id="messageContent2"  name="messageContent" cols="42" rows="15" style="resize:none;" ></textarea>
+		        		<textarea id="messageContent2"  name="messageContent" cols="51" rows="15" style="resize:none;" ></textarea>
 		        	</td>
 		        </tr>
 		    </table>
@@ -168,7 +168,18 @@ $( "#closeBtn" ).on( "click", function() {
 });
 
 $(()=>{
-	var saveMsgData;
+	var sendEmail = "${sendEmail}";
+	var sendNickName = "${sendNickName}";
+
+	if( "" != sendEmail && "" != sendNickName ) {
+		$( "#receiveUserEmail2" ).val( sendEmail );
+		$( "#receiveUserNickName2" ).val( sendNickName );
+		$( "#sendUserEmail2" ).val( "${memberLoggedIn.userEmail}" );
+		$( "#sendUserNickName2" ).val( "${memberLoggedIn.userNickname}" );
+		$( "#sendModalLabel" ).text( sendNickName + "에게 쪽지쓰기" );
+		
+		$( "#sendMsgModal" ).modal("show");	
+	}
 	
 	$( ".msgBtn" ).on( "click", function() {
 		var msgNo = $( this ).attr( "msgNo" );
@@ -179,7 +190,6 @@ $(()=>{
 				url : "${pageContext.request.contextPath}/message/getMsg.do",
 				data : { msgNo : msgNo },
 				success: data => {
-					saveMsgData = data;
 					console.log( data ); //json타입이 js object로 변환되어 전달됨.
 					$( "#userNickname" ).html( "To. " + data.sendUserNickName );
 					$( "#messageTitle" ).html( data.messageTitle );
@@ -210,6 +220,8 @@ $(()=>{
 	$( ".sendMsgBtn" ).on( "click", function() {
 		$( "#sendMsgForm" ).submit();
 	});
+	
+
 });
 	
 </script>

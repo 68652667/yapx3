@@ -58,14 +58,36 @@ public class MessageController {
 		m.addAttribute( "list", list );
 	}
 	
+	@RequestMapping( "/messageSned" )
+	public String messagePopup( @RequestParam String memberId,
+			@RequestParam String sendEmail,
+			@RequestParam String sendNickName,
+			Model m ) {
+		
+		List<Message> list = ms.selectMessage( memberId );
+		m.addAttribute( "list", list );
+		m.addAttribute( "sendEmail", sendEmail );
+		m.addAttribute( "sendNickName", sendNickName );
+		
+		return "message/message";
+	}
+	
 	@RequestMapping( "/sendMsg.do" )
 	public String sendMsg( Message msg, Model m ) {
 		
 		logger.info( "send msg = {}", msg);
 		int result = ms.insertMessage( msg );
 		
+		logger.info( "설마 또!? 1 이 아니라 -21어찌고?? ={}", result );
+		
 		//2.view단처리
-		m.addAttribute( "msg", result>0?"쪽지 보내기 성공!":"쪽지 보내기 실패!" );
+		if( result == 1 ) {
+			m.addAttribute( "msg", "쪽지 보내기 성공!" );
+		}else if( result == -2147482646 ) {
+			m.addAttribute( "msg", "쪽지 보내기 성공!" );
+		}else {
+			m.addAttribute( "msg", "쪽지 보내기 실패!" );
+		}
 		m.addAttribute( "loc", "/message/message?memberId=" + msg.getSendUserEmail() );
 		return "common/msg";
 	}
