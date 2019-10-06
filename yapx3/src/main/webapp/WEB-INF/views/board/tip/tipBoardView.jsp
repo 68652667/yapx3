@@ -69,7 +69,10 @@ $(()=>{
 		var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
 		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=${tip.userEmail}&sendNickName=${tip.userNickName }", "", popup ).focus();
 	});
-	
+	$( ".btnSendMsg2" ).on("click", function() {
+		var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
+		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=" + $( this ).attr( "eId" ) + "&sendNickName=" + $( this ).attr( "nId" ), "", popup ).focus();
+	});
 });
 </script>
 <!-- Page Container -->
@@ -111,7 +114,12 @@ $(()=>{
 						<c:when test="${c.commentLevel == 1}">
 						<tr class="level1, list-group-item">
 							<td>
-								<sub class="comment-writer">${c.userNickname }</sub> 
+								<sub class="comment-writer">
+								<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
+								${c.userNickname }
+								</div>
+								</sub> 
+								
 								<sub class="comment-date">${c.date }</sub><br /><br />
 								${c.commentContent }
 							</td>
@@ -127,7 +135,11 @@ $(()=>{
 						<c:when test="${c.commentLevel == 2}">
 							<tr class="level2, list-group-item">
 							<td style="padding-left: 20px">
-								ㄴ<sub class="comment-writer">${c.userNickname }</sub> 
+								ㄴ<sub class="comment-writer">
+								<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
+								${c.userNickname }
+								</div>
+								</sub> 
 								<sub class="comment-date">${c.date }</sub><br /><br />
 								${c.commentContent }
 							</td>
