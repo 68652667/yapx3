@@ -53,7 +53,7 @@
 			</c:forEach>
 			<tr>
 				<td>
-					<button type="button" onclick="createRoom();" class="btn btn-outline-success">방만들기</button>
+					<button type="button" id="creatingRoom" onclick="createRoom();" class="btn btn-outline-success">방만들기</button>
 				</td>
 			</tr>
 		</table>
@@ -65,85 +65,93 @@
 </body >
 <script type="text/javascript">
 	$(() => {
-		$(".boardNo").on( "click", function(){
-			
-			var boardNo = $( this ).attr("id");
-			var bNo = $( this ).attr("bNo");
-			var bMax = $( this ).attr("bMax");
-			
-			console.log( boardNo );
-			console.log( bNo );
-			console.log( bMax );
-			
-			//아이디 체크 해야함
-			if( bNo >= bMax ){
-				alert("인원수가 초과되었습니다 !!");
-				return;
-			}
-			var summonerName = prompt("소환사 닉네임을 입력해주세요 !").replace(/ /g,"%20");
-			$("#summonerNameVal").val( summonerName );
-			
-			console.log( summonerName );
-			
-			var summonerId;
-			var msg;
-			var html;
-			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/summoner/search?summonerName="+summonerName,
-				type : "GET",
-				dataType : "json",
-				success : function( data ){
-					console.log( data );
-					summonerId = data.id;
-
-					console.log( "summonerName=" + summonerName );
-					if( summonerId != null ){
-						alert("존재하는 소환사 입니다.");
-						$.ajax({
-							url : "${pageContext.request.contextPath}/board/selectRobi.do",
-							data : { boardNo : boardNo, summonerName : summonerName },
-							type : "POST",
-							dataType : "json",
-							success : function( data ){
-								console.log( "data" );
-								console.log( data );
-								location.href = "${pageContext.request.contextPath}/board/robi.do?roomId=" + data.robiRoom + "&summonerName=" + data.summonerName;
-							},
-							error : function( err ){
-								return;
-							}
-						});
+		var memberLoggedIn = "${memberLoggedIn.userEmail}";
+		console.log( "${memberLoggedIn.userEmail}" );
+		$("#creatingRoom").on( "click", function(){
+			if( memberLoggedIn == "" ){
+				alert("로그인후 사용가능합니다 !")
+			}else{
+				$.ajax({
+					url : "${pageContext.request.contextPath}/board/createRoomCheck.do?userId=${memberLoggedIn.userEmail}",
+					type : "GET",
+					success : function( data ){
+						console.log( data );
+						if( data == 1 ){
+							alert("채팅방 중복 생성 불가");
+						}else{
+							location.href = "${pageContext.request.contextPath}/board/createRoom.do";
+						}
+					},
+					error : function( err ){
+						return;
 					}
-				},
-				error : function( err ){
-					alert( "존재하지 않는 소환사입니다." );
+				});	
+			}
+		});
+	$(".boardNo").on( "click", function(){
+		if( memberLoggedIn == "" ){
+			alert("로그인후 사용가능합니다 !")
+		}else{
+			$(".boardNo").on( "click", function(){
+				
+				var boardNo = $( this ).attr("id");
+				var bNo = $( this ).attr("bNo");
+				var bMax = $( this ).attr("bMax");
+				
+				console.log( boardNo );
+				console.log( bNo );
+				console.log( bMax );
+				
+				//아이디 체크 해야함
+				if( bNo >= bMax ){
+					alert("인원수가 초과되었습니다 !!");
 					return;
 				}
+				var summonerName = prompt("소환사 닉네임을 입력해주세요 !").replace(/ /g,"%20");
+				$("#summonerNameVal").val( summonerName );
+				
+				console.log( summonerName );
+				
+				var summonerId;
+				var msg;
+				var html;
+				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/summoner/search?summonerName="+summonerName,
+					type : "GET",
+					dataType : "json",
+					success : function( data ){
+						console.log( data );
+						summonerId = data.id;
+
+						console.log( "summonerName=" + summonerName );
+						if( summonerId != null ){
+							alert("존재하는 소환사 입니다.");
+							$.ajax({
+								url : "${pageContext.request.contextPath}/board/selectRobi.do",
+								data : { boardNo : boardNo, summonerName : summonerName },
+								type : "POST",
+								dataType : "json",
+								success : function( data ){
+									console.log( "data" );
+									console.log( data );
+									location.href = "${pageContext.request.contextPath}/board/robi.do?roomId=" + data.robiRoom + "&summonerName=" + data.summonerName;
+								},
+								error : function( err ){
+									return;
+								}
+							});
+						}
+					},
+					error : function( err ){
+						alert( "존재하지 않는 소환사입니다." );
+						return;
+					}
+				});
 			});
-		});
-	});
-	function createRoom(){
-		if( ${memberLoggerIn != null } ) {
-			return;
 		}
-		$.ajax({
-			url : "${pageContext.request.contextPath}/board/createRoomCheck.do?userId=${memberLoggedIn.userEmail}",
-			type : "GET",
-			success : function( data ){
-				console.log( data );
-				if( data == 1 ){
-					alert("채팅방 중복 생성 불가");
-				}else{
-					location.href = "${pageContext.request.contextPath}/board/createRoom.do";
-				}
-			},
-			error : function( err ){
-				return;
-			}
-		});
-		
-	}
+	});
+	});
 </script>   
 <!-- End Page Container -->
 

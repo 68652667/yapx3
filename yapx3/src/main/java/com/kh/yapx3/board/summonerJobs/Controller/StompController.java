@@ -68,6 +68,9 @@ public class StompController {
 	@RequestMapping("/createRoomEnd.do")
 	public String createRoomEnd( @ModelAttribute("chatRoom") summonerJobsChatRoom chatRoom,
 			Model model ) {
+		
+		logger.info( "createchatRoom={}", chatRoom );
+		
 		int result = stompService.createRoom( chatRoom );
 		
 		logger.info( "result={}", result );
@@ -196,6 +199,8 @@ public class StompController {
 		logger.info( "outRoomroomId={}", roomId );
 		
 		int result = stompService.deleteRoom( roomId );
+		
+		logger.info("result={}", result);
 		
 		return result;
 	}

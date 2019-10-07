@@ -93,7 +93,7 @@
 			<div><input type="hidden" name="expulisionList" value="...." /></div>
 			<div>
 				<button type="button" class="btn btn-outline-success" onclick="cancel();">취소</button>
-				<button type="submit" class="btn btn-outline-success">만들기</button>
+				<button type="submit" id="checkTier" class="btn btn-outline-success">만들기</button>
 			</div>
 	</form>
 	</div>
@@ -104,7 +104,11 @@
 </div>
 </body>
 <script type="text/javascript">
+
 	function complete(){
+		
+		$("input[class=tier]").prop("checked", false).attr( "type", "checkbox");
+		
 		var summonerName = $("#summonerName").val().replace(/ /g,"%20");
 		
 		console.log( summonerName );
@@ -144,55 +148,56 @@
 			dataType : "json",
 			success : function( data ){
 				console.log( data );
-				
-				for(var i in data){
-					console.log( $("input[value=IRON]") );
-
-					if( data[i].queueType == "RANKED_SOLO_5x5" && data[i].queueType != "RANKED_TFT" && data[i].queueType != "RANKED_FLEX_SR" ){
-						if( data[i].tier == "IRON"){
-							$("input[value=IRON]").prop("checked", true).attr( "type", "checkbox");
-							$("input[value=BRONZE]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "BRONZE"){
-							   $("input[value=IRON]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=BRONZE]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=SILVER]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "SILVER"){
-							   $("input[value=BRONZE]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=SILVER]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=GOLD]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "GOLD"){
-							   $("input[value=SILVER]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=GOLD]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=PLATINUM]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "PLATINUM"){
-							   $("input[value=GOLD]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=PLATINUM]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=DIAMOND]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "DIAMOND"){
-							   $("input[value=PLATINUM]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=DIAMOND]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=MASTER]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "MASTER"){
-							   $("input[value=DIAMOND]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=MASTER]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=GRANDMASTER]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "GRANDMASTER"){
-							   $("input[value=MASTER]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=GRANDMASTER]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=CHALLENGER]").prop("checked", true).attr( "type", "checkbox");
-						   }else if( data[i].tier == "CHALLENGER"){
-							   $("input[value=GRANDMASTER]").prop("checked", true).attr( "type", "checkbox");
-							   $("input[value=CHALLENGER]").prop("checked", true).attr( "type", "checkbox");
-						   }
+				if( data == "" ){
+					$("input[value=IRON]").prop("checked", true).attr( "type", "checkbox");
+				}else{	
+					for(var i in data){				
+						if( data[i].queueType == "RANKED_SOLO_5x5" && data[i].queueType != "RANKED_TFT" && data[i].queueType != "RANKED_FLEX_SR" ){
+							if( data[i].tier == "IRON"){
+								$("input[value=IRON]").prop("checked", true).attr( "type", "checkbox");
+								$("input[value=BRONZE]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "BRONZE"){
+								   $("input[value=IRON]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=BRONZE]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=SILVER]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "SILVER"){
+								   $("input[value=BRONZE]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=SILVER]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=GOLD]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "GOLD"){
+								   $("input[value=SILVER]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=GOLD]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=PLATINUM]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "PLATINUM"){
+								   $("input[value=GOLD]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=PLATINUM]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=DIAMOND]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "DIAMOND"){
+								   $("input[value=PLATINUM]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=DIAMOND]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=MASTER]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "MASTER"){
+								   $("input[value=DIAMOND]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=MASTER]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=GRANDMASTER]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "GRANDMASTER"){
+								   $("input[value=MASTER]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=GRANDMASTER]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=CHALLENGER]").prop("checked", true).attr( "type", "checkbox");
+							   }else if( data[i].tier == "CHALLENGER"){
+								   $("input[value=GRANDMASTER]").prop("checked", true).attr( "type", "checkbox");
+								   $("input[value=CHALLENGER]").prop("checked", true).attr( "type", "checkbox");
+							   }
+							}
 						}
-				}
+					}
 			},
 			error : function( err ){
 				console.log( "에러가 발생했다 고쳐라" );
 			}
 		});
 	}
-
+	
 	function cancel(){
 		location.href = "${pageContext.request.contextPath}/board/viewRoom.do";
 	}

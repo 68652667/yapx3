@@ -72,7 +72,7 @@
 	</update>
 	
 	<update id="deleteRoom" >
-		update p_b set finish_Yn = 'Y'
+		update p_b set finish_Yn = 'Y', user_email = 'null'
 		where room_id = #{roomId}
 	</update>
 	

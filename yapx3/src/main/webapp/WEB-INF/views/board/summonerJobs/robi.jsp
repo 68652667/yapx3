@@ -151,6 +151,7 @@ sock.onopen = function(){
 	console.log("방번호");
 	console.log($( '#roomId' ).val());
 	
+	
 	var roomNumber = $( '#roomId' ).val();
 	
 	if( createrName != currentuser_session ){
@@ -166,6 +167,9 @@ sock.onopen = function(){
 					$("#personNum").val( data + "/" +$("#partnerBoardMaxno").val() );
 					var printHTML = $("#insertSummoner").val( currentuser_session + "님이 입장했습니다.");
 					sock.send(currentuser_session+" : " + "님이 입장했습니다." + ":" + $("#roomId").val() );
+					if( sock.sessionId > 1 ){
+						$("#personNum").val() + 1;
+					}
 				}
 			},
 			error : function( err ){
@@ -311,7 +315,7 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 					if( data != 0 ){
 						console.log( $("#personNum") );
 						alert("채팅방을 나가셨습니다.");
-						$("#personNum").val( data + "/" +$("#partnerBoardMaxno").val() );
+						$("#personNum").val( data - 1 + "/" +$("#partnerBoardMaxno").val() );
 						location.href = "${pageContext.request.contextPath}/board/viewRoom.do";
 					}
 				},
@@ -322,6 +326,7 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 		//방장일경우
 		//방을 삭제
 		}else{
+			console.log("이쪽으로 오긴하냐 ?")
 			$.ajax({
 				url : "${pageContext.request.contextPath}/board/deleteRoom.do?roomId=" + $("#roomId").val(),
 				type : "GET",
@@ -340,6 +345,10 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 	});
 
 function onClose(event){
+	sock.send(currentuser_session+" : " + "님이 나가셨습니다." + ":" + $("#roomId").val() );
+	if( sock.sessionId > 1 ){
+		$("#personNum").val() - 1;
+	}
 	$("#data").append("연결 끊김");
 	sessionStorage.removeItem( currentuser_session );
 }
