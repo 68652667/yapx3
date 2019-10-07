@@ -60,10 +60,33 @@ table th, tr, td{
     font-weight: normal;
     vertical-align: middle;
 }
+.pill-nav a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  font-size: 2em;
+}
+
+.pill-nav a:hover {
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+.pill-nav a.active {
+  color: black;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
 </style>
 <div>
-	<a href="${pageContext.request.contextPath}/ranking/ladder.do?page=1">랭킹</a>
-	<a href="${pageContext.request.contextPath}/ranking/champions.do">챔피언</a>
+	<div class="MenuList">
+		<div class="pill-nav">
+		  <a href="${pageContext.request.contextPath}/ranking/ladder.do?page=1">랭킹</a>
+		  <a class="active" href="${pageContext.request.contextPath}/ranking/champions.do">챔피언</a>
+		</div>
+	</div>
 	<div class="pageDescription">
 		<span class="text">장인 랭킹의 정렬 기준은 riot제공 api기준 + 마스터 이상(10월 1일 기준) + 게임을 많이 한 순서로 제공합니다.</span>
 		<br />

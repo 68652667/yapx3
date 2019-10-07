@@ -17,7 +17,7 @@
 }
 table{
 	border: 1px solid;
-	margin-top: 20px;
+	margin-top: 15px;
 }
 table tr, th, td{
 	border-bottom: 1px solid;
@@ -42,9 +42,9 @@ table tr, th, td{
 }
 
 .pagination a.active {
-  background-color: #4CAF50;
+  background-color: #4d636f;
   color: white;
-  border: 1px solid #4CAF50;
+  border: 1px solid #4d636f;
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
@@ -127,6 +127,26 @@ table tr, th, td{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.pill-nav a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  font-size: 2em;
+}
+
+.pill-nav a:hover {
+  color: black;
+  border-bottom: 1px solid black;
+}
+
+.pill-nav a.active {
+  color: black;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
 </style>
 <script>
 $(()=>{
@@ -143,8 +163,10 @@ $(()=>{
 </script>
 <div class="Menu">
 	<div class="MenuList">
-		<a href="${pageContext.request.contextPath}/ranking/ladder.do?page=1">랭킹</a>
-		<a href="${pageContext.request.contextPath}/ranking/champions.do">챔피언</a>
+		<div class="pill-nav">
+		  <a class="active" href="${pageContext.request.contextPath}/ranking/ladder.do?page=1">랭킹</a>
+		  <a href="${pageContext.request.contextPath}/ranking/champions.do">챔피언</a>
+		</div>
 	</div>
 	<div class="searchBar">
 		<form action="${pageContext.request.contextPath }/ranking/summonerSearch.do" method="get" style="text-align: right;">
@@ -153,6 +175,7 @@ $(()=>{
 		</form>
 	</div>
 </div>
+<br />
 <div>현재 챌린저/그랜드마스터/마스터의 총 인원은 <fmt:formatNumber value="${totalRanker }" pattern="#,###"/>명 입니다.</div>
 	<table class="w3-table-all w3-card-4">
 		<tr>
