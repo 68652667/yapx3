@@ -1,8 +1,7 @@
 package com.kh.yapx3.search;
 
 import java.io.BufferedReader;
-
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -60,8 +59,31 @@ public class SummonerViewController{
 	public String summonerView(HttpServletRequest request, HttpServletResponse response, Model model) {
 		
 		response.setContentType("application/json; charset=utf-8");
-		String summonerName = request.getParameter("Name");
-		String summonerId = request.getParameter("summonerId");
+		String summonerName = request.getParameter("Name").replaceAll(" ", "%20");
+		String summonerId = "";
+		String urlStr = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + ApiKey;
+		try {
+			URL url = new URL( urlStr );
+			BufferedReader br = new BufferedReader( 
+						new InputStreamReader( url.openConnection().getInputStream() ) );
+			
+			String sb = br.readLine();
+			
+			JSONObject jobj = new JSONObject( sb.toString() );
+			summonerName = jobj.getString("name");
+			summonerId = jobj.getString("id");
+			
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			logger.info("없는 아이디입니다.");
+
+			response.setCharacterEncoding("utf-8");
+			try {
+				response.getWriter().append("noneId");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 		
 		model.addAttribute("summonerName",summonerName);
 		model.addAttribute("summonerId",summonerId);
@@ -81,6 +103,8 @@ public class SummonerViewController{
 		String urlStr = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+searchName+"?api_key="+ApiKey;
 		String urlStr2 = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/en_US/champion.json";
 		String urlStr3 = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/en_US/summoner.json";
+		
+		
 		
 		URL url = new URL(urlStr);
 		URL url2 = new URL(urlStr2);
@@ -603,10 +627,10 @@ public class SummonerViewController{
 						HttpServletResponse response) {
 		
 		String summonerId = request.getParameter("summonerId");
-		System.out.println(summonerId);
 		
 		String urlStr = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerId + "?api_key=" + ApiKey;
 		
+
 		try {
 			URL url = new URL( urlStr );
 			BufferedReader br = new BufferedReader
@@ -615,6 +639,7 @@ public class SummonerViewController{
 			String sb = br.readLine();
 			
 			JSONArray jobj = new JSONArray( sb.toString() );
+			
 			response.setCharacterEncoding("utf-8");
 			response.getWriter().append(jobj.toString());
 			
@@ -622,7 +647,36 @@ public class SummonerViewController{
 			e.printStackTrace();
 		}
 	}
+	@GetMapping("/summonerInGame")
+	public void inGame( HttpServletRequest request,
+						HttpServletResponse response) {
+			String summonerId = request.getParameter("summonerId");
+			
+				//인게임정보 
+				String inGameStr = "https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerId+"?api_key="+ApiKey;
+				
+				try {
+					URL inGameUrl = new URL(inGameStr);
+					BufferedReader inGamebr = new BufferedReader(new InputStreamReader(inGameUrl.openConnection().getInputStream()));
+					String inGameSb = inGamebr.readLine();
+					JSONObject inGameObj = new JSONObject(inGameSb.toString());
+					JSONArray inGameArr = inGameObj.getJSONArray("participants");
+					//만약 게임중이 아니라면 File Not FoundException 뜸
+					System.out.println(inGameArr);
+					response.setCharacterEncoding("utf-8");
+					response.getWriter().append(inGameArr.toString());
+					
+				}catch(FileNotFoundException e) {
+					
+				}
+				catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+		
 	
-
+	}
 	
 }

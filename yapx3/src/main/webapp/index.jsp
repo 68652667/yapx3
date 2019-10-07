@@ -253,65 +253,9 @@ function myBoardClick() {
 		$(".btn").on("click", function(){
 			$("#summonerRank").html("");
 			$("#spectatorBoolean").attr("style","display: none;");
-			var summonerName = $(".form-control").val().replace(/ /g,"%20");
+			var summonerName = $(".form-control").val();
 			
-			console.log( summonerName );
-			var summonerId;
-			
-			$.ajax({
- 				url : "${pageContext.request.contextPath}/summoner/search?summonerName=" + summonerName,
-				type : "GET",
-				async : false,
-				dataType : "json",
-				success : function( data ){
-					console.log( data );
-					var html = "<tr>" +
-							   "<td>" + "<img src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/profileicon/"+ data.profileIconId +".png'></td>" +
-							   "</tr>" +
-							   "<tr>" +
-							   "<td>" + "닉네임 : " + data.name + "</td>" +
-							   "</tr>" +
-							   "<tr>" +
-							   "<td>" + "레벨 : " + data.summonerLevel + "</td>" +
-							   "</tr>";
-					$("#summonerStatus").html(html);		
-					summonerId = data.id;
-					$("#summonerView").attr("value",data.name);
-					$("#summonerId").attr("value",data.id);
-				},
-				error : function( xhr, txtStatus, err ){
-					console.log( xhr, txtStatus, err );
-				},
-			});
-			
-			console.log( summonerId );
-			
-		
-		});
-		
-		
-		//소환사 프로필클릭시 상세보기로 이동
-		$("#summonerStatus").on('click',function(){
-			
-			var Name = $("#summonerView").val();
-			var summonerId2 = $("#summonerId").val();
-			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/summoner/summonerView?Name="+Name+"&summonerId="+summonerId2,
-				type : "GET",
-				dataType : "text",
-				data : {
-					"Name" : Name,
-					"summonerId" : summonerId2
-				},
-				success : function(data){
-					console.log(data);
-				location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name="+Name+"&summonerId="+summonerId2;
-				},
-				error : function( xhr, txtStatus, err ){
-					console.log( xhr, txtStatus, err );
-				}
-			});
+			location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name=" + summonerName;
 			
 		});
 		
