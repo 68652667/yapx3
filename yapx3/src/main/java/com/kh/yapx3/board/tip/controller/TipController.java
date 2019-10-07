@@ -2,12 +2,14 @@ package com.kh.yapx3.board.tip.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONArray;
@@ -37,6 +39,9 @@ public class TipController {
 	@Autowired
 	TipService tipService;
 	
+	@Autowired
+	ServletContext servletContext;
+	
 	@RequestMapping("/tipList.do")
 	public ModelAndView TipList(ModelAndView mav, @RequestParam(value="cPage", defaultValue="1", required=false) int cPage) {
 		mav.setViewName("board/tip/tipList");
@@ -63,7 +68,7 @@ public class TipController {
 	}
 	
 	@RequestMapping("tipBoardWrite.do")
-	public ModelAndView tipBoardWrite(ModelAndView mav, @RequestParam String userEmail, @RequestParam String userNickname) {
+	public ModelAndView tipBoardWrite(ModelAndView mav, @RequestParam String userEmail, @RequestParam String userNickname, HttpServletRequest request) throws Exception{
 		mav.setViewName("board/tip/tipBoardWrite");
 		
 		Member m = new Member();
@@ -71,54 +76,26 @@ public class TipController {
 		m.setUserNickname(userNickname);
 		
 		List<ChampSkills> champList = new ArrayList<ChampSkills>();
-		try {
-		String url = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/champion.json";
-		URL url_ = new URL(url);
-		BufferedReader br = new BufferedReader(new InputStreamReader(url_.openConnection().getInputStream()));
-		String sb = br.readLine();
-		JSONObject champ =  new JSONObject(sb.toString());
-		JSONObject dataObject = (JSONObject) champ.get("data");
-		Iterator i = (Iterator) dataObject.keys();
-		while(i.hasNext()) {
-			ChampSkills c = new ChampSkills();
-			
-			String dataKey = i.next().toString();
-			JSONObject data = dataObject.getJSONObject(dataKey);
-			String id = (String) data.get("id");
-			c.setId(id);
-			
-			String url2 = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/en_US/champion/"+id+".json";
-			URL url2_ = new URL(url2);
-			BufferedReader br2 = new BufferedReader(new InputStreamReader(url2_.openConnection().getInputStream()));
-			String sb2 = br2.readLine();
-			JSONObject champ2 =  new JSONObject(sb2.toString());
-			JSONObject dataObject2 = (JSONObject) champ2.get("data");
-			Iterator i2 = (Iterator) dataObject2.keys();
-			while(i2.hasNext()) {
-				String dataKey2 = i2.next().toString();
-				JSONObject dataObject2_2 = (JSONObject) dataObject2.get(dataKey2);
-				JSONArray spells = (JSONArray) dataObject2_2.get("spells");
-				JSONObject passive = dataObject2_2.getJSONObject("passive").getJSONObject("image");
-				String pa = (String) passive.get("full");
-				JSONObject k1 = spells.getJSONObject(0).getJSONObject("image");
-				String spell1 = (String) k1.get("full");
-				JSONObject k2 = spells.getJSONObject(1).getJSONObject("image");
-				String spell2 = (String) k2.get("full");
-				JSONObject k3 = spells.getJSONObject(2).getJSONObject("image");
-				String spell3 = (String) k3.get("full");
-				JSONObject k4 = spells.getJSONObject(3).getJSONObject("image");
-				String spell4 = (String) k4.get("full");
-				c.setQ(spell1);
-				c.setW(spell2);
-				c.setE(spell3);
-				c.setR(spell4);
-				c.setPassive(pa);
-			}
-			
-			champList.add(c);
-		}
 		
-		} catch(Exception e) {e.printStackTrace();}
+		String ar = servletContext.getRealPath("/resources/txt/data.txt");
+		File file = new File(ar);
+		FileReader fr = new FileReader(file);
+		BufferedReader bufReader = new BufferedReader(fr);
+
+		String sb = "";
+		String line = "";
+        while((line = bufReader.readLine()) != null){
+            sb += line;
+        }
+        bufReader.close();
+        
+        JSONObject champ =  new JSONObject(sb.toString());
+        JSONArray arr = champ.getJSONArray("champ");
+        for(int i=0; i<arr.length(); i++) {
+        	JSONObject c = (JSONObject) arr.get(i);
+        	ChampSkills s = new ChampSkills(c.getString("id"), c.getString("passive"), c.getString("spell1"), c.getString("spell2"), c.getString("spell3"), c.getString("spell4"));
+        	champList.add(s);
+        }
 		
 		mav.addObject("champList", champList);
 		mav.addObject("member", m);
