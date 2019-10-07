@@ -603,6 +603,7 @@ public class SummonerViewController{
 						HttpServletResponse response) {
 		
 		String summonerId = request.getParameter("summonerId");
+		System.out.println(summonerId);
 		
 		String urlStr = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerId + "?api_key=" + ApiKey;
 		
@@ -621,6 +622,7 @@ public class SummonerViewController{
 			e.printStackTrace();
 		}
 	}
+	
 
 	
 }

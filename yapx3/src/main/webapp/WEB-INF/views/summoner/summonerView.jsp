@@ -15,6 +15,8 @@
 %>
 
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.oLoader.min.js"></script>
 
 <style>
 
@@ -24,6 +26,25 @@
 	ol{
 	list-style: none;
 	}
+	
+	/* 	승률테이블 */
+	
+	#winloseResult{
+	 display:inline; 
+	 border: hidden; 
+	 margin-left: 50px;
+	 
+	
+	}
+	
+	#winloseResult td{
+	padding: 20px;	 
+	
+	}
+	#WinloseText{
+	margin: 20px;
+	}
+	
 	
 /* 	게임승리시 파란색 패배시 붉은색으로 컨테이너 표시 */
 	
@@ -60,6 +81,11 @@
 	margin-bottom: 20px;
 	}
 	
+/* 	빌드페이지 - 숨겨주기 */
+	.myBuild{
+		display: none;
+	}
+	
 /* 	소환사 프로필(사진, 아이디, 랭킹) */
 	
 	#summonerProfile {
@@ -69,14 +95,15 @@
 		margin: 55px;
 		position: static;
 	}
+
 	
 	#profileIcon {
 		padding: 35px;
 		position: absolute;
 		left: 87px;
-		top: 46px;
-		width: 150px;
-		height: 150px;
+		top: 162px;
+		width: 200px;
+		height: 200px;
 		background-position: center bottom;
 		background-repeat: no-repeat;
 	}
@@ -84,7 +111,7 @@
 	#name{
 	position: absolute;
 	left: 326px;
-	top: 88px;
+	top: 208px;
 	font-size: 35px;
 	font-weight: bold;
 	margin-left: 5px;
@@ -94,7 +121,7 @@
 	#favorite{
 	position: absolute;
 	left: 567px;
-	top: 97px;
+	top: 215px;
 	
 	}
 
@@ -174,13 +201,19 @@ overflow: hidden;
 .myItemBuild{
 	padding-top: 8px;
 }
-
-.ItemTime{
-	margin-left: 60px;
+.List>.Item:first-child {
+    margin-left: 10px;
 }
-
-.ItemList{
-	margin-left: 30%;
+.Item{
+	position: relative;
+    display: inline-block;
+    margin: 0 0 23px;
+}
+.Items{
+display: flex;
+}
+.ItemTime{
+margin-left: 46px;
 }
 
 
@@ -232,8 +265,8 @@ overflow: hidden;
 
 .perk-page2{
 	display: inline-block;
-	margin-left: 200px;
-	margin-right: 200px;
+	margin-left: 113px;
+	margin-right: 102px;
 }
 
 /* 룬 - 맨 오른쪽 룬(스탯)  */
@@ -287,10 +320,16 @@ margin: 0 8px;
 	
 /* 	#summonerStatus img{width: } */
 </style>
+
+<br />
+<br />
+<br />
+<br />
+<br />
 	
 <input type="hidden" name="summonerName" id="summonerName" value="<%=summonerName%>"/>
 <input type="hidden" name="summonerId" id="summonerId" value="<%=summonerId%>"/>
-	
+
 	<!-- 프로필 사진 소환사 아이디, 레벨 -->
 	<div id="summonerProfile">
 		<div id="face">
@@ -345,19 +384,41 @@ margin: 0 8px;
 <div class="MainContainer">
 
 <div id="WinRatio" style="border: hidden;">
-	<table id="winloseResult" style="display:inline; border: hidden; margin-left: 50px;">
+	<table id="winloseResult">
 		<tr>
-			<td style="border: hidden;">
-				<div>
+			<td style="border: hidden; margin: 10px;">
+				<div id="WinloseText">
 					<span></span>전				
 					<span></span>승			
 					<span></span>패				
 				</div>
 			</td>
 		</tr>
-	</table>
-	<table style="display:inline; margin-left: 30px; border: hidden;">
 		<tr>
+			<td>
+			<div>
+			<canvas id="myChart" width="150" height="150"></canvas>
+			</div>
+			</td>
+			<td>
+				<div class="GameList" >
+			<div id="KDA">
+				<span id="Kill"></span> /
+				<span id="Death"></span> /
+				<span id="Assist"></span>
+			</div>
+			<div id="KDARatio">
+				<span id="KDARatioText"></span>평점
+			</div>
+			<div id="Status">
+				<div id="Status_Level"></div>
+				<div id="Status_CS"><span></span></div>
+				<div id="Status_Kill"><span></span></div>
+				<div id="Status_MMR"><span></span><br /><b></b></div>
+			</div>
+</div>	
+			</td>
+			
 			<td style="border: hidden;">
 			<ul id="top3">
 				<li>
@@ -387,80 +448,13 @@ margin: 0 8px;
 			</ul>
 			</td>
 		</tr>
-	
+			
 	</table>
+		
+
 </div>
 
-<div class="GameList" >
-	<div id="GameListWrap">
-		<div id="WrapContainer">
-			<div id="GameStatus">
-				<div id="GameType"></div>
-				<div id="TimeStamp"></div>
-				<div id="GameResult"></div>
-				<div id="GameLength"></div>
-			</div>
-			<div id="GameSettingInfo">
-				<div id="ChampionImage">
-					<a href=""><img src=""/></a>
-				</div>
-				<div id="SummonerSpell">
-					<div id="Spell"></div>
-					<div id="Spell"></div>
-				</div>
-				<div id="Runes">
-					<div id="Rune"></div>
-					<div id="Rune"></div>
-				</div>
-				<div id="ChampionName">
-					<a href=""></a>
-				</div>
-			</div>
-			<div id="KDA">
-				<span id="Kill"></span> /
-				<span id="Death"></span> /
-				<span id="Assist"></span>
-			</div>
-			<div id="KDARatio">
-				<span id="KDARatioText"></span>평점
-			</div>
-			<div id="Status">
-				<div id="Status_Level"></div>
-				<div id="Status_CS"><span></span></div>
-				<div id="Status_Kill"><span></span></div>
-				<div id="Status_MMR"><span></span><br /><b></b></div>
-			</div>
-			<div id="Items">
-				<div id="ItemList">
-					<div id="Item"></div>
-					<div id="Item"></div>
-					<div id="Item"></div>
-					<div id="Item"></div>
-					<div id="Item"></div>
-					<div id="Item"></div>
-					<div id="Item"></div>
-				</div>
-			</div>
-			<div id="MemberList">
-				<div id="Team1">
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-				</div>
-				<div id="Team2">
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-					<div id="Summoner"></div>
-				</div>
-			</div>
-			
-		</div>	
-	</div>
-</div>	
+
 
 <div class="summonerContainer">
 	<div id="summonerInfo">
@@ -497,9 +491,11 @@ margin: 0 8px;
 			var mechap = new Array();
 			var mechapSplit = new Array();
 			var t1 = new Array();
+		
 			
 			
 			$.ajax({
+				
 				url : "${pageContext.request.contextPath}/summoner/searchView?summonerName="+summonerName,
 				type :"GET",
 				dataType : "json",
@@ -508,9 +504,7 @@ margin: 0 8px;
 					
 					
 					for(var i in data){
-						
-					
-						console.log(data[i]);
+
 						var me;
 						var myteam;
 						var enemyteam;
@@ -560,13 +554,14 @@ margin: 0 8px;
 		 						itemPurTime.push(((me.myItemBuild[z].timeStamp)/60000).toFixed(1));
 			 					
 			 				}
-			 				else if(me.myItemBuild[z].type == "ITEM_DESTROYED"){
+			 				else if(me.myItemBuild[z].type == "ITEM_SOLD"){
 			 					itemDes.push(me.myItemBuild[z].itemId);
 			 					
 			 				}
 			 				
 			 				
 			 			}
+			 			
 			 			
 			 			//내 아이템빌드 - 3개씩 쪼개서 배열만들기
 			 			
@@ -639,7 +634,7 @@ margin: 0 8px;
 						
 						/* 더보기 1팀 */
 						html += "<div class='GameDetailContainer'>";
-						html += "<button style=''>종합</button>  <button style=''>빌드</button>";
+						html += "<button class='more_total'>종합</button>  <button class='more_build'>빌드</button>";
 						html += "<div class='GameDetailResult_"+data[i].participants1.win+"'>";
 						html += "<tr class='more'><td colspan='8'><table>";
 						html += "<tr><th>챔피언</th><th>스펠</th><th>닉네임</th><th>KDA</th><th>피해량</th><th>CS</th><th>아이템</th></tr>"
@@ -783,13 +778,13 @@ margin: 0 8px;
 						html += "<div class='myItemBuild' style='display: inline;'>";
 			 			html += "<div class='title'>아이템 빌드</div>";
 						html +="<ul class='ItemList' style=''>";
-			 			
+						var times;
 			 			//내 아이템빌드 - 이미지삽입
-			 			
 			 			for(var zz1 = 0; zz1<itemRe.length; zz1++){
-			 					 html +="<li class='Item' style='display: inline-block;'>";
+			 				
+			 					 html +="<li class='Item'>";
 			 					 html +="<div class='ItemBar' style=''></div>";
-			 					 html +="<ol class='Items' style='display: flex;'>";
+			 					 html +="<ol class='Items'>";
 			 				for(var yy1 = 0; yy1<itemRe[zz1].length; yy1++){
 			 					 html +="<li><img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+itemRe[zz1][yy1]+".png'/></li>";
 			 					
@@ -798,12 +793,12 @@ margin: 0 8px;
 			 				html +="</ol>";
 			 				
 			 				for(var yy1 = 0; yy1<itemRe[zz1].length; yy1++){
-			 				if(zz1!=0 && yy1%3==0){
-//			 						var times = ((Number(timeRe[zz1][yy1])+Number(timeRe[zz1][yy1+1])+Number(timeRe[zz1][yy1+2]))/timeRe[zz1].length).toFixed(0);
-			 						var times = (Number(timeRe[zz1][yy1]).toFixed(0));
-		 						html +="<div class='ItemTime' style='position: absolute;'>"+times+"분</div>";
+			 				if(yy1%3==0){
+			 						 times = (Number(timeRe[zz1][yy1]).toFixed(0));
+		 						html +="</br><div class='ItemTime' style='position: absolute;'>"+times+"분</div>";
 		 					}
 			 				}
+							
 			 			}
 						
 						
@@ -2189,6 +2184,8 @@ margin: 0 8px;
 						//더보기 끝
 						
 						
+						
+						
 						// 전적계산 전 승 패 /평점
 						
 						winloseTotal = ($(".GameContainerWin").length + $(".GameContainerFail").length);
@@ -2206,6 +2203,37 @@ margin: 0 8px;
 			 			$("#winloseResult tr>td>div>span:eq(1)").text(win);
 			 			$("#winloseResult tr>td>div>span:eq(2)").text(lose);
 			 			
+						//chart js 원형차트 설정
+						
+						var ctx = document.getElementById("myChart").getContext('2d');
+						var winLoseChart = new Chart(ctx,{
+							type: "doughnut",
+							data:{
+									labels:["승","패"], 
+								datasets:[{
+									data:[win,lose],
+								
+								backgroundColor:[
+					                'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 99, 132, 0.2)'
+								],
+								borderColor:[
+					                'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 99, 132, 0.2)'
+								],
+								borderWidth: 1
+								
+								}]
+							},
+							options: {
+								cutoutPercentage: 65,
+								legend:{
+									display: false
+								}
+								
+							}
+						});
+			 			
 			 			
 
 					}// data[i] for문끝 
@@ -2222,15 +2250,33 @@ margin: 0 8px;
 						}
 					});
 					
-// 					//더보기 - 종합
-// 					$("#").click(function(){
+ 					//더보기 - 종합
+ 					$(".more_total").click(function(){
+						var more_total = $(this).parent().children().eq(2);
+						var more_total2 = $(this).parent().children().eq(3);
 						
-// 					});
+						var more_build = $(this).parent().children().eq(4);
+						
+						$(more_total).css("display","block");
+						$(more_total2).css("display","block");
+						
+						$(more_build).css("display","none");
+						
+ 					});
 					
-// 					//더보기 - 빌드 
-// 					$("#").click(function(){
+ 					//더보기 - 빌드 
+ 					$(".more_build").click(function(){
+ 						var more_total = $(this).parent().children().eq(2);
+						var more_total2 = $(this).parent().children().eq(3);
 						
-// 					});
+ 						var more_build = $(this).parent().children().eq(4);
+ 						$(more_total).css("display","none");
+						$(more_total2).css("display","none");
+						
+						$(more_build).css("display","block");
+ 						
+					});
+ 					
 					
 					var killResult = (kill/winloseTotal).toFixed(1);
 					var deathResult = (death/winloseTotal).toFixed(1);
@@ -2253,7 +2299,6 @@ margin: 0 8px;
 						mechapSplit.push(mechap[i].split(","));
 					}
 					
-					console.log(mechapSplit);
 					
 				//중복된 영웅이름 받아서 중복된영웅들끼리 배열로 묶기
    				var t1Result = {};
@@ -2308,23 +2353,23 @@ margin: 0 8px;
 				var Top3Victory = 0;
 				
 				// top3 등급, 승리횟수 계산
-				for(var i in mechapSplit){
-					if(mechapSplit[i][0] == Top1[0]){
-						Top1Grade += Number(mechapSplit[i][2]);
-						if(mechapSplit[i][1] == 'Win'){
+				for(var it in mechapSplit){
+					if(mechapSplit[it][0] == Top1[0]){
+						Top1Grade += Number(mechapSplit[it][2]);
+						if(mechapSplit[it][1] == 'Win'){
 							Top1Victory++;
 						}
 					}
-					else if(mechapSplit[i][0] == Top2[0]){
-						Top2Grade += Number(mechapSplit[i][2]);
-						if(mechapSplit[i][1] == 'Win'){
+					else if(mechapSplit[it][0] == Top2[0]){
+						Top2Grade += Number(mechapSplit[it][2]);
+						if(mechapSplit[it][1] == 'Win'){
 							Top2Victory++;
 						}
 						
 					}
-					else if(mechapSplit[i][0] == Top3[0]){
-						Top3Grade += Number(mechapSplit[i][2]);
-						if(mechapSplit[i][1] == 'Win'){
+					else if(mechapSplit[it][0] == Top3[0]){
+						Top3Grade += Number(mechapSplit[it][2]);
+						if(mechapSplit[it][1] == 'Win'){
 							Top3Victory++;
 						}
 					}
@@ -2341,7 +2386,6 @@ margin: 0 8px;
 				Top3.push(Top3Victory);
 				Top3.push(Top3[1]-Top3Victory);
 				Top3.push(Top3Grade/Top3[1]);
-				
 				
 				
 				//Top3 추가
