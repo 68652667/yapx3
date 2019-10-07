@@ -17,40 +17,76 @@
 	<select id="championLineAll" parameterType="Integer" resultType="Map">
 		SELECT T1.lane, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.lane order by count(*) desc
 	</select>
-	<select id="summonerSkillRank" parameterType="Integer" resultMap="summonerSpell">
+ 	<select id="summonerSkillRank" parameterType="Integer" resultMap="champion">
 		SELECT T1.spell1id, T1.spell2id, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.spell1id, T1.spell2id order by count(*) desc
-	</select>
-	<select id="summonerSkillId1" parameterType="Integer" resultType="Map">
-		SELECT T1.spell1id, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.spell1id order by count(*) desc
-	</select>
-	<select id="summonerSkillId2" parameterType="Integer" resultType="Map">
-		SELECT COUNT(*), T1.spell2id FROM participantall T1 where championid=${value} GROUP BY T1.spell2id order by count(*) desc
-	</select>
-	<select id="championPerk" parameterType="Integer" resultMap="championPerk">
+	</select> 
+	<select id="summonerWinSkillRank" parameterType="Integer" resultMap="champion">
+		SELECT T1.spell1id, T1.spell2id, COUNT(*) FROM participantall T1 where championid=${value} and win = 'true' GROUP BY T1.spell1id, T1.spell2id order by count(*) desc
+	</select> 
+ 	<select id="championPerk" parameterType="Integer" resultMap="champion">
 		SELECT T1.perk0, t1.perk1,t1.perk2, t1.perk3, t1.perk4, t1.perk5, t1.perkprimarystyle, t1.perksubstyle, t1.statperk0, t1.statperk1, t1.statperk2,  COUNT(*) FROM 
 		participantall T1 where championid=${value} 
 		GROUP BY T1.perk0, t1.perk1,t1.perk2, t1.perk3, t1.perk4, t1.perk5,t1.perkprimarystyle, t1.perksubstyle, t1.statperk0, t1.statperk1, t1.statperk2  
 		order by count(*) desc
 	</select>
+	<select id="championStartItem" parameterType="Integer" resultMap="champion">
+		SELECT  t1.itemid, COUNT(*)  FROM eventtable T1 where championid=${value} and type='ITEM_PURCHASED' and itemid != 3340 and itemid != 3364 GROUP BY T1.type, t1.championid, t1.itemid order by count(*) desc
+	</select>
+	<select id="championItem0" parameterType="Integer" resultMap="champion">
+		SELECT  t1.item0, COUNT(*)  FROM participantall T1 where championid=${value} and item0 != 0 GROUP BY T1.item0 order by count(*) desc
+	</select>
+	<select id="championItem1" parameterType="Integer" resultMap="champion">
+		SELECT  t1.item1, COUNT(*)  FROM participantall T1 where championid=${value} and item1 != 0 GROUP BY T1.item1 order by count(*) desc
+	</select>
+	<select id="championItem2" parameterType="Integer" resultMap="champion">
+		SELECT  t1.item2, COUNT(*)  FROM participantall T1 where championid=${value} and item2 != 0 GROUP BY T1.item2 order by count(*) desc
+	</select>
+	<select id="championItem3" parameterType="Integer" resultMap="champion">
+		SELECT  t1.item3, COUNT(*)  FROM participantall T1 where championid=${value} and item3 != 0 GROUP BY T1.item3 order by count(*) desc
+	</select>
+	<select id="championItem4" parameterType="Integer" resultMap="champion">
+		SELECT  t1.item4, COUNT(*)  FROM participantall T1 where championid=${value} and item4 != 0 GROUP BY T1.item4 order by count(*) desc
+	</select>
+	<select id="championItem5" parameterType="Integer" resultMap="champion">
+		SELECT  t1.item5, COUNT(*)  FROM participantall T1 where championid=${value} and item5 != 0 GROUP BY T1.item5 order by count(*) desc
+	</select>
+	<select id="championItem6" parameterType="Integer" resultMap="champion">
+		SELECT  t1.item6, COUNT(*)  FROM participantall T1 where championid=${value} and item6 != 0 GROUP BY T1.item6 order by count(*) desc
+	</select>
 	
-	<resultMap type="Info" id="summonerSpell">
+	<!-- <resultMap type="Info" id="summonerSpell">
 		<result column="spell1id" property="summonerSpell1id"/>
 		<result column="spell2id" property="summonerSpell2id"/>
 		<result column="COUNT(*)" property="count"/>
-	</resultMap>
+	</resultMap> -->
 	
-	<resultMap type="Info" id="championPerk">
+	<resultMap type="Info" id="champion">
 		<result column="perk0" property="perk0"/>
 		<result column="perk1" property="perk1"/>
 		<result column="perk2" property="perk2"/>
 		<result column="perk3" property="perk3"/>
 		<result column="perk4" property="perk4"/>
 		<result column="perk5" property="perk5"/>
+		<result column="item0" property="item0"/>
+		<result column="item1" property="item1"/>
+		<result column="item2" property="item2"/>
+		<result column="item3" property="item3"/>
+		<result column="item4" property="item4"/>
+		<result column="item5" property="item5"/>
+		<result column="item6" property="item6"/>
+		<result column="spell1id" property="summonerSpell1id"/>
+		<result column="spell2id" property="summonerSpell2id"/>
 		<result column="perkprimarystyle" property="perkPrimaryStyle"/>
 		<result column="perksubstyle" property="perkSubStyle"/>
 		<result column="statperk0" property="statPerk0"/>
 		<result column="statperk1" property="statPerk1"/>
 		<result column="statperk2" property="statPerk2"/>
+		<result column="itemid" property="startItem"/>
 		<result column="COUNT(*)" property="count"/>
 	</resultMap>
+	
+	<!-- <resultMap type="Info" id="championItem">
+		<result column="itemid" property="startItem"/>
+		<result column="COUNT(*)" property="count"/>
+	</resultMap>  -->
 </mapper>

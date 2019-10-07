@@ -16,20 +16,24 @@
 #championAll{
 	margin-left:10px; 
 	margin-right:10px; 
-	width: 800px;
+	width: 600px;
+}
+#championAll img{
+	width: 100px;
 }
 #championLaneTitle{
 	width: 800px;
 	height: 50px;
+	text-align: center;
 	float: left;
 }
-#championSearch{
-	margin-right: 25px;
-	float: right;
-	width: 250px;
-	height: 50px;
+#championSearch input{
+	height:45px;
+	width:186px; 
+	float:left;
 }
 ul {
+	
 	margin-left: 10px;
     list-style:none;
     margin:0;
@@ -39,11 +43,10 @@ li {
 	color: gray;
 	width: 70px;
 	text-align: center;
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
+	margin-top: 15px;
     border : 1px;
     float: left;
-    font-size: 20px;
+    font-size: 10px;
 }
 li:hover{
 	border-bottom: 3px solid skyblue;
@@ -64,7 +67,7 @@ li:hover{
 			<li>로테이션</li>
 		</ul>
 		<div id="championSearch">
-			<input type="text"style="height:45px; width:200px; float:right;" placeholder="챔피언 검색 (가렌, ㄱㄹ, ...)"></input>
+			<input type="text" placeholder="챔피언 검색 (가렌, ㄱㄹ, ...)"></input>
 		</div>
 	</div>
 	<div id = "championAll">

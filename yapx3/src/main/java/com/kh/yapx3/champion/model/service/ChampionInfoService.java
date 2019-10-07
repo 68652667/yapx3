@@ -12,7 +12,7 @@ import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 public interface ChampionInfoService {
 	
 	//해당 챔피언 통계(미완성)
-	public int championInfo(int id);
+	public List<ChampionInfoVO> championInfo(int id);
 	
 	public Map<String, String> chMastery(String searchMastery);
 
@@ -28,17 +28,14 @@ public interface ChampionInfoService {
 
 	public String summonerSearch(String key);
 
-	public int championWin(int championId);
-
-	public int championLineTop(int championId);
-
-	public int championLineBottom(int championId);
-
 	public List<Map<String, String>> championLine(int championId);
 
-	public Map<Integer, String> summonerSkillList(int championId);
+	public List<ChampionInfoVO> summonerSkillList(int championId);
 
 	public List<ChampionInfoVO> championRune(int championId);
-	
-//	public List<ChampionMastery> chMastery();
+
+	public List<ChampionInfoVO> championStartItem(int championId);
+
+	public List<ChampionInfoVO> championItem(int championId);
+
 }

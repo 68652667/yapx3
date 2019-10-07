@@ -44,6 +44,13 @@ public class URLConnection {
 		return jobj;
 	}
 	
+	//소환사 스킬 가져오기
+	public JSONObject summonerSpell() throws IOException {
+		urlStr = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/summoner.json";
+		JSONObject jobj = urlInput(urlStr);
+		return jobj;
+	}
+	
 	//Match 게임 검색
 	public JSONObject matchGameSearch(String accountId) throws IOException{
 		urlStr = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/8KKjkdbSMbdI_c7PMarrf7OVKZC2E_83fqZwwJooX13O?api_key=RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";
