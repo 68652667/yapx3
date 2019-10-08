@@ -24,4 +24,6 @@ public interface FreeDAO {
 
 	int freeCommentDel(int commentNo);
 
+	List<FreeWithFileCount> selectFreeMyList(String memberId);
+
 }

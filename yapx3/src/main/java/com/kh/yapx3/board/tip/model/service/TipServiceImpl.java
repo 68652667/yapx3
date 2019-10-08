@@ -58,4 +58,9 @@ public class TipServiceImpl implements TipService {
 		return tipDAO.selectCommentList(tipBoardNo);
 	}
 
+	@Override
+	public List<TipWithFileCount> selectTipMyList(String memberId) {
+		return tipDAO.selectTipMyList(memberId);
+	}
+
 }

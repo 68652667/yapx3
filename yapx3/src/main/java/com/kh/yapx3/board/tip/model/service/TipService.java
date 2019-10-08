@@ -24,4 +24,6 @@ public interface TipService {
 
 	int tipCommentDel(int commentNo);
 
+	List<TipWithFileCount> selectTipMyList(String memberId);
+
 }

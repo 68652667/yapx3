@@ -348,6 +348,9 @@ margin: 0 8px;
 		</div>
 	</div>
 	
+	<button id="SummonerViewBtn">소환사정보</button>
+	<button id="InGameBtn">인게임정보</button>
+	
 	<div class="Container">
 	<!-- 티어 이미지, 티어 표시 -->
 	<div class="SideContent" style="float: left;">	
@@ -473,6 +476,64 @@ margin: 0 8px;
 </div>
 </div>
 
+</div>
+
+<!-- 인게임정보 -->
+<div class="InGameContainer">
+	<div class="Spectator">
+		<div class="SpectatorTitle">
+			<div class="Title"></div>
+			<div class="MapName"></div>
+			<div class="Time"></div>
+		</div>
+		<div class="SpectatorSummoner">
+		<table class="team-100">
+			<thead>
+			<tr>
+				<th>블루팀</th>
+				<th>챔피언</th>
+				<th>소환사</th>
+			</tr>
+			</thead>
+			<tbody id="SPteam-100">
+			<tr>
+				<td class="SPChampionImage"></td>
+				<td class="SPSummonerSpell">
+					<div class="spell1"></div>
+					<div class="spell2"></div>
+				</td>
+				<td class="Runes">
+					<div class="Run1"></div>
+					<div class="Run2"></div>
+				</td>
+				<td class="SpName"></td>
+				<td class="SpBanned"></td>
+			</tr>
+			<tr></tr>
+			<tr></tr>
+			<tr></tr>
+			<tr></tr>
+			</tbody>
+		</table>
+		<table class="team-200">
+			<thead>
+			<tr>
+				<th>레드팀</th>
+				<th>챔피언</th>
+				<th>소환사</th>
+			</tr>
+			</thead>
+			<tbody id="SPteam-200">
+			<tr></tr>
+			<tr></tr>
+			<tr></tr>
+			<tr></tr>
+			<tr></tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+	
 </div>
 	
 	<script>
@@ -2324,7 +2385,7 @@ margin: 0 8px;
 				});
 				
 				//많이쓴 챔피언 TOP3
-				console.log(t1Top3);
+				
 				
 				var Top1 = new Array();
 				var Top2 = new Array();
@@ -2351,6 +2412,7 @@ margin: 0 8px;
 				var Top1Victory = 0;
 				var Top2Victory = 0;
 				var Top3Victory = 0;
+				
 				
 				// top3 등급, 승리횟수 계산
 				for(var it in mechapSplit){
@@ -2389,17 +2451,32 @@ margin: 0 8px;
 				
 				
 				//Top3 추가
-				$("#top3 li:eq(0) div div#top3Image").append("<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+Top1[0]+".png'/>");
-				$("#top3 li:eq(1) div div#top3Image").append("<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+Top2[0]+".png'/>");
-				$("#top3 li:eq(2) div div#top3Image").append("<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+Top3[0]+".png'/>");
 				
-				$("#top3 li:eq(0) div div#top3Image").append(Top1[0]);
-				$("#top3 li:eq(1) div div#top3Image").append(Top2[0]);
-				$("#top3 li:eq(2) div div#top3Image").append(Top3[0]);
+				if(t1Top3.length<=1){
+					
+					$("#top3 li:eq(0) div div#top3Image").append("<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+Top1[0]+".png'/>");
+					$("#top3 li:eq(0) div div#top3Image").append(Top1[0]);
+					$("#top3 li:eq(0) div div#top3WonLose").append("<b style='color: red;'>"+((Top1[2]/Top1[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top1[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top1[3]+"패)</span>"+"<span>"+(Top1[4].toFixed(1))+"평점</span>");
+				}
+				else{
+					
+					$("#top3 li:eq(0) div div#top3Image").append("<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+Top1[0]+".png'/>");
+					$("#top3 li:eq(0) div div#top3Image").append(Top1[0]);
+					$("#top3 li:eq(0) div div#top3WonLose").append("<b style='color: red;'>"+((Top1[2]/Top1[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top1[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top1[3]+"패)</span>"+"<span>"+(Top1[4].toFixed(1))+"평점</span>");
+					$("#top3 li:eq(1) div div#top3Image").append("<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+Top2[0]+".png'/>");
+					$("#top3 li:eq(1) div div#top3Image").append(Top2[0]);
+					$("#top3 li:eq(1) div div#top3WonLose").append("<b style='color: red;'>"+((Top2[2]/Top2[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top2[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top2[3]+"패)</span>"+"<span>"+(Top2[4].toFixed(1))+"평점</span>");
+					$("#top3 li:eq(2) div div#top3Image").append("<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+Top3[0]+".png'/>");
+					$("#top3 li:eq(2) div div#top3Image").append(Top3[0]);
+					$("#top3 li:eq(2) div div#top3WonLose").append("<b style='color: red;'>"+((Top3[2]/Top3[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top3[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top3[3]+"패)</span>"+"<span>"+(Top3[4].toFixed(1))+"평점</span>");
+					
+				}
 				
-				$("#top3 li:eq(0) div div#top3WonLose").append("<b style='color: red;'>"+((Top1[2]/Top1[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top1[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top1[3]+"패)</span>"+"<span>"+(Top1[4].toFixed(1))+"평점</span>");
-				$("#top3 li:eq(1) div div#top3WonLose").append("<b style='color: red;'>"+((Top2[2]/Top2[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top2[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top2[3]+"패)</span>"+"<span>"+(Top2[4].toFixed(1))+"평점</span>");
-				$("#top3 li:eq(2) div div#top3WonLose").append("<b style='color: red;'>"+((Top3[2]/Top3[1])*100).toFixed(1)+"%   </b>"+"<span id='win' style='margin-right: 5px;'>("+Top3[2]+"승</span>"+"<span id='lose' style='margin-right: 5px;'>"+Top3[3]+"패)</span>"+"<span>"+(Top3[4].toFixed(1))+"평점</span>");
+				
+				
+				
+				
+				
 				
 										
 				},
@@ -2415,7 +2492,6 @@ margin: 0 8px;
 				type : "GET",
 				dataType : "json",
 				success : function( data ){
-					
 					$("#icon").html("<img id='profileIcon' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/profileicon/"+ data.profileIconId +".png'>");
 					$("#level").text(data.summonerLevel);
 					$("#name").text(data.name);
@@ -2474,6 +2550,55 @@ margin: 0 8px;
 				error : function( xhr, txtStatus, err ){
 					console.log( xhr, txtStatus, err );
 				}
+			});
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/summoner/summonerInGame?summonerId=" + summonerId,
+				type: "GET",
+				async: false,
+				dataType : "json",
+				success : function( data ){
+					console.log(data);
+					$("#InGameBtn").css("background-color","green");
+					
+					$("#InGameBtn").click(function(){
+						
+						$(".Container").css("display","none");
+						$(".InGameContainer").css("display","block");
+						var SpRed;
+						var SpBlue;
+						for(var i in data){
+							
+							if(data[i].teamId == 100){
+							SpRed = "<tr>";
+							SpRed = "<td class='SPChampionImage'><img class='small' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championId+".png'></td>";
+							
+							
+							
+							SpRed += "</tr>";
+								
+							}
+							else if(data[i].teamId == 200){
+							SpBlue = "<tr></tr>";
+							}
+							
+							$("#Spteam-100").append(SpRed);
+							$("#Spteam-200").append(SpBlue);
+						}
+						
+						
+					});
+					
+				},
+				error : function( xhr, txtStatus, err ){
+					console.log("현재 게임중이 아닙니다");
+					if($("#InGameBtn").click(function(){
+						alert("현재 게임중이 아닙니다");	
+						
+					})){
+					}
+				}
+				
 			});
 		
 	});

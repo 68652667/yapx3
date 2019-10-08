@@ -19,15 +19,24 @@
 .bgLayer {display:none;position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:1; filter:alpha(opacity=50); z-index:100;}  /* z-index가 10이다. 이보다 위에 보이기 위해선 팝을 이보다 크게 설정해야한다. */
 
 /*중복아이디체크관련*/
-div#memberId-container{position:relative; padding:0px;}
+div#terms-container{
+	position:relative; 
+	padding:0px;
+	left:0; 
+	right:0; 
+	margin-left:auto; 
+	margin-right:auto;
+
+}
 div#memberId-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
 div#memberId-container span.ok{color:green;}
 div#memberId-container span.error{color:red;}
+
 </style>
 </head>
 <body>
 
-<div id="terms-container">
+<div id="terms-container" class="bgLayer">
 	<table >
 		<tr>
 			<th>YapX3</th>

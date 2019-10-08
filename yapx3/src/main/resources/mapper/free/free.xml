@@ -12,6 +12,16 @@
 		order by free_board_no desc
 	</select>
 	
+	<select id="selectFreeMyList" resultType="FreeWithFileCount">
+		select A.*,
+		       (select count(*) 
+		        from f_b_attach 
+		        where free_board_no = A.free_board_no) filecount
+		from f_b A
+		where USER_EMAIL = #{userEmail}
+		order by free_board_no desc
+	</select>
+	
 	<select id="selectCommentList" resultType="FreeComment">
 		select lpad(' ',(level-1)*5,' ')||COMMENT_CONTENT B, A.* from f_b_c A where FREE_BOARD_NO = #{freeBoardNo} start with COMMENT_LEVEL = 1 connect by prior COMMENT_NO = COMMENT_REF order siblings by COMMENT_NO asc
 	</select>
