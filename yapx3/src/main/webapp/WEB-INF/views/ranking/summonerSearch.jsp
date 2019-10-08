@@ -23,6 +23,9 @@ table tr, th, td{
 	border-bottom: 1px solid;
 	text-align: center;
 }
+table tr:not(:first-child):hover{
+	cursor: pointer;
+}
 .pageBar {
   text-align: center;
   margin: 20px;
@@ -162,7 +165,7 @@ table tr, th, td{
 		</form>
 	</div>
 </div>
-<div>현재 챌린저/그랜드마스터/마스터의 총 인원은 <fmt:formatNumber value="${totalRanker }" pattern="#,###"/>명 입니다.</div>
+<div style="margin-top: 10px;">현재 챌린저/그랜드마스터/마스터의 총 인원은 <fmt:formatNumber value="${totalRanker }" pattern="#,###"/>명 입니다.</div>
 	<table class="w3-table-all w3-card-4">
 		<tr>
 			<th>순위</th>
@@ -215,9 +218,21 @@ table tr, th, td{
 			console.log(scrollPosition);
 			console.log($("html").height());
 			$("html, body").animate({
-				scrollTop: scrollPosition
+				scrollTop: scrollPosition - $(window).height()/2
 			}, 500);
 		}
+		$("tr:not(:first-child)").hover(function(e){
+			$(e.target).parent("tr").css("background-color", "rgba(0,123,255,.25)");
+		}, function(e){
+			$("td:contains("+equalsName+")").parent().css("background-color", "#738e9c");
+			$(e.target).parent("tr").css("background-color", "");
+		});
+		$("tr:not(:first-child)").on("click", function(e){
+			var summonerName = $(e.target).parent("tr").children().eq(1).text();
+			if(summonerName!=''){
+				location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name=" + summonerName;
+			}
+		});
 	});
 	</script>
 <!-- End Page Container -->

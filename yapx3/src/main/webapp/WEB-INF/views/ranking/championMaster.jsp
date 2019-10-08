@@ -79,6 +79,33 @@ table th, tr, td{
   font-weight: bold;
   border-bottom: 1px solid black;
 }
+
+.champmastertop3{
+	float: left;
+    position: relative;
+    background-color: #ededed;
+    border: solid 1px #cdd2d2;
+    text-align: center;
+    box-sizing: border-box;
+    width: 210px;
+    margin-left: 24px;
+}
+
+.champmastertop3:first-child{
+	margin-left: 0;
+}
+
+.champmastertop3_rank{
+	position: absolute;
+    top: 0;
+    padding: 3px 0;
+    width: 30px;
+    line-height: 24px;
+    font-size: 21px;
+    color: #fff;
+    background: #c1c1c1;
+    text-align: center;
+}
 </style>
 <div>
 	<div class="MenuList">
@@ -116,7 +143,7 @@ table th, tr, td{
 			</div>
 		</div>
 		<input type="hidden" id="checkedChamp"/>
-		<div id="realcontent" style="float: right; width: 678px; vertical-align: top;">
+		<div id="realcontent" style="float: right; width: 678px; height:480px; vertical-align: top;">
 		챔피언을 선택해주세요!
 		</div>
 	</div>
@@ -142,17 +169,31 @@ $(document).on("click", ".champion", function(e){
 			type: "GET",
 			dataType: "json",
 			success: function(data){
+				console.log(data.length);
+				html += "<div style='margin-top: 20px;'>";
+				for(var x=0;x<3;x++){
+					html += "<div class='champmastertop3'>";
+					html += "<div class='champmastertop3_rank'>"+data[x].RANK+"</div>";
+					html += "<div class='champmastertop3_summonerName'>"+data[x].SUMMONER_NAME+"</div>";
+					html += "<div class='champmastertop3_tier'>"+data[x].TIER+"</div>";
+					html += "<div class='champmastertop3_play'>"+numberWithCommas(data[x].PLAY)+"</div>";
+					html += "<div class='champmastertop3_footer'>";
+					html += "<button class='champbuild'>빌드</button>";
+					html += "</div>";
+					html += "</div>";
+				}
+				html += "</div>";
 				html += "<table class='w3-table-all w3-card-4'><tr>";
 				html += "<th>순위</th>";
 				html += "<th>소환사명</th>";
 				html += "<th>현재 티어</th>";
 				html += "<th>플레이</th></tr>";
-				for(var i in data){
+				for(var i=3;i<data.length;i++){
 					html += "<tr>";
 					html += "<td>"+data[i].RANK+"</td>";
 					html += "<td>"+data[i].SUMMONER_NAME+"</td>";
 					html += "<td>"+data[i].TIER+"</td>";
-					html += "<td>"+data[i].PLAY+"</td>";
+					html += "<td>"+numberWithCommas(data[i].PLAY)+"</td>";
 					html += "</tr>";
 				}
 				$("#realcontent").html(html);
@@ -179,19 +220,19 @@ $(".searchInput").keyup(e=>{
 		dataType: "json",
 		success: function(data){
 			var html = "";
-			for(var i in data){
-				html += "<div id='"+data[i].champName_kr+" "+data[i].champName_en+"' class='champion' style='margin: 10px 8px 0;'>";
+			for(var j in data){
+				html += "<div id='"+data[j].champName_kr+" "+data[j].champName_en+"' class='champion' style='margin: 10px 8px 0;'>";
 				html += "<div style='position: relative;'>";
-				if(checkedChamp==data[i].champName_kr){
+				if(checkedChamp==data[j].champName_kr){
 				html += "<img class='checked' src='https://image.flaticon.com/icons/svg/1271/1271380.svg' width='50px' height='50px' style='display: inline;'/>";
 				}
 				else{
 				html += "<img class='checked' src='https://image.flaticon.com/icons/svg/1271/1271380.svg' width='50px' height='50px'/>";
 				}
-				html += "<img src='http://ddragon.leagueoflegends.com/cdn/9.19.1/img/champion/"+data[i].champImg+"' width='50px' height='50px'/>";
-				html += "<div class='championName'>"+data[i].champName_kr+"</div>";
-				html += "<input type='hidden' id='champName_en' value='"+data[i].champName_en+"'>";
-				html += "<input type='hidden' id='champName_kr' value='"+data[i].champName_kr+"'>";
+				html += "<img src='http://ddragon.leagueoflegends.com/cdn/9.19.1/img/champion/"+data[j].champImg+"' width='50px' height='50px'/>";
+				html += "<div class='championName'>"+data[j].champName_kr+"</div>";
+				html += "<input type='hidden' id='champName_en' value='"+data[j].champName_en+"'>";
+				html += "<input type='hidden' id='champName_kr' value='"+data[j].champName_kr+"'>";
 				html += "</div></div>";
 			}
 			$(".selectChampion").html(html);
@@ -201,6 +242,9 @@ $(".searchInput").keyup(e=>{
 		}
 	});
 });
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 </script>
 <!-- End Page Container -->
 </div>

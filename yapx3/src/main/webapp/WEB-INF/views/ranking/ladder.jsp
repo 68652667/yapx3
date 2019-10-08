@@ -23,6 +23,9 @@ table tr, th, td{
 	border-bottom: 1px solid;
 	text-align: center;
 }
+table tr:not(:first-child):hover{
+	cursor: pointer;
+}
 .pageBar {
   text-align: center;
   margin: 20px;
@@ -159,6 +162,17 @@ $(()=>{
 		alert("총 페이지보다 많습니다!");
 		history.go(-1);
 	}
+	$("tr:not(:first-child)").hover(function(e){
+		$(e.target).parent("tr").css("background-color", "rgba(0,123,255,.25)");
+	}, function(e){
+		$(e.target).parent("tr").css("background-color", "");
+	});
+	$("tr:not(:first-child)").on("click", function(e){
+		var summonerName = $(e.target).parent("tr").children().eq(1).text();
+		if(summonerName!=''){
+			location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name=" + summonerName;
+		}
+	});
 });
 </script>
 <div class="Menu">
@@ -175,8 +189,7 @@ $(()=>{
 		</form>
 	</div>
 </div>
-<br />
-<div>현재 챌린저/그랜드마스터/마스터의 총 인원은 <fmt:formatNumber value="${totalRanker }" pattern="#,###"/>명 입니다.</div>
+<div style="margin-top: 10px;">현재 챌린저/그랜드마스터/마스터의 총 인원은 <fmt:formatNumber value="${totalRanker }" pattern="#,###"/>명 입니다.</div>
 	<table class="w3-table-all w3-card-4">
 		<tr>
 			<th>순위</th>
