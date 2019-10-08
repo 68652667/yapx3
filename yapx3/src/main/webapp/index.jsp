@@ -19,7 +19,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -53,18 +53,18 @@ img {
 
 <div class="w3-top" style="top: 3em;">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-  <a href="${pageContext.request.contextPath}/champion/championView" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="News">챔피언분석</a>
+  <a href="${pageContext.request.contextPath}/champion/championView" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" >챔피언분석</a>
   <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large" title="Stat">통계</button>     
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;">
+    <button class="w3-button w3-padding-large w3-hover-white" >통계</button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white" style="width:300px;">
       <a href="${pageContext.request.contextPath}/stat/statChamp.do" class="w3-bar-item w3-button">챔피언별 통계</a>
       <a href="${pageContext.request.contextPath}/stat/statTear.do" class="w3-bar-item w3-button">티어별 통계</a>
     </div>
   </div>
-  <a href="${pageContext.request.contextPath}/ranking/ladder.do?page=1" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" title="Messages">랭킹</a>
+  <a href="${pageContext.request.contextPath}/ranking/ladder.do?page=1" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white em3but" >랭킹</a>
   <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large" title="Notifications">커뮤니티</button>     
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px;;">
+    <button class="w3-button w3-padding-large" >커뮤니티</button>
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white" style="width:300px;">
       <a href="${pageContext.request.contextPath}/free/freeList.do" class="w3-bar-item w3-button">자유게시판</a>
       <a href="${pageContext.request.contextPath}/tip/tipList.do" class="w3-bar-item w3-button">팁게시판</a>
       <a href="#" class="w3-bar-item w3-button">공략게시판</a>
@@ -77,14 +77,14 @@ img {
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but">YapX3</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4 em3but w3-hover-white">YapX3</a>
   <c:if test="${memberLoggedIn!=null}">
 	<a href="${pageContext.request.contextPath}/user/logoutClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
 	 	 로그아웃
 	</a>
-	<div class="w3-dropdown-hover w3-bar-item w3-button w3-hide-small w3-right w3-padding-large" id="btnHoverCheck" title="${memberLoggedIn.userNickname}">
+	<div class="w3-dropdown-hover w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" id="btnHoverCheck" title="${memberLoggedIn.userNickname}">
 		<img src="${pageContext.request.contextPath}/resources/images/login_icon.png" width="30" height="30" alt="${memberLoggedIn.userNickname}"/>  
-		<div class="w3-dropdown-content w3-card-4 w3-bar-block">
+		<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white">
 		    <button class="w3-bar-item w3-button" onclick="messageClick();" title="" id="messageBtn" >쪽지함</button>
 			<button class="w3-bar-item w3-button" onclick="myPassClick();" title="">비밀번호 변경</button>
 			<button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button>
@@ -123,7 +123,7 @@ img {
 	</script>
   </c:if>
   <c:if test="${memberLoggedIn==null}">
-	  <a href="${pageContext.request.contextPath}/user/loginClick.do" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+	  <a href="${pageContext.request.contextPath}/user/loginClick.do" class="w3-hover-pink w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
 	    로그인
 	  </a>
   </c:if>
@@ -233,9 +233,10 @@ function myBoardClick() {
 			success : function( data ){
 				console.log( data );
 				var chamHmtml = "<img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/";
-				var chamHmtml2 = "'>";
+				var chamHmtml2 = "";
 
 				for(var i = 0; i < data.length; i++){
+					chamHmtml2 = "' title=" + data[i].substring( 0, data[i].length - 4 ) + ">";
 					var html = chamHmtml + data[i] + chamHmtml2;
 					if( i%5 == 4 ){	
 						html += "<br/>";
