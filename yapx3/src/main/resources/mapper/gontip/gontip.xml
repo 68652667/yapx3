@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gontip">
+
+<select id="selectGontipList" resultType="Gontip">
+select A.*
+		from m_b A
+		order by MANUAL_BOARD_NO desc
+</select>
+	
+</mapper>
