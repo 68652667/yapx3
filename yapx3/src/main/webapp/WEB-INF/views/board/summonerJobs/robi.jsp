@@ -41,6 +41,9 @@
 		<div><input type="hidden" name="roomId" id="roomId" value="${room.roomId }"/></div>
 		<div><input type="hidden" name="userEmail" value="${room.userEmail}" /></div>
 		<div><input type="hidden" name="partnerBoardMaxno" id="partnerBoardMaxno" value="${room.partnerBoardMaxno}" /></div>
+		<div><input type="hidden" name="boardPersonnelNo" id="boardPersonnelNo" value="${room.boardPersonnelNo}" /></div>
+		<div><input type="hidden" name="chatContent" id="chatContent" value="${room.chatContent}" /></div>
+		<div><input type="hidden" name="summonerTier" id="summonerTier" value="${room.summonerTier}" /></div>
 		<div>
 			<label for="chatTitle">방 제목</label>
 			<input type="text" name="partnerBoardTitle" id="chatTitle" value="${room.partnerBoardTitle }" style="width : 350px;"/>
@@ -57,31 +60,31 @@
 		<div>
 			<label for="chatTitle">티어</label>
 			<div>
-				<input type="checkbox" class="tier" name="summonerTier" value="Iron"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="IRON" />
 				<label for="iron">Iron</label>
                                                          
-				<input type="checkbox" class="tier" name="summonerTier" value="Bronze"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="BRONZE"/>
 				<label for="Bronze">Bronze</label>                      
                                                                        
-				<input type="checkbox" class="tier" name="summonerTier" value="Silver"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="SILVER"/>
 				<label for="Silver">Silver</label>                     
 	                                                                   
-				<input type="checkbox" class="tier" name="summonerTier" value="Gold"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="GOLD"/>
 				<label for="Gold">Gold</label>                         
                                                                        
-				<input type="checkbox" class="tier" name="summonerTier" value="Platinum"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="PLATINUM"/>
 				<label for="Platinum">Platinum</label>                 
                                                                        
-				<input type="checkbox" class="tier" name="summonerTier" value="Diamond"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="DIAMOND"/>
 				<label for="Diamond">Diamond</label>                   
                                                                        
-				<input type="checkbox" class="tier" name="summonerTier" value="Master"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="MASTER"/>
 				<label for="Master">Master</label>                     
                                                                        
-				<input type="checkbox" class="tier" name="summonerTier" value="GrandMaster"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="GRANDMASTER"/>
 				<label for="GrandMaster">GrandMaster</label>           
                                                                        
-				<input type="checkbox" class="tier" name="summonerTier" value="Challenger"/>
+				<input type="checkbox" class="tier" name="summonerTier" value="CHALLENGER"/>
 				<label for="Challenger">Challenger</label>            
 			</div>
 		</div>
@@ -114,11 +117,42 @@
 	</div>
 </div>
 	<br />
-	<input type="text" value="${summonerName }" id="summonerName" name="summonerName">
+	<input type="text" value="${summonerName }" id="summonerName" name="summonerName" readonly>
 	<input type="text" id="inputMessage" name="sendMessage" />
 	<button id="msg_process" class="btn btn-outline-success" onclick="sendMessage();">전송</button>
 </body>
 <script type="text/javascript">
+
+console.log( $("#summonerTier").val() );
+
+var tier = $("#summonerTier").val();
+var summonerInfo = "";
+
+tiers = tier.split(",");
+
+console.log( tiers );
+
+for( var i in tiers){
+	if( tiers[i] == "IRON"){
+		$("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "BRONZE"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "SILVER"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "GOLD"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "PLATINUM"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "DIAMOND"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "MASTER"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "GRANDMASTER"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }else if( tiers[i] == "CHALLENGER"){
+		   $("input[value="+tiers[i]+"]").prop("checked", true).attr( "type", "checkbox");
+	   }
+}
 
 //난수생성
 function makeid()
@@ -165,11 +199,12 @@ sock.onopen = function(){
 				}else{
 					console.log( $("#personNum") );
 					$("#personNum").val( data + "/" +$("#partnerBoardMaxno").val() );
+					
 					var printHTML = $("#insertSummoner").val( currentuser_session + "님이 입장했습니다.");
+					
 					sock.send(currentuser_session+" : " + "님이 입장했습니다." + ":" + $("#roomId").val() );
-					if( sock.sessionId > 1 ){
-						$("#personNum").val() + 1;
-					}
+					
+					console.log( "chatContent = " + $("#chatContent").val() );
 				}
 			},
 			error : function( err ){
@@ -181,8 +216,8 @@ sock.onopen = function(){
 
 $("input[name=sendMessage]").keydown( function( key ){
 	if( key.keyCode == 13 ){
-		sendMessage();
-		$("input[name=sendMessage]").val("");		
+		sendMessage();	
+		$("input[name=sendMessage]").val("");
 	}
 } )
 
@@ -195,7 +230,60 @@ $(function(){
 
 function sendMessage(){
 	//websocket으로 메시지를 보내겟다.
-	if( $("#inputMessage").val() == "@" ){
+	if( $("#inputMessage").val() == "@"){
+		$("#inputMessage").val("");
+		var summonerName = prompt("소환사 닉네임을 입력해주세요 !").replace(/ /g,"%20");
+		var summonerId;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/summoner/search?summonerName="+summonerName,
+			type : "GET",
+			dataType : "json",
+			success : function( data ){
+				summonerId = data.id;
+				
+				console.log( "summonerId = " + summonerId );
+				
+				if( summonerId != null ){
+					alert("존재하는 소환사 입니다.");
+					$.ajax({
+		 				url : "${pageContext.request.contextPath}/summoner/league?summonerId=" + summonerId,
+						type : "GET",
+						async : false,
+						dataType : "json",
+						success : function( data ){
+							console.log( data );
+							for(var i in data){
+								var printHTML = "";
+								if( data[i].queueType != "RANKED_TFT" && data[i].queueType != "RANKED_FLEX_SR"){
+									printHTML += "<div class='alert alert-success'>" +
+									       "<tr>" +
+									       "<td>" + "검색한 서머너 : [ " + summonerName + " ] </td>" +  "</br>" +
+									   	   "</tr>" +
+										   "<tr>" +
+										   "<td>" + "솔로랭크 티어 : [ " + data[i].tier + " " + data[i].rank + " " + data[i].leaguePoints + "LP ]</td>" + "</br>" +
+										   "</tr>" +
+										   "<tr>" +
+										   "<td>" + " 전적 : [ " + data[i].wins + "승" + " " + data[i].losses + "패 ]" + " 승률 : [ " + Math.round(( data[i].wins/( data[i].wins + data[i].losses ) )*100) + "% ]</td>" +
+										   "</tr>" +
+										   "<tr>" +
+										   "</div>";
+								  sock.send(  printHTML );
+								}
+							}
+						},
+						error : function( xhr, txtStatus, err ){
+							console.log( xhr, txtStatus, err );
+						}
+					});
+				}else{
+					
+				}
+			},
+			error : function( err ){
+				alert( "존재하지 않는 소환사입니다." );
+				return;
+			}
+		});
 		
 	}else{
 		sock.send(currentuser_session+" : "+$("#inputMessage").val() + ":" + $("#roomId").val() );
@@ -217,6 +305,14 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 	//문자열을 splite
 	var strArray = data.split(":");
 	
+	if( data.match( "<div class='alert alert-success'>" ) ) {
+		$("#chatdata").append( strArray[1] + strArray[2] + strArray[3] + strArray[4] + strArray[5]);
+		$("#chat_box").scrollTop( $("#chat_box").prop('scrollHeight'));
+		$("input[name=sendMessage]").val("");
+		return;
+	}
+	
+	
 	for(var i = 0; i < strArray.length; i++){
 		console.log("str["+i+"] : " + strArray[i]);
 	}
@@ -235,10 +331,6 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 	console.log( sessionid );
 	console.log( sessionStorage.getItem( currentuser_session ) == sessionid );
 
-	$.ajax({
-		
-	});
-	
 	
 	if( $( "#roomId" ).val() == strArray[ 3 ] ) {
 		console.log(  strArray[1] );
@@ -251,6 +343,10 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 		
 		console.log(  insertSum );
 		
+		console.log( strArray[1] + strArray[2]  );
+		console.log( strArray[1] + strArray[2] == "  " + $("#roomId").val() + " 방장이 나갔습니다." );
+		console.log( strArray[1] + strArray[2] == "  " + $("#roomId").val() + " 방장이 나갔습니다." );
+		
 		if( strArray[1] + strArray[2] == strArray[1] + " 님이 입장했습니다.") {
 			var printHTML = "<div class='well'>";
 				printHTML += "<div class='alert alert-light'>";
@@ -260,6 +356,7 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 				
 				$("#chatdata").append(printHTML);
 				$("#chat_box").scrollTop( $("#chat_box").prop('scrollHeight'));
+				
 				$.ajax({
 					url : "${pageContext.request.contextPath}/board/checkBoardNo.do?roomId=" + $("#roomId").val(),
 					type : "GET",
@@ -267,12 +364,39 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 					success : function( data ){
 						console.log( "data" , data );
 						$("#personNum").val( data + "/" +$("#partnerBoardMaxno").val() );
+						$("#personNum").val();
 					},
 					error : function( err ){
 						console.log("방 나가기에 실패했습니다.")
 					}
 				});
-		}else {
+		}else if( strArray[1] + strArray[2] == strArray[1] + " 님이 퇴장했습니다.") {
+			var printHTML = "<div class='well'>";
+			printHTML += "<div class='alert alert-light'>";
+			printHTML += "<strion>"+insertSum+" </strion>";
+			printHTML += "</div>";
+			printHTML += "</div>";
+			
+			$("#chatdata").append(printHTML);
+			$("#chat_box").scrollTop( $("#chat_box").prop('scrollHeight'));
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/board/checkBoardNo.do?roomId=" + $("#roomId").val(),
+				type : "GET",
+				dataType : "json",
+				success : function( data ){
+					console.log( "data" , data );
+					$("#personNum").val( data + "/" +$("#partnerBoardMaxno").val() );
+					$("#personNum").val();
+				},
+				error : function( err ){
+					console.log("방 나가기에 실패했습니다.")
+				}
+			});
+	}else if( strArray[1] + strArray[2] == " " + $("#roomId").val() + "방장이 나갔습니다." ){
+		alert("방장이 나갔습니다.");
+		location.href = "${pageContext.request.contextPath}/board/viewRoom.do";	
+	}else {
 			if( sessionStorage.getItem( currentuser_session ) == sessionid ){
 				console.log( 1 );
 				var printHTML = "<div class='well'>";
@@ -283,7 +407,6 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 					
 				$("#chatdata").append(printHTML);
 				$("#chat_box").scrollTop( $("#chat_box").prop('scrollHeight'));
-				$("input[name=sendMessage]").val("");
 			}else {
 				console.log( 2 );
 				var printHTML = "<div class='well'>";
@@ -294,7 +417,6 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 				
 				$("#chatdata").append(printHTML);
 				$("#chat_box").scrollTop( $("#chat_box").prop('scrollHeight'));
-				$("input[name=sendMessage]").val("");
 			}
 		}
 	}
@@ -307,17 +429,20 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 		//방장이아닐경우
 		//인원수 - 1 update문 작성
 			$.ajax({
-				url : "${pageContext.request.contextPath}/board/outRoom.do?roomId=" + $("#roomId").val(),
+				url : "${pageContext.request.contextPath}/board/outRoom.do?roomId=" + $("#roomId").val() + "&summonerId=" + currentuser_session,
 				type : "GET",
 				dataType : "json",
 				success : function( data ){
 					console.log( "data" , data );
 					if( data != 0 ){
-						console.log( $("#personNum") );
+						console.log( $("#personNum").val() );
+						sock.send(currentuser_session+" : " + "님이 퇴장했습니다." + ":" + $("#roomId").val() );
 						alert("채팅방을 나가셨습니다.");
-						$("#personNum").val( data - 1 + "/" +$("#partnerBoardMaxno").val() );
 						location.href = "${pageContext.request.contextPath}/board/viewRoom.do";
+						$("#personNum").val( data + "/" +$("#partnerBoardMaxno").val() );
+						$("#personNum").val();
 					}
+
 				},
 				error : function( err ){
 					console.log("방 나가기에 실패했습니다.")
@@ -326,13 +451,13 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 		//방장일경우
 		//방을 삭제
 		}else{
-			console.log("이쪽으로 오긴하냐 ?")
 			$.ajax({
 				url : "${pageContext.request.contextPath}/board/deleteRoom.do?roomId=" + $("#roomId").val(),
 				type : "GET",
 				dataType : "json",
 				success : function( data ){
 					if( data == 1 ){
+						sock.send( $("#roomId").val() + ":" + "방장이 나갔습니다." + ":" + $("#roomId").val());
 						alert("채팅방이 삭제되었습니다.");
 						location.href = "${pageContext.request.contextPath}/board/viewRoom.do";
 					}
@@ -345,12 +470,8 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 	});
 
 function onClose(event){
-	sock.send(currentuser_session+" : " + "님이 나가셨습니다." + ":" + $("#roomId").val() );
-	if( sock.sessionId > 1 ){
-		$("#personNum").val() - 1;
-	}
 	$("#data").append("연결 끊김");
-	sessionStorage.removeItem( currentuser_session );
+	sessionStorage.removeItem( currentuser_session );	
 }
 </script>   
 <!-- End Page Container -->

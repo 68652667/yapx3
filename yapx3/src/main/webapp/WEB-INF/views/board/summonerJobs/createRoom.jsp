@@ -89,7 +89,7 @@
 					<label for="teamRank">팀 5:5 랭크</label>
 				</div>
 			</div>
-			<div><input type="hidden" name="chatContent" value="..." /></div>
+			<div><input type="hidden" name="chatContent" value=" " /></div>
 			<div><input type="hidden" name="expulisionList" value="...." /></div>
 			<div>
 				<button type="button" class="btn btn-outline-success" onclick="cancel();">취소</button>
@@ -150,6 +150,7 @@
 				console.log( data );
 				if( data == "" ){
 					$("input[value=IRON]").prop("checked", true).attr( "type", "checkbox");
+					$("input[value=BRONZE]").prop("checked", true).attr( "type", "checkbox");
 				}else{	
 					for(var i in data){				
 						if( data[i].queueType == "RANKED_SOLO_5x5" && data[i].queueType != "RANKED_TFT" && data[i].queueType != "RANKED_FLEX_SR" ){

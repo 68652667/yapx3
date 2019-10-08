@@ -75,6 +75,8 @@ public class StompController {
 		
 		logger.info( "result={}", result );
 		
+		if( result == -2147482646 ) result = 1;
+		
 		summonerJobsChatRoom robiRoom = stompService.findUserEmail( chatRoom.getUserEmail() );
 		
 		logger.info( "robiRoom={}", robiRoom );
@@ -97,26 +99,32 @@ public class StompController {
 		
 		summonerJobsChatRoom robiRoom = stompService.selectRoom( boardNo );
 		logger.info( "robiRoom={}", robiRoom );
-		logger.info( "robiRoom.getChatContent()={}", robiRoom.getChatContent() );
+		logger.info( "robiRoom.getChatContent()111={}", robiRoom.getChatContent() );
+		logger.info( "robiRoom.getChatContent()222={}", robiRoom.getChatContent() == null );
+		boolean bool = false;
 		
 		if( robiRoom.getChatContent() == null ) {
 			robiRoom.setChatContent( summonerName );
-		}else {
-			robiRoom.setChatContent( robiRoom.getChatContent() + "." +  summonerName ); 
+		}else if( robiRoom.getChatContent() != null ) {
+			String[] arr = robiRoom.getChatContent().split(","); 
+			for( int i = 0 ; i < arr.length ; ++i ) {
+				if( arr[i].equals( summonerName ) ) {
+					bool = true;
+				}
+			}
+			if( bool != true ) robiRoom.setChatContent( robiRoom.getChatContent() + "," + summonerName ); 
 		}
 		
 		logger.info( "robiRoomSelectRobi={}", robiRoom );
 		
 		int result = stompService.updateRoom( robiRoom );
 		
-		logger.info( "resultupdateRoom={}", result );
-		
-		logger.info( "robiRoomSelectRobi={}", robiRoom );
 		
 		Map<String, String> map = new HashMap<>();
 		
 		map.put( "robiRoom", robiRoom.getRoomId() );
 		map.put( "summonerName", summonerName );
+		map.put( "bool", String.valueOf(bool) );
 		
 		logger.info("===========================================.");
 		return map;
@@ -172,19 +180,52 @@ public class StompController {
 	//채팅방 나가기
 	@ResponseBody
 	@RequestMapping("/outRoom.do")
-	public int outRoom( @RequestParam("roomId") String roomId) {
-		logger.info( "outRoomroomId={}", roomId );
+	public int outRoom( @RequestParam("roomId") String roomId,
+						@RequestParam("summonerId") String summonerId) {
+		logger.info( "outRoomroomId1111={}", roomId );
 		
 		int result = stompService.outRoomboardPersonnelNo( roomId );
 		
-		if( result > 0 ) {
+		if( result > 0 || result == -2147482646 ) {
 			List<summonerJobsChatRoom> rlist = stompService.visitRoom( roomId );
+			
+			logger.info( "outRoomrlist = {}", rlist );
 			
 			summonerJobsChatRoom sjc = (summonerJobsChatRoom)rlist.get( 0 );
 			
 			logger.info( "boardsjc={}", sjc );
+			logger.info( "boardsjc.getChatContent()=[{}]", sjc.getChatContent() );
+			logger.info( "boardsjc.getChatContent().split(',')=[{}]", sjc.getChatContent().split(",").length);
 			
-			result = sjc.getBoardPersonnelNo();
+			String[] arr = sjc.getChatContent().split(","); 
+			
+			System.out.println( arr.toString() );
+			
+			logger.info( "arr=[{}]", arr );
+			
+			String str = "";
+			
+			for( int i = 0 ; i < arr.length ; ++i ) {
+				if( !arr[i].equals( summonerId ) ) {
+					str += arr[ i ];
+					if( i < arr.length - 1 ) {
+						str += ",";
+					}
+				}
+			}
+			
+			logger.info( "boardstr={}", str );
+			
+			sjc.setChatContent( str );
+			
+			result = stompService.updateRoom( sjc );
+			
+			logger.info( "boardresult={}", result );
+			
+			if( result > 0 || result == -2147482646 ) {
+				result = sjc.getBoardPersonnelNo();
+			}
+			
 		}
 		
 		
@@ -196,12 +237,27 @@ public class StompController {
 	@RequestMapping("/deleteRoom.do")
 	public int deleteRoom( @RequestParam("roomId") String roomId) {
 		
-		logger.info( "outRoomroomId={}", roomId );
+		logger.info( "outRoomroomId222={}", roomId );
 		
 		int result = stompService.deleteRoom( roomId );
 		
-		logger.info("result={}", result);
-		
-		return result;
+		if( result == -2147482646 ) {
+			result = 1;
+			
+			logger.info("result11={}", result);
+			return result;
+			
+		}else if( result == 1 ){
+			
+			logger.info("result22={}", result);
+			return result;
+			
+		}else {
+			
+			logger.info("result33={}", result);
+			return result;
+			
+		}
+
 	}
 }

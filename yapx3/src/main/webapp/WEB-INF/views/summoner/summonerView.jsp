@@ -396,27 +396,27 @@ margin: 0 8px;
 		</tr>
 		<tr>
 			<td>
-			<div>
-			<canvas id="myChart" width="150" height="150"></canvas>
-			</div>
+				<div>
+					<canvas id="myChart" width="150" height="150"></canvas>
+				</div>
 			</td>
 			<td>
-				<div class="GameList" >
-			<div id="KDA">
-				<span id="Kill"></span> /
-				<span id="Death"></span> /
-				<span id="Assist"></span>
-			</div>
-			<div id="KDARatio">
-				<span id="KDARatioText"></span>평점
-			</div>
-			<div id="Status">
-				<div id="Status_Level"></div>
-				<div id="Status_CS"><span></span></div>
-				<div id="Status_Kill"><span></span></div>
-				<div id="Status_MMR"><span></span><br /><b></b></div>
-			</div>
-</div>	
+			<div class="GameList" >
+				<div id="KDA">
+					<span id="Kill"></span> /
+					<span id="Death"></span> /
+					<span id="Assist"></span>
+				</div>
+				<div id="KDARatio">
+					<span id="KDARatioText"></span>평점
+				</div>
+				<div id="Status">
+					<div id="Status_Level"></div>
+					<div id="Status_CS"><span></span></div>
+					<div id="Status_Kill"><span></span></div>
+					<div id="Status_MMR"><span></span><br /><b></b></div>
+				</div>
+			</div>	
 			</td>
 			
 			<td style="border: hidden;">
