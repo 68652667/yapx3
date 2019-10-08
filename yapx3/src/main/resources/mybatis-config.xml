@@ -9,9 +9,8 @@
   </settings>
   <typeAliases>
 
-  	<typeAlias type="com.kh.yapx3.stat.model.vo.MatchString" alias="matchString"/>
-  		<typeAlias type = "com.kh.yapx3.item.model.vo.ItemVO" alias="itemvo"/>
-  		<typeAlias type = "com.kh.yapx3.champion.model.vo.ChampionInfoVO" alias="Info"/>
+  	<typeAlias type = "com.kh.yapx3.item.model.vo.ItemVO" alias="itemvo"/>
+  	<typeAlias type = "com.kh.yapx3.champion.model.vo.ChampionInfoVO" alias="Info"/>
 	<typeAlias type = "com.kh.yapx3.item.model.vo.Test" alias="test"/>
 
   	<typeAlias type="com.kh.yapx3.user.model.vo.Member" 
@@ -44,6 +43,10 @@
 			   alias="Tip"/>
 	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipComment"
 			   alias="TipComment"/>
+	<typeAlias type="com.kh.yapx3.board.gontip.model.vo.Gontip"
+			   alias="Gontip"/>
+	<typeAlias type="com.kh.yapx3.board.gontip.model.vo.GontipComment"
+			   alias="GontipComment"/>
 
   </typeAliases>
 </configuration>
