@@ -38,6 +38,9 @@ public class ChampionInfoVO {
 	private int item4;
 	private int item5;
 	private int item6;
+	//챔피언 스킬 Passive, Q, W, E, R
+	private String championName;
+	private String championId;
 	public ChampionInfoVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -47,7 +50,7 @@ public class ChampionInfoVO {
 			String itemStartPercent, int count, int perkPrimaryStyle, int perk0, int perk1, int perk2, int perk3,
 			int perkSubStyle, int perk4, int perk5, int statPerk0, int statPerk1, int statPerk2, String startItem,
 			String startItem1, String startItem2, String startItem3, int item0, int item1, int item2, int item3,
-			int item4, int item5, int item6) {
+			int item4, int item5, int item6, String championName, String championId) {
 		super();
 		this.championLane = championLane;
 		this.championLaneCount = championLaneCount;
@@ -79,6 +82,8 @@ public class ChampionInfoVO {
 		this.item4 = item4;
 		this.item5 = item5;
 		this.item6 = item6;
+		this.championName = championName;
+		this.championId = championId;
 	}
 	public String getChampionLane() {
 		return championLane;
@@ -259,6 +264,18 @@ public class ChampionInfoVO {
 	}
 	public void setItem6(int item6) {
 		this.item6 = item6;
+	}
+	public String getChampionName() {
+		return championName;
+	}
+	public void setChampionName(String championName) {
+		this.championName = championName;
+	}
+	public String getChampionId() {
+		return championId;
+	}
+	public void setChampionId(String championId) {
+		this.championId = championId;
 	}
 	
 	

@@ -1,11 +1,16 @@
 package com.kh.yapx3.champion.model.service;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -30,8 +35,8 @@ import com.kh.yapx3.champion.model.matchline.ChampionMatchLine;
 import com.kh.yapx3.champion.model.matchline.MatchVO;
 import com.kh.yapx3.champion.model.summoner.Summoner;
 import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
+import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 import com.kh.yapx3.champion.model.vo.MatchInfoVO;
-import com.kh.yapx3.match.model.vo.SortChampionVo;
 
 @Service
 public class ChampionInfoServiceImpl implements ChampionInfoService{
@@ -126,8 +131,7 @@ public class ChampionInfoServiceImpl implements ChampionInfoService{
 		String api = "api_key=RGAPI-65b2e42a-3890-4260-a232-ddb56b611074";
 		HttpHeaders header = new HttpHeaders();
 		HttpEntity<String> httpEntity = new HttpEntity<>(header);
-		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity,
-				ChampionAll.class);
+		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
 
 		Map<String, Integer> championKON = new HashMap<String, Integer>();
 		List<String> championName = new ArrayList<String>();
@@ -231,52 +235,90 @@ public class ChampionInfoServiceImpl implements ChampionInfoService{
 
 //챔피언의 통계(아이템, 룬, 스펠, 스킬)을 가져온다.
 	public List<ChampionInfoVO> championInfo(int championId) {
-		double championCount = championDAO.championCount(championId);
+		RestTemplate restTemplate = new RestTemplate();
+		String urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
+		HttpHeaders header = new HttpHeaders();
+		HttpEntity<String> httpEntity = new HttpEntity<>(header);
+		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
 		
-		List<Map<String, String>> lineList = new ArrayList<Map<String,String>>();
-		lineList = championLine(championId);
-		
-		int championLineCount = 0;
-		String championLineStr = "";
-		List<Integer> championLaneCountList = new ArrayList<Integer>();
-		List<String> championLanePosition = new ArrayList<String>();
-		
-//list 초기화
-		championLaneCountList.clear();
-		championLanePosition.clear();
-		for(int i = 0; i < lineList.size(); i++) {
-			championLineCount =  Integer.parseInt(String.valueOf(lineList.get(i).get("COUNT(*)")));
-			championLineStr = lineList.get(i).get("LANE");
-			championLaneCountList.add(championLineCount);
-			championLanePosition.add(championLineStr);
+		Iterator<String> iter =  championAll.getBody().getData().keySet().iterator();
+		List<Integer> championKey = new ArrayList<Integer>();
+		while(iter.hasNext()) {
+			String key = iter.next();
+			championKey.add(championAll.getBody().getData().get(key).getKey());
 		}
-		
-		
-		List<String> championLine = new ArrayList<String>();
-		
-		for( int i = 0 ; i < championLaneCountList.size(); i++) {
-			championLine.add(String.format("%.2f", championLaneCountList.get(i)*100/championCount) + "%");
-		}
-		
-//통계데이터 객체에 담기
-		ChampionInfoVO championLane;
-		List<ChampionInfoVO> championLaneList = new ArrayList<ChampionInfoVO>();
-		for( int i = 0 ; i < championLine.size(); i++) {
-			championLane = new ChampionInfoVO();
-			String championLineCountStr = String.format("%.2f", championLaneCountList.get(i)*100/championCount) + "%";
-			if(championLanePosition.get(i).equals("TOP")) {
-				championLane.setChampionLane("탑");
-			}else if(championLanePosition.get(i).equals("BOTTOM")) {
-				championLane.setChampionLane("바텀");
-			}else if(championLanePosition.get(i).equals("JUNGLE")) {
-				championLane.setChampionLane("정글");
-			}else if(championLanePosition.get(i).equals("MIDDLE")) {
-				championLane.setChampionLane("미드");
+		List<JSONObject> jobjList = new ArrayList<JSONObject>();
+		for(int j = 0 ; j < championKey.size(); j++) {
+			
+			logger.info("championKey: "  + championKey.get(j));
+			double championCount = championDAO.championCount(championKey.get(j));
+			
+			List<Map<String, String>> lineList = new ArrayList<Map<String,String>>();
+			lineList = championLine(championKey.get(j));
+			
+			int championLineCount = 0;
+			String championLineStr = "";
+			List<Integer> championLaneCountList = new ArrayList<Integer>();
+			List<String> championLanePosition = new ArrayList<String>();
+			
+	//list 초기화
+			championLaneCountList.clear();
+			championLanePosition.clear();
+			for(int i = 0; i < lineList.size(); i++) {
+				championLineCount =  Integer.parseInt(String.valueOf(lineList.get(i).get("COUNT(*)")));
+				championLineStr = lineList.get(i).get("LANE");
+				championLaneCountList.add(championLineCount);
+				championLanePosition.add(championLineStr);
 			}
-			championLane.setChampionLaneCount(championLineCountStr);
-			championLaneList.add(championLane);
+			
+			
+			List<String> championLine = new ArrayList<String>();
+			
+			for( int i = 0 ; i < championLaneCountList.size(); i++) {
+				championLine.add(String.format("%.2f", championLaneCountList.get(i)*100/championCount) + "%");
+			}
+			
+	//통계데이터 객체에 담기
+			ChampionInfoVO championLane;
+			List<ChampionInfoVO> championLaneList = new ArrayList<ChampionInfoVO>();
+			
+			JSONObject jobj = new JSONObject();
+			jobj.put("key", championKey.get(j));
+			for( int i = 0 ; i < championLine.size(); i++) {
+				championLane = new ChampionInfoVO();
+				String championLineCountStr = String.format("%.2f", championLaneCountList.get(i)*100/championCount) + "%";
+				if(championLanePosition.get(i).equals("TOP")) {
+					championLane.setChampionLane("탑");
+					jobj.put("탑", championLineCountStr);
+				}else if(championLanePosition.get(i).equals("BOTTOM")) {
+					championLane.setChampionLane("바텀");
+					jobj.put("바텀", championLineCountStr);
+				}else if(championLanePosition.get(i).equals("JUNGLE")) {
+					championLane.setChampionLane("정글");
+					jobj.put("정글", championLineCountStr);
+				}else if(championLanePosition.get(i).equals("MIDDLE")) {
+					championLane.setChampionLane("미드");
+					jobj.put("미드", championLineCountStr);
+				}
+				championLane.setChampionLaneCount(championLineCountStr);
+				championLaneList.add(championLane);
+			}
+			
+			jobjList.add(jobj);
+			
+			logger.info("createJSONObject: " +  jobj.toString());
+//			logger.info("createJSONObjectList: " +  jobjList);
 		}
-		return championLaneList;
+		try {
+			File file = new File("/Users/anchangho/git/yapx3/yapx3/json파일/championLane.json");
+			FileWriter fw = new FileWriter(file, true);
+			fw.write(jobjList.toString());
+			fw.flush();
+			fw.close();
+			
+		}catch(Exception e) {
+		}
+		return null;
 	}
 
 //챔피언 라인 리스트 NONE제외 시키는 메소드
@@ -306,99 +348,155 @@ public class ChampionInfoServiceImpl implements ChampionInfoService{
 //해당 챔피언의 가장 많이 쓴 소환사 스킬
 	@Override
 	public List<ChampionInfoVO> summonerSkillList(int championId) {
-
-		List<ChampionInfoVO> spellList = championDAO.summonerSkill(championId);
-		List<Integer> winCountList = summonerWinSkillList(championId);
-		int count = 0;
-		Map<Integer, String> map = new HashMap<Integer, String>();
-		for(int i = 0 ; i < spellList.size(); i++) {
-			for(int j = 0; j < spellList.size(); j++) {
-				if(spellList.get(i).getSummonerSpell1id().equals(spellList.get(j).getSummonerSpell2id()) &&
-				   spellList.get(i).getSummonerSpell2id().equals(spellList.get(j).getSummonerSpell1id())) {
+		RestTemplate restTemplate = new RestTemplate();
+		String urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
+		HttpHeaders header = new HttpHeaders();
+		HttpEntity<String> httpEntity = new HttpEntity<>(header);
+		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
+		
+		Iterator<String> iter1 =  championAll.getBody().getData().keySet().iterator();
+		List<Integer> championKey = new ArrayList<Integer>();
+		List<String> championName = new ArrayList<String>();
+		while(iter1.hasNext()) {
+			String key = iter1.next();
+			championKey.add(championAll.getBody().getData().get(key).getKey());
+			championName.add(championAll.getBody().getData().get(key).getId());
+		}
+		
+		List<JSONObject> jobjList = new ArrayList<JSONObject>();
+		for(int a = 0 ; a < championKey.size(); a++) {
+			logger.info("------------------------시작------------------------------------");
+			logger.info("championKey: " + championKey.get(a));
+			List<ChampionInfoVO> spellList = championDAO.summonerSkill(championKey.get(a));
+			List<Integer> winCountList = summonerWinSkillList(championKey.get(a));
+			int count = 0;
+			Map<Integer, String> map = new HashMap<Integer, String>();
+			for(int i = 0 ; i < spellList.size(); i++) {
+				for(int j = i+1; j < spellList.size(); j++) {
+					if(spellList.get(i).getSummonerSpell1id().equals(spellList.get(j).getSummonerSpell2id()) &&
+							spellList.get(i).getSummonerSpell2id().equals(spellList.get(j).getSummonerSpell1id())) {
 						count = spellList.get(i).getCount() + spellList.get(j).getCount();
 						map.put(count, String.valueOf(spellList.get(i).getSummonerSpell2id())+","+String.valueOf(spellList.get(i).getSummonerSpell1id()) );
+					}else {
+						count = spellList.get(j).getCount();
+						map.put(count, String.valueOf(spellList.get(i).getSummonerSpell2id())+","+String.valueOf(spellList.get(i).getSummonerSpell1id()) );
+					}
+				}
+				if(i == spellList.size() -1) {
+					break;
 				}
 			}
+			List<Integer> spellCount = new ArrayList<Integer>();
+			List<String> spellKey = new ArrayList<String>();
+			TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>(map);
+			Iterator<Integer> iter = sortMap.descendingKeySet().iterator();
+			totalCount = 0;
+			
+			while(iter.hasNext()) {
+				count = iter.next();
+				totalCount += count;
+				spellCount.add(count);
+				spellKey.add(sortMap.get(count));
+			}
+			
+			logger.info("spellCount: " + spellCount.size());
+			ChampionInfoVO championSpell;
+			List<ChampionInfoVO> championSpellList = new ArrayList<ChampionInfoVO>();
+			URLConnection connection = new URLConnection();
+			try {
+				JSONObject spellJobj = connection.summonerSpell();
+				JSONObject data = spellJobj.getJSONObject("data");
+				List<String> spellKeyList = new ArrayList<String>();
+				Iterator<String> spellIter = data.keySet().iterator();
+				while(spellIter.hasNext()) {
+					String key = spellIter.next();
+					spellKeyList.add(key);
+				}
+				
+				logger.info("spell.json key: " + data.getJSONObject(spellKeyList.get(0)).get("key").toString());
+				
+				
+				if(spellKey.size() <= 1 || winCountList.size() <= 1) {
+					for(int i = 0 ; i < 1; i++) {
+						JSONObject jobj = new JSONObject();
+						championSpell = new ChampionInfoVO();
+						logger.info("spellKey: " + spellKey.get(i));
+						String[] spellId = spellKey.get(i).split(",");
+						String championSpellCountStr = String.format("%.2f", spellCount.get(i).floatValue()*100/totalCount) + "%";
+						String championWinSpellCountStr = String.format("%.2f", winCountList.get(i).floatValue()*100/spellCount.get(i)) + "%";
+						for(int j = 0; j < spellKeyList.size(); j++) {
+							for(int k = 0; k < spellId.length; k++) {
+								if(data.getJSONObject(spellKeyList.get(j)).getString("key").equals(spellId[k])) {
+									logger.info("if문 안: " + data.getJSONObject(spellKeyList.get(j)).getString("id"));
+									spellId[k] = data.getJSONObject(spellKeyList.get(j)).getString("id");
+								}
+							}
+						}
+						championSpell.setSummonerSpell1id(spellId[0]);
+						championSpell.setSummonerSpell2id(spellId[1]);
+						championSpell.setSummonerSpellCountStr(championSpellCountStr);
+						championSpell.setSummonerSpellWinCountStr(championWinSpellCountStr);
+						championSpellList.add(championSpell);
+						jobj.put("spell1id", spellId[0]);
+						jobj.put("spell2id", spellId[1]);
+						jobj.put("championSpellCountStr", championSpellCountStr);
+						jobj.put("championWinSpellCountStr", championWinSpellCountStr);
+						jobj.put("key", championKey.get(a));
+						jobj.put("championName", championName.get(a));
+//						logger.info("count: " + spellCount.get(i) + ", spell: " + spellKey.get(i));
+						logger.info("JSONObject: " + jobj);
+						jobjList.add(jobj);
+					}
+				}else {
+					for(int i = 0 ; i < 2; i++) {
+						JSONObject jobj = new JSONObject();
+						championSpell = new ChampionInfoVO();
+						String[] spellId = spellKey.get(i).split(",");
+						String championSpellCountStr = String.format("%.2f", spellCount.get(i).floatValue()*100/totalCount) + "%";
+						String championWinSpellCountStr = String.format("%.2f", winCountList.get(i).floatValue()*100/spellCount.get(i)) + "%";
+						for(int j = 0; j < spellKeyList.size(); j++) {
+							for(int k = 0; k < spellId.length; k++) {
+								if(data.getJSONObject(spellKeyList.get(j)).getString("key").equals(spellId[k])) {
+									logger.info("if문 안: " + data.getJSONObject(spellKeyList.get(j)).get("id"));
+									spellId[k] = data.getJSONObject(spellKeyList.get(j)).getString("id");
+								}
+							}
+						}
+						championSpell.setSummonerSpell1id(spellId[0]);
+						championSpell.setSummonerSpell2id(spellId[1]);
+						championSpell.setSummonerSpellCountStr(championSpellCountStr);
+						championSpell.setSummonerSpellWinCountStr(championWinSpellCountStr);
+						jobj.put("spell1id", spellId[0]);
+						jobj.put("spell2id", spellId[1]);
+						jobj.put("championSpellCountStr", championSpellCountStr);
+						jobj.put("championWinSpellCountStr", championWinSpellCountStr);
+						jobj.put("key", championKey.get(a));
+						jobj.put("championName", championName.get(a));
+						championSpellList.add(championSpell);
+//						logger.info("count: " + spellCount.get(i) + ", spell: " + spellKey.get(i));
+						logger.info("JSONObject: " + jobj);
+						jobjList.add(jobj);
+					}
+				}
+				logger.info("JSONObjectList: " + jobjList.toString());
+				logger.info(a + "번째 챔피언 완료");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
-		List<Integer> spellCount = new ArrayList<Integer>();
-		List<String> spellKey = new ArrayList<String>();
-		TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>(map);
-		Iterator<Integer> iter = sortMap.descendingKeySet().iterator();
-		totalCount = 0;
 		
-		while(iter.hasNext()) {
-			count = iter.next();
-			totalCount += count;
-			spellCount.add(count);
-			spellKey.add(sortMap.get(count));
-		}
-		
-		logger.info("spellCount: " + spellCount.size());
-		ChampionInfoVO championSpell;
-		List<ChampionInfoVO> championSpellList = new ArrayList<ChampionInfoVO>();
-		URLConnection connection = new URLConnection();
 		try {
-			JSONObject spellJobj = connection.summonerSpell();
-			JSONObject data = spellJobj.getJSONObject("data");
-			List<String> spellKeyList = new ArrayList<String>();
-			Iterator<String> spellIter = data.keySet().iterator();
-			while(spellIter.hasNext()) {
-				String key = spellIter.next();
-				spellKeyList.add(key);
-			}
+			File file = new File("/Users/anchangho/git/yapx3/yapx3/json파일/championSpell.json");
+			FileWriter fw = new FileWriter(file, true);
+			fw.write(jobjList.toString());
+			fw.flush();
+			fw.close();
 			
-			logger.info("spell.json key: " + data.getJSONObject(spellKeyList.get(0)).get("key").toString());
-			
-			
-			if(spellKey.size() <= 1 ) {
-				for(int i = 0 ; i < 1; i++) {
-					championSpell = new ChampionInfoVO();
-					logger.info("spellKey: " + spellKey.get(i));
-					String[] spellId = spellKey.get(i).split(",");
-					String championSpellCountStr = String.format("%.2f", spellCount.get(i).floatValue()*100/totalCount) + "%";
-					String championWinSpellCountStr = String.format("%.2f", winCountList.get(i).floatValue()*100/spellCount.get(i)) + "%";
-					for(int j = 0; j < spellKeyList.size(); j++) {
-						for(int k = 0; k < spellId.length; k++) {
-							if(data.getJSONObject(spellKeyList.get(j)).getString("key").equals(spellId[k])) {
-								logger.info("if문 안: " + data.getJSONObject(spellKeyList.get(j)).getString("id"));
-								spellId[k] = data.getJSONObject(spellKeyList.get(j)).getString("id");
-							}
-						}
-					}
-					championSpell.setSummonerSpell1id(spellId[0]);
-					championSpell.setSummonerSpell2id(spellId[1]);
-					championSpell.setSummonerSpellCountStr(championSpellCountStr);
-					championSpell.setSummonerSpellWinCountStr(championWinSpellCountStr);
-					championSpellList.add(championSpell);
-					logger.info("count: " + spellCount.get(i) + ", spell: " + spellKey.get(i));
-				}
-			}else {
-				for(int i = 0 ; i < 2; i++) {
-					championSpell = new ChampionInfoVO();
-					String[] spellId = spellKey.get(i).split(",");
-					String championSpellCountStr = String.format("%.2f", spellCount.get(i).floatValue()*100/totalCount) + "%";
-					String championWinSpellCountStr = String.format("%.2f", winCountList.get(i).floatValue()*100/spellCount.get(i)) + "%";
-					for(int j = 0; j < spellKeyList.size(); j++) {
-						for(int k = 0; k < spellId.length; k++) {
-							if(data.getJSONObject(spellKeyList.get(j)).getString("key").equals(spellId[k])) {
-								logger.info("if문 안: " + data.getJSONObject(spellKeyList.get(j)).get("id"));
-								spellId[k] = data.getJSONObject(spellKeyList.get(j)).getString("id");
-							}
-						}
-					}
-					championSpell.setSummonerSpell1id(spellId[0]);
-					championSpell.setSummonerSpell2id(spellId[1]);
-					championSpell.setSummonerSpellCountStr(championSpellCountStr);
-					championSpell.setSummonerSpellWinCountStr(championWinSpellCountStr);
-					championSpellList.add(championSpell);
-					logger.info("count: " + spellCount.get(i) + ", spell: " + spellKey.get(i));
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}catch(Exception e) {
 		}
-		return championSpellList;
+		return null;
 	}
 
 //해당 챔피언의 가장 승률이 좋은 소환사 스킬
@@ -407,23 +505,27 @@ public class ChampionInfoServiceImpl implements ChampionInfoService{
 		int count = 0;
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		for(int i = 0 ; i < spellList.size(); i++) {
-			for(int j = 0; j < spellList.size(); j++) {
+			for(int j = i+1; j < spellList.size(); j++) {
 				if(spellList.get(i).getSummonerSpell1id().equals(spellList.get(j).getSummonerSpell2id()) &&
 				   spellList.get(i).getSummonerSpell2id().equals(spellList.get(j).getSummonerSpell1id())) {
 						count = spellList.get(i).getCount() + spellList.get(j).getCount();
 						map.put(count, String.valueOf(spellList.get(i).getSummonerSpell2id())+","+String.valueOf(spellList.get(i).getSummonerSpell1id()) );
+				}else {
+						count = spellList.get(j).getCount();
+						map.put(count, String.valueOf(spellList.get(i).getSummonerSpell2id())+","+String.valueOf(spellList.get(i).getSummonerSpell1id()) );
 				}
+			}
+			if(i == spellList.size()-1) {
+				break;
 			}
 		}
 		List<Integer> spellCount = new ArrayList<Integer>();
 		List<String> spellKey = new ArrayList<String>();
 		TreeMap<Integer, String> sortMap = new TreeMap<Integer, String>(map);
 		Iterator<Integer> iter = sortMap.descendingKeySet().iterator();
-		
 		while(iter.hasNext()) {
 			count = iter.next();
 			logger.info("count" + count);
-			totalCount += count;
 			spellCount.add(count);
 			spellKey.add(sortMap.get(count));
 		}
@@ -445,83 +547,328 @@ public class ChampionInfoServiceImpl implements ChampionInfoService{
 //챔피언 룬 통계정보	
 	@Override
 	public List<ChampionInfoVO> championRune(int championId) {
-		List<ChampionInfoVO> championPerkList = championDAO.championRune(championId);
-		List<ChampionInfoVO> sendChampionPerkList = new ArrayList<ChampionInfoVO>();
-		for(int i = 0; i<2; i++) {
-			sendChampionPerkList.add(championPerkList.get(i));
+		RestTemplate restTemplate = new RestTemplate();
+		String urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
+		HttpHeaders header = new HttpHeaders();
+		HttpEntity<String> httpEntity = new HttpEntity<>(header);
+		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
+		
+		Iterator<String> iter1 =  championAll.getBody().getData().keySet().iterator();
+		List<Integer> championKey = new ArrayList<Integer>();
+		List<String> championName = new ArrayList<String>();
+		while(iter1.hasNext()) {
+			String key = iter1.next();
+			championKey.add(championAll.getBody().getData().get(key).getKey());
+			championName.add(championAll.getBody().getData().get(key).getId());
 		}
-		return sendChampionPerkList;
+		JSONArray jarr = new JSONArray();
+		for(int a = 0; a < championKey.size(); a++) {
+			List<ChampionInfoVO> championPerkList = championDAO.championRune(championKey.get(a));
+			int total = 0;
+			for(int i =0 ; i < championPerkList.size(); i++) {
+				total += championPerkList.get(i).getCount();
+			}
+			String championRunePercenter = null;
+			for(int i = 0; i < 2; i++) {
+				JSONObject jobj = new JSONObject();
+				championRunePercenter = String.format("%.2f", Float.parseFloat(String.valueOf(championPerkList.get(i).getCount()))*100/total) + "%";
+				jobj.put("perk0", championPerkList.get(i).getPerk0());
+				jobj.put("perk1", championPerkList.get(i).getPerk1());
+				jobj.put("perk2", championPerkList.get(i).getPerk2());
+				jobj.put("perk3", championPerkList.get(i).getPerk3());
+				jobj.put("perk4", championPerkList.get(i).getPerk4());
+				jobj.put("perk5", championPerkList.get(i).getPerk5());
+				jobj.put("perkPrimaryStyle", championPerkList.get(i).getPerkPrimaryStyle());
+				jobj.put("perkSubStyle", championPerkList.get(i).getPerkSubStyle());
+				jobj.put("statPerk0", championPerkList.get(i).getStatPerk0());
+				jobj.put("statPerk1", championPerkList.get(i).getStatPerk1());
+				jobj.put("statPerk2", championPerkList.get(i).getStatPerk2());
+				jobj.put("count", championPerkList.get(i).getCount());
+				jobj.put("championRunePercenter", championRunePercenter);
+				jobj.put("key", championKey.get(a));
+				jobj.put("championName", championName.get(a));
+				jarr.put(jobj);
+				logger.info("JSONObject: " + jobj);
+			}
+			logger.info("JSONArray: " + jarr);
+			logger.info(a+"번쨰 챔피언 완료");
+			List<ChampionInfoVO> sendChampionPerkList = new ArrayList<ChampionInfoVO>();
+			for(int i = 0; i<2; i++) {
+				sendChampionPerkList.add(championPerkList.get(i));
+			}
+		}
+		try {
+			File file = new File("/Users/anchangho/git/yapx3/yapx3/json파일/championRune.json");
+			FileWriter fw = new FileWriter(file, true);
+			fw.write(jarr.toString());
+			fw.flush();
+			fw.close();
+			
+		}catch(Exception e) {
+		}
+		
+		return null;
 	}
 
-//해당 챔피언으로 가장 많이 쓴 아이템 
-	
 //챔피언 시작 아이템 리스트
 	@Override
 	public List<ChampionInfoVO> championStartItem(int championId) {
-		List<ChampionInfoVO> championItemList = championDAO.championStartItem(championId);
-		List<ChampionInfoVO> championItemListSum = new ArrayList<ChampionInfoVO>();
-		List<Integer> championItemCount = new ArrayList<Integer>();
-		ChampionInfoVO championItemVo1 = new ChampionInfoVO();
-		ChampionInfoVO championItemVo2 = new ChampionInfoVO();
-		int itemTotal = 0;
-		for(int i = 0; i < championItemList.size(); i++) {
-			itemTotal += championItemList.get(i).getCount();
-			championItemCount.add(championItemList.get(i).getCount());
+		RestTemplate restTemplate = new RestTemplate();
+		String urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
+		HttpHeaders header = new HttpHeaders();
+		HttpEntity<String> httpEntity = new HttpEntity<>(header);
+		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
+		
+		Iterator<String> iter =  championAll.getBody().getData().keySet().iterator();
+		List<Integer> championKey = new ArrayList<Integer>();
+		List<String> championName = new ArrayList<String>();
+		while(iter.hasNext()) {
+			String key = iter.next();
+			championKey.add(championAll.getBody().getData().get(key).getKey());
+			championName.add(championAll.getBody().getData().get(key).getId());
 		}
-		championItemVo1.setStartItem1(championItemList.get(0).getStartItem());
-		championItemVo1.setStartItem2(championItemList.get(1).getStartItem());
-		championItemVo1.setItemStartPercent(String.format("%.2f", ((championItemCount.get(0).floatValue()+championItemCount.get(1).floatValue())*100/itemTotal))+"%");
-		championItemListSum.add(championItemVo1);
-		
-		
-		championItemVo2.setStartItem1(championItemList.get(0).getStartItem());
-		championItemVo2.setStartItem2(championItemList.get(2).getStartItem());
-		championItemVo2.setItemStartPercent(String.format("%.2f", ((championItemCount.get(0).floatValue()+championItemCount.get(2).floatValue())*100/itemTotal))+"%");
-		championItemListSum.add(championItemVo2);
-		
-		for(int i = 0 ; i < championItemListSum.size(); i++) {
-			logger.info(championItemListSum.get(i).getStartItem1());
-			logger.info(championItemListSum.get(i).getStartItem2());
-			logger.info(championItemListSum.get(i).getStartItem3());
+		List<JSONObject> jobjList = new ArrayList<JSONObject>();
+		for(int a = 0 ; a<championKey.size(); a++) {
+			JSONObject jobj = new JSONObject();
+			List<ChampionInfoVO> championItemList = championDAO.championStartItem(championKey.get(a));
+			List<ChampionInfoVO> championItemListSum = new ArrayList<ChampionInfoVO>();
+			List<Integer> championItemCount = new ArrayList<Integer>();
+			ChampionInfoVO championItemVo1 = new ChampionInfoVO();
+			ChampionInfoVO championItemVo2 = new ChampionInfoVO();
+			int itemTotal = 0;
+			for(int i = 0; i < championItemList.size(); i++) {
+				itemTotal += championItemList.get(i).getCount();
+				championItemCount.add(championItemList.get(i).getCount());
+			}
+			jobj.put("startItem1", championItemList.get(0).getStartItem());
+			jobj.put("startItem2", championItemList.get(1).getStartItem());
+			jobj.put("startItem3", championItemList.get(2).getStartItem());
+			jobj.put("startPercent1", String.format("%.2f", ((championItemCount.get(0).floatValue()+championItemCount.get(1).floatValue())*100/itemTotal))+"%");
+			jobj.put("startPercent2", String.format("%.2f", ((championItemCount.get(0).floatValue()+championItemCount.get(2).floatValue())*100/itemTotal))+"%");
+			jobj.put("key", championKey.get(a));
+			jobj.put("championName", championName.get(a));
+			logger.info("jobj: " + jobj);
+			jobjList.add(jobj);
+			
+			championItemVo1.setStartItem1(championItemList.get(0).getStartItem());
+			championItemVo1.setStartItem2(championItemList.get(1).getStartItem());
+			championItemVo1.setItemStartPercent(String.format("%.2f", ((championItemCount.get(0).floatValue()+championItemCount.get(1).floatValue())*100/itemTotal))+"%");
+			championItemListSum.add(championItemVo1);
+			
+			
+			championItemVo2.setStartItem1(championItemList.get(0).getStartItem());
+			championItemVo2.setStartItem2(championItemList.get(2).getStartItem());
+			championItemVo2.setItemStartPercent(String.format("%.2f", ((championItemCount.get(0).floatValue()+championItemCount.get(2).floatValue())*100/itemTotal))+"%");
+			championItemListSum.add(championItemVo2);
+			
+//			for(int i = 0 ; i < championItemListSum.size(); i++) {
+//				logger.info(championItemListSum.get(i).getStartItem1());
+//				logger.info(championItemListSum.get(i).getStartItem2());
+//				logger.info(championItemListSum.get(i).getStartItem3());
+//			}
+			logger.info("jobjList: " + jobjList.toString());
+			logger.info((a+1) + "번째 챔피언 완료");
 		}
-		return championItemListSum;
+		try {
+			File file = new File("/Users/anchangho/git/yapx3/yapx3/json파일/championLane.json");
+			FileWriter fw = new FileWriter(file, true);
+			fw.write(jobjList.toString());
+			fw.flush();
+			fw.close();
+			
+		}catch(Exception e) {
+		}
+		return null;
 	}
 
+//챰피언 최종 아이템 리스트
 	@Override
-	public List<ChampionInfoVO> championItem(int championId){
-		List<ChampionInfoVO> championItem0List = new ArrayList<ChampionInfoVO>();
-		List<ChampionInfoVO> championItem1List = new ArrayList<ChampionInfoVO>();
-		List<ChampionInfoVO> championItem2List = new ArrayList<ChampionInfoVO>();
-		List<ChampionInfoVO> championItem3List = new ArrayList<ChampionInfoVO>();
-		List<ChampionInfoVO> championItem4List = new ArrayList<ChampionInfoVO>();
-		List<ChampionInfoVO> championItem5List = new ArrayList<ChampionInfoVO>();
-		List<ChampionInfoVO> championItem6List = new ArrayList<ChampionInfoVO>();
-		for(int i = 0; i < 7; i++){
-			switch (i) {
-			case 0:championItem0List = championDAO.championItem(championId, i);break;
-			case 1:championItem1List = championDAO.championItem(championId, i);break;
-			case 2:championItem2List = championDAO.championItem(championId, i);break;
-			case 3:championItem3List = championDAO.championItem(championId, i);break;
-			case 4:championItem4List = championDAO.championItem(championId, i);break;
-			case 5:championItem5List = championDAO.championItem(championId, i);break;
-			case 6:championItem6List = championDAO.championItem(championId, i);break;
-			default: break;
-			}
+	public Map<Integer, Integer> championItem(int championId){
+		RestTemplate restTemplate = new RestTemplate();
+		String urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
+		HttpHeaders header = new HttpHeaders();
+		HttpEntity<String> httpEntity = new HttpEntity<>(header);
+		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
+		
+		Iterator<String> iterK =  championAll.getBody().getData().keySet().iterator();
+		List<Integer> championKey = new ArrayList<Integer>();
+		List<String> championName = new ArrayList<String>();
+		while(iterK.hasNext()) {
+			String key = iterK.next();
+			championKey.add(championAll.getBody().getData().get(key).getKey());
+			championName.add(championAll.getBody().getData().get(key).getId());
 		}
 		
-		
-		for(int i = 0 ; i < championItem0List.size(); i++) {
-			for(int j = 0 ; j < championItem1List.size(); j++) {
-				
+		List<List<JSONObject>> jarr = new ArrayList<List<JSONObject>>();
+		for(int a = 0 ; a < championKey.size(); a++ ) {
+			
+			List<ChampionInfoVO> championItem0List = new ArrayList<ChampionInfoVO>();
+			List<ChampionInfoVO> championItem1List = new ArrayList<ChampionInfoVO>();
+			List<ChampionInfoVO> championItem2List = new ArrayList<ChampionInfoVO>();
+			List<ChampionInfoVO> championItem3List = new ArrayList<ChampionInfoVO>();
+			List<ChampionInfoVO> championItem4List = new ArrayList<ChampionInfoVO>();
+			List<ChampionInfoVO> championItem5List = new ArrayList<ChampionInfoVO>();
+			List<ChampionInfoVO> championItem6List = new ArrayList<ChampionInfoVO>();
+			
+			for(int i = 0 ; i < 7; i ++) {
+				switch (i) {
+				case 0: championItem0List = championDAO.championItem(championKey.get(a), i);break;
+				case 1: championItem1List = championDAO.championItem(championKey.get(a), i);break;
+				case 2: championItem2List = championDAO.championItem(championKey.get(a), i);break;
+				case 3: championItem3List = championDAO.championItem(championKey.get(a), i);break;
+				case 4: championItem4List = championDAO.championItem(championKey.get(a), i);break;
+				case 5: championItem5List = championDAO.championItem(championKey.get(a), i);break;
+				case 6: championItem6List = championDAO.championItem(championKey.get(a), i);break;
+				default:break;
+				}
 			}
+			Map<Integer, Integer> itemMap = new HashMap<Integer, Integer>();
+			for(int i = 0; i < championItem0List.size(); i++) {
+				itemMap.put(championItem0List.get(i).getItem0(), championItem0List.get(i).getCount());
+			}
+			TreeMap<Integer, Integer> itemTMap = new TreeMap<Integer, Integer>(itemMap);
+			Iterator<Integer> iter1 = itemTMap.descendingKeySet().iterator();
+			while(iter1.hasNext()){
+				int key = iter1.next();
+				for(int i = 0; i < championItem1List.size(); i++) {
+					if(key == championItem1List.get(i).getItem1()) {
+						itemMap.put(key, itemMap.get(key)+championItem1List.get(i).getCount());
+					}
+				}
+			}
+			Iterator<Integer> iter2 = itemTMap.descendingKeySet().iterator();
+			while(iter2.hasNext()){
+				int key = iter2.next();
+				for(int i = 0; i < championItem2List.size(); i++) {
+					if(key == championItem2List.get(i).getItem2()) {
+						itemMap.put(key, itemMap.get(key)+championItem2List.get(i).getCount());
+					}
+				}
+			}
+			Iterator<Integer> iter3 = itemTMap.descendingKeySet().iterator();
+			while(iter3.hasNext()){
+				int key = iter3.next();
+				for(int i = 0; i < championItem3List.size(); i++) {
+					if(key == championItem3List.get(i).getItem3()) {
+						itemMap.put(key, itemMap.get(key)+championItem3List.get(i).getCount());
+					}
+				}
+			}
+			Iterator<Integer> iter4 = itemTMap.descendingKeySet().iterator();
+			while(iter4.hasNext()){
+				int key = iter4.next();
+				for(int i = 0; i < championItem4List.size(); i++) {
+					if(key == championItem4List.get(i).getItem4()) {
+						itemMap.put(key, itemMap.get(key)+championItem4List.get(i).getCount());
+					}
+				}
+			}
+			Iterator<Integer> iter5 = itemTMap.descendingKeySet().iterator();
+			while(iter5.hasNext()){
+				int key = iter5.next();
+				for(int i = 0; i < championItem5List.size(); i++) {
+					if(key == championItem5List.get(i).getItem5()) {
+						itemMap.put(key, itemMap.get(key)+championItem5List.get(i).getCount());
+					}
+				}
+			}
+			Iterator<Integer> iter6 = itemTMap.descendingKeySet().iterator();
+			while(iter6.hasNext()){
+				int key = iter6.next();
+				for(int i = 0; i < championItem6List.size(); i++) {
+					if(key == championItem6List.get(i).getItem6()) {
+						itemMap.put(key, itemMap.get(key)+championItem6List.get(i).getCount());
+					}
+				}
+			}
+			List<Map.Entry<Integer, Integer>> list = new LinkedList<>(itemMap.entrySet());
+			Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+				@Override
+				public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+					int comparision = (o1.getValue() - o2.getValue()) * -1;
+					return comparision;
+				}
+			});
+			
+			Map<Integer, Integer> sortedMap = new LinkedHashMap<>(); 
+			for(Iterator<Map.Entry<Integer, Integer>> iter = list.iterator(); iter.hasNext();){
+				Map.Entry<Integer, Integer> entry = iter.next();
+				sortedMap.put(entry.getKey(), entry.getValue());
+			}
+			Iterator<Integer> iterSort = sortedMap.keySet().iterator();
+			
+			int count = 0 ;
+			
+			JSONObject jobj = new JSONObject();
+			List<JSONObject> itemJobj = new ArrayList<JSONObject>();
+			while(iterSort.hasNext()) {
+				if(count >= 17) {
+					break;
+				}
+				int iterKey = iterSort.next();
+				jobj.put(String.valueOf(iterKey), sortedMap.get(iterKey));
+				jobj.put("key", championKey.get(a));
+				jobj.put("championName", championName.get(a));
+				itemJobj.add(jobj);
+				count++;
+			}
+			jarr.add(itemJobj);
+			logger.info("itemJobj: " + itemJobj);
+//			logger.info("jarr: " + jarr);
+			logger.info((a+1)+"번쨰 챔피언 완료");
 		}
-		logger.info("championItem1List: " + championItem1List.get(0).getItem1());
-		logger.info("championItem2List: " + championItem2List.get(0).getItem2());
-		logger.info("championItem3List: " + championItem3List.get(0).getItem3());
-		logger.info("championItem4List: " + championItem4List.get(0).getItem4());
-		logger.info("championItem5List: " + championItem5List.get(0).getItem5());
-		logger.info("championItem6List: " + championItem6List.get(0).getItem6());
+		try {
+			File file = new File("/Users/anchangho/git/yapx3/yapx3/json파일/championFinalItem.json");
+			FileWriter fw = new FileWriter(file, true);
+			fw.write(jarr.toString());
+			fw.flush();
+			fw.close();
+			
+		}catch(Exception e) {
+		}
 		
 		return null;
+	}
+
+//챔피언 이름 가져오기
+	@Override
+	public ChampionSkillInfo championSkillInfo(int championId) {
+		connection = new URLConnection();
+		ChampionSkillInfo championVO = new ChampionSkillInfo();
+		
+		String name = "";
+		try {
+			ChampionAll championOriginData = connection.championData();
+			
+			logger.info("championData: " + championOriginData.getData().keySet());
+			Iterator<String> iter = championOriginData.getData().keySet().iterator();
+			while(iter.hasNext()) {
+				String key = iter.next();
+				if(championOriginData.getData().get(key).getKey() == championId) {
+					//챔피언 아이디(영어이름)로 세부정보 가져오기
+					name = championOriginData.getData().get(key).getId();
+					JSONObject championDetailData = connection.championDetailData(name);
+					JSONObject championData = championDetailData.getJSONObject("data");
+					JSONArray championSkillData = championData.getJSONObject(name).getJSONArray("spells");
+					championVO.setqSkill(championSkillData.getJSONObject(0).getJSONObject("image").getString("full"));
+					championVO.setwSkill(championSkillData.getJSONObject(1).getJSONObject("image").getString("full"));
+					championVO.seteSkill(championSkillData.getJSONObject(2).getJSONObject("image").getString("full"));
+					championVO.setrSkill(championSkillData.getJSONObject(3).getJSONObject("image").getString("full"));
+					String championPassiveSkill = championData.getJSONObject(name).getJSONObject("passive").getJSONObject("image").getString("full");
+					championVO.setPassive(championPassiveSkill);
+					championVO.setChampionId(championOriginData.getData().get(key).getId());
+					championVO.setChampionName(championOriginData.getData().get(key).getName());
+					break;
+				}
+			}
+			
+		return championVO;
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return championVO;
 	}
 }

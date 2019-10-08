@@ -3,11 +3,9 @@ package com.kh.yapx3.champion.model.service;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONObject;
-
 import com.kh.yapx3.champion.model.matchline.MatchVO;
-import com.kh.yapx3.champion.model.vo.Camp;
 import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
+import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 
 public interface ChampionInfoService {
 	
@@ -36,6 +34,8 @@ public interface ChampionInfoService {
 
 	public List<ChampionInfoVO> championStartItem(int championId);
 
-	public List<ChampionInfoVO> championItem(int championId);
+	public Map<Integer, Integer> championItem(int championId);
+
+	public ChampionSkillInfo championSkillInfo(int championId);
 
 }

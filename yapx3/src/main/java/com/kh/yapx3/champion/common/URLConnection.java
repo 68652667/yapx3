@@ -103,6 +103,12 @@ public class URLConnection {
 		JSONObject jobj = urlInput(urlStr);
 		return jobj;
 	}
+	
+	public JSONObject championDetailData(String name) throws IOException{
+		urlStr = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/champion/"+ name + ".json";
+		JSONObject jobj = urlInput(urlStr);
+		return jobj;
+	}
 		
 	//첼린져 리그들 
 	public JSONObject challengerLegue() throws IOException{

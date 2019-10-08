@@ -20,9 +20,38 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	padding: 30px;
 	position: relative;
 }
+.championHeaderImg{
+	color: white;
+	text-align: center;
+}
+.championHeaderImg img{
+	width: 150px;
+	height: 150px;
+}
 .championHeaderSkillInfo{
 	position: absolute;
 	bottom: 0px;
+}
+.championHeaderSkill img{
+	width: 50px;
+	height: 50px;
+}
+
+.championHeaderSkill{
+	display: inline;
+}
+.championSkill{
+	display: inline;
+	position: relative;
+	float: left;
+}
+.championSkill span{
+	z-index: 100;
+	position: absolute;
+	color: white;
+	font-size: 24px;
+	font-weight: bold;
+	right: 5px;
 }
 .subPerkRow img{
 	width: 25px;
@@ -96,18 +125,36 @@ li {
 	</div>
 	<div class="championHeaderSkillInfo">
 		<div class="championHeaderImg">
-			<img src="" alt="" />
-			<h2>챔피언 이름</h2>
+			<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/champion/${championSkillInfo.championId }.png"/>
+			<h2>${championSkillInfo.championName }</h2>
 		</div>
 		<div class="championHeaderSkill">
 		<!-- 챔피언 스킬 -->
-			<c:forEach items="" var="skill">
-				<div class="championSkill">
-				<!-- 스킬 이미지 -->
-					<img src="" alt="" />
-					<span>Q</span>
-				</div>
-			</c:forEach>
+			<div class="championSkill">
+			<!-- 스킬 이미지 -->
+				<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/passive/${championSkillInfo.passive }" alt="" >
+				<span>P</span>
+			</div>
+			<div class="championSkill">
+			<!-- 스킬 이미지 -->
+				<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${championSkillInfo.qSkill }" alt="" >
+				<span>Q</span>
+			</div>
+			<div class="championSkill">
+			<!-- 스킬 이미지 -->
+				<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${championSkillInfo.wSkill }" alt="" >
+				<span>W</span>
+			</div>
+			<div class="championSkill">
+			<!-- 스킬 이미지 -->
+				<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${championSkillInfo.eSkill }" alt="" >
+				<span>E</span>
+			</div>
+			<div class="championSkill">
+			<!-- 스킬 이미지 -->
+				<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${championSkillInfo.rSkill }" alt="" >
+				<span>R</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -123,7 +170,7 @@ li {
 		</c:forEach>
 </table>
 <table class="table table-bordered" style="width:800px; ">
-	<tr><th>시작 아이템</th><th style="text-align: center; width:40px;">픽률</th><th style="text-align: center; width:40px;">승률</th></tr>
+	<tr><th>시작 아이템</th><th style="text-align: center; width:40px;">픽률</th></tr>
 		<c:forEach items="${championItemListSum }" var="item">
 			<tr>
 				<td><img src="//opgg-static.akamaized.net/images/lol/item/${item.startItem1 }.png?image=w_42&v=1" alt="" /> 
@@ -131,6 +178,23 @@ li {
 					<td style="text-align:center; font-size:20px;">${item.itemStartPercent }</td>
 			</tr>
 		</c:forEach>
+</table>
+<table class="table table-bordered" style="width:800px; ">
+	<tr><th>최종 아이템</th></tr>
+	<c:set var="i" value="0"/>
+	<c:set var="j" value="6"/>
+	<c:forEach var="entry" items="${itemCountList }">
+		<c:if test="${i % j == 0}">
+			<tr>
+				<td>
+		</c:if>
+				<img src="//opgg-static.akamaized.net/images/lol/item/${entry }.png?image=w_42&v=1" alt="" /> 
+		<c:if test="${i%j == j-1 }">
+				</td>
+			</tr>
+		</c:if>
+		<c:set var="i" value="${i+1}"/>
+	</c:forEach>
 </table>
 
 	<jsp:include page="/WEB-INF/views/common/championInfoTable.jsp"/>

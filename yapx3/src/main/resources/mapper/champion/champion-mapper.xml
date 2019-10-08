@@ -33,25 +33,25 @@
 		SELECT  t1.itemid, COUNT(*)  FROM eventtable T1 where championid=${value} and type='ITEM_PURCHASED' and itemid != 3340 and itemid != 3364 GROUP BY T1.type, t1.championid, t1.itemid order by count(*) desc
 	</select>
 	<select id="championItem0" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item0, COUNT(*)  FROM participantall T1 where championid=${value} and item0 != 0 GROUP BY T1.item0 order by count(*) desc
+		SELECT  t1.item0, COUNT(*) count FROM participantall T1 where championid=${value} and item0 != 0 GROUP BY T1.item0 order by count(*) desc
 	</select>
 	<select id="championItem1" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item1, COUNT(*)  FROM participantall T1 where championid=${value} and item1 != 0 GROUP BY T1.item1 order by count(*) desc
+		SELECT  t1.item1, COUNT(*) count FROM participantall T1 where championid=${value} and item1 != 0 GROUP BY T1.item1 order by count(*) desc
 	</select>
 	<select id="championItem2" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item2, COUNT(*)  FROM participantall T1 where championid=${value} and item2 != 0 GROUP BY T1.item2 order by count(*) desc
+		SELECT  t1.item2, COUNT(*) count FROM participantall T1 where championid=${value} and item2 != 0 GROUP BY T1.item2 order by count(*) desc
 	</select>
 	<select id="championItem3" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item3, COUNT(*)  FROM participantall T1 where championid=${value} and item3 != 0 GROUP BY T1.item3 order by count(*) desc
+		SELECT  t1.item3, COUNT(*) count FROM participantall T1 where championid=${value} and item3 != 0 GROUP BY T1.item3 order by count(*) desc
 	</select>
 	<select id="championItem4" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item4, COUNT(*)  FROM participantall T1 where championid=${value} and item4 != 0 GROUP BY T1.item4 order by count(*) desc
+		SELECT  t1.item4, COUNT(*) count FROM participantall T1 where championid=${value} and item4 != 0 GROUP BY T1.item4 order by count(*) desc
 	</select>
 	<select id="championItem5" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item5, COUNT(*)  FROM participantall T1 where championid=${value} and item5 != 0 GROUP BY T1.item5 order by count(*) desc
+		SELECT  t1.item5, COUNT(*) count FROM participantall T1 where championid=${value} and item5 != 0 GROUP BY T1.item5 order by count(*) desc
 	</select>
 	<select id="championItem6" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item6, COUNT(*)  FROM participantall T1 where championid=${value} and item6 != 0 GROUP BY T1.item6 order by count(*) desc
+		SELECT  t1.item6, COUNT(*) count FROM participantall T1 where championid=${value} and item6 != 0 GROUP BY T1.item6 order by count(*) desc
 	</select>
 	
 	<!-- <resultMap type="Info" id="summonerSpell">
@@ -83,6 +83,7 @@
 		<result column="statperk2" property="statPerk2"/>
 		<result column="itemid" property="startItem"/>
 		<result column="COUNT(*)" property="count"/>
+		<result column="count" property="count"/>
 	</resultMap>
 	
 	<!-- <resultMap type="Info" id="championItem">

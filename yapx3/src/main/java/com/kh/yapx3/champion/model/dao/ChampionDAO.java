@@ -26,7 +26,6 @@ public class ChampionDAO {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public int championCount(int id) {
-		
 		int championCount = sqlSession.selectOne("champion.championCount", id);
 		return championCount;
 	}

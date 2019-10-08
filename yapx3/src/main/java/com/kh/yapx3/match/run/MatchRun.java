@@ -19,10 +19,10 @@ import com.kh.yapx3.match.model.vo.Summoner_1;
 
 public class MatchRun {
 
-	public static void main(String[] args) throws Exception {
-//		new MatchRun().challengerleagues("RGAPI-75b06c3a-71bc-4298-ad56-5f64414b6e8f");
-		new MatchRun().GMleagues("RGAPI-75b06c3a-71bc-4298-ad56-5f64414b6e8f");
-	}
+//	public static void main(String[] args) throws Exception {
+////		new MatchRun().challengerleagues("RGAPI-75b06c3a-71bc-4298-ad56-5f64414b6e8f");
+//		new MatchRun().GMleagues("RGAPI-75b06c3a-71bc-4298-ad56-5f64414b6e8f");
+//	}
 	
 	public void challengerleagues(String key) throws Exception {
 		String urlStr = "https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key="+key;

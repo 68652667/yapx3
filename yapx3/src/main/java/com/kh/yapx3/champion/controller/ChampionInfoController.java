@@ -1,17 +1,14 @@
 package com.kh.yapx3.champion.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.kh.yapx3.champion.common.URLConnection;
 import com.kh.yapx3.champion.model.service.ChampionInfoService;
 import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
+import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 
 @Controller
 @RequestMapping("/champion")
@@ -49,29 +46,43 @@ public class ChampionInfoController{
 		int championId = Integer.parseInt(request.getParameter("championId"));
 		
 		ModelAndView mav = new ModelAndView();
+//챔피언 이미지 
+//		ChampionSkillInfo championSkillInfo = championInfoService.championSkillInfo(championId);
 		
 //챔피언 lane통계
-		List<ChampionInfoVO> championLaneList = championInfoService.championInfo(championId);
+//		List<ChampionInfoVO> championLaneList = championInfoService.championInfo(championId);
 		
 //해당 챔피언 소환사 스킬 순위 리스트
-		List<ChampionInfoVO> summonerSkillList = championInfoService.summonerSkillList(championId);
+//		List<ChampionInfoVO> summonerSkillList = championInfoService.summonerSkillList(championId);
 		
 // 챔피언 시작탬 가져오기
-		List<ChampionInfoVO> championItemListSum =  championInfoService.championStartItem(championId);
+//		List<ChampionInfoVO> championItemListSum =  championInfoService.championStartItem(championId);
 		
 // 챔피언 룬 통계
 		//메인 룬 서브룬 보조룬
-		List<ChampionInfoVO> championPerkList =  championInfoService.championRune(championId);
+//		List<ChampionInfoVO> championPerkList =  championInfoService.championRune(championId);
 		
 // 챔피언 아이템 리스트
-		List<ChampionInfoVO> championItemList = championInfoService.championItem(championId);
+		Map<Integer, Integer> championItemList = championInfoService.championItem(championId);
 		
-		
+		List<Integer> itemCountList = new ArrayList<Integer>();
+		Iterator<Integer> iter = championItemList.keySet().iterator();
+		int count = 0;
+		while(iter.hasNext()) {
+			if(count == 18) {
+				break;
+			}
+			itemCountList.add(iter.next());
+			count++;
+		}
+	
 		mav.setViewName("/champion/championInfo");
-		mav.addObject("championLaneList", championLaneList);
-		mav.addObject("summonerSkillList", summonerSkillList);
-		mav.addObject("championPerkList", championPerkList);
-		mav.addObject("championItemListSum", championItemListSum);
+//		mav.addObject("championLaneList", championLaneList);
+//		mav.addObject("summonerSkillList", summonerSkillList);
+//		mav.addObject("championPerkList", championPerkList);
+//		mav.addObject("championItemListSum", championItemListSum);
+		mav.addObject("itemCountList", itemCountList);
+//		mav.addObject("championSkillInfo", championSkillInfo);
 		
 		return mav;
 		
