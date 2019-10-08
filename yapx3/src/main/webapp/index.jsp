@@ -87,7 +87,7 @@ img {
 		<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white">
 		    <button class="w3-bar-item w3-button" onclick="messageClick();" title="" id="messageBtn" >쪽지함</button>
 			<button class="w3-bar-item w3-button" onclick="myPassClick();" title="">비밀번호 변경</button>
-			<button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button>
+			<!-- <button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button> -->
 			<button class="w3-bar-item w3-button" onclick="myBoardClick();" title="">내글보기</button>
 		</div>
 	</div>
@@ -218,7 +218,7 @@ function bookmarkClick() {
 }
 
 function myBoardClick() {
-	alert( "myBoardClick" );	
+	location.href = "${pageContext.request.contextPath}/user/myBoardList?memberId=${memberLoggedIn.userEmail}";
 }
 
 </script>

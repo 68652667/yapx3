@@ -24,4 +24,6 @@ public interface FreeService {
 
 	int freeCommentDel(int commentNo);
 
+	List<FreeWithFileCount> selectFreeMyList(String memberId);
+
 }
