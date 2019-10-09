@@ -78,6 +78,31 @@ li {
     float: left;
     font-size: 10px;
 }
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
 <script>
 	$(()=>{
@@ -93,9 +118,9 @@ li {
 				<c:choose>
 					<c:when test="${lane.championLane eq '탑'}">
 						<li class="championPosition" >
-							<img src="//opgg-static.akamaized.net/images/site/champion/position-top-over@2x.png" alt="" />
-							<span>${lane.championLane }</span>
-							<span>${lane.championLaneCount }</span>
+								<img src="//opgg-static.akamaized.net/images/site/champion/position-top-over@2x.png" alt=""/>
+								<span>${lane.championLane }</span>
+								<span>${lane.championLaneCount }</span>
 						</li>
 					</c:when>
 					<c:when test="${lane.championLane eq '미드'}">
@@ -171,13 +196,16 @@ li {
 </table>
 <table class="table table-bordered" style="width:800px; ">
 	<tr><th>시작 아이템</th><th style="text-align: center; width:40px;">픽률</th></tr>
-		<c:forEach items="${championItemListSum }" var="item">
-			<tr>
-				<td><img src="//opgg-static.akamaized.net/images/lol/item/${item.startItem1 }.png?image=w_42&v=1" alt="" /> 
-					<img src="//opgg-static.akamaized.net/images/lol/item/${item.startItem2 }.png?image=w_42&v=1" alt="" /></td>
-					<td style="text-align:center; font-size:20px;">${item.itemStartPercent }</td>
-			</tr>
-		</c:forEach>
+		<tr>
+			<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" alt="" /> 
+				<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem2 }.png?image=w_42&v=1" alt="" /></td>
+				<td style="text-align:center; font-size:20px;">${championItemListSum.itemStartPercent1 }</td>
+		</tr>
+		<tr>
+			<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" alt="" /> 
+				<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem3 }.png?image=w_42&v=1" alt="" /></td>
+				<td style="text-align:center; font-size:20px;">${championItemListSum.itemStartPercent2 }</td>
+		</tr>
 </table>
 <table class="table table-bordered" style="width:800px; ">
 	<tr><th>최종 아이템</th></tr>

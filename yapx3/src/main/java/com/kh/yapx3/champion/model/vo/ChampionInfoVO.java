@@ -8,7 +8,9 @@ public class ChampionInfoVO {
 	private String summonerSpell2id;
 	private String summonerSpellCountStr;
 	private String summonerSpellWinCountStr;
-	private String itemStartPercent;
+	private String itemStartPercent1;
+	private String itemStartPercent2;
+	private String championRunePercenter;
 
 	// DB받기용 필드
 	private int count;
@@ -47,10 +49,11 @@ public class ChampionInfoVO {
 	}
 	public ChampionInfoVO(String championLane, String championLaneCount, String summonerSpell1id,
 			String summonerSpell2id, String summonerSpellCountStr, String summonerSpellWinCountStr,
-			String itemStartPercent, int count, int perkPrimaryStyle, int perk0, int perk1, int perk2, int perk3,
-			int perkSubStyle, int perk4, int perk5, int statPerk0, int statPerk1, int statPerk2, String startItem,
-			String startItem1, String startItem2, String startItem3, int item0, int item1, int item2, int item3,
-			int item4, int item5, int item6, String championName, String championId) {
+			String itemStartPercent1, String itemStartPercent2, String championRunePercenter, int count,
+			int perkPrimaryStyle, int perk0, int perk1, int perk2, int perk3, int perkSubStyle, int perk4, int perk5,
+			int statPerk0, int statPerk1, int statPerk2, String startItem, String startItem1, String startItem2,
+			String startItem3, int item0, int item1, int item2, int item3, int item4, int item5, int item6,
+			String championName, String championId) {
 		super();
 		this.championLane = championLane;
 		this.championLaneCount = championLaneCount;
@@ -58,7 +61,9 @@ public class ChampionInfoVO {
 		this.summonerSpell2id = summonerSpell2id;
 		this.summonerSpellCountStr = summonerSpellCountStr;
 		this.summonerSpellWinCountStr = summonerSpellWinCountStr;
-		this.itemStartPercent = itemStartPercent;
+		this.itemStartPercent1 = itemStartPercent1;
+		this.itemStartPercent2 = itemStartPercent2;
+		this.championRunePercenter = championRunePercenter;
 		this.count = count;
 		this.perkPrimaryStyle = perkPrimaryStyle;
 		this.perk0 = perk0;
@@ -121,11 +126,23 @@ public class ChampionInfoVO {
 	public void setSummonerSpellWinCountStr(String summonerSpellWinCountStr) {
 		this.summonerSpellWinCountStr = summonerSpellWinCountStr;
 	}
-	public String getItemStartPercent() {
-		return itemStartPercent;
+	public String getItemStartPercent1() {
+		return itemStartPercent1;
 	}
-	public void setItemStartPercent(String itemStartPercent) {
-		this.itemStartPercent = itemStartPercent;
+	public void setItemStartPercent1(String itemStartPercent1) {
+		this.itemStartPercent1 = itemStartPercent1;
+	}
+	public String getItemStartPercent2() {
+		return itemStartPercent2;
+	}
+	public void setItemStartPercent2(String itemStartPercent2) {
+		this.itemStartPercent2 = itemStartPercent2;
+	}
+	public String getChampionRunePercenter() {
+		return championRunePercenter;
+	}
+	public void setChampionRunePercenter(String championRunePercenter) {
+		this.championRunePercenter = championRunePercenter;
 	}
 	public int getCount() {
 		return count;
@@ -277,6 +294,5 @@ public class ChampionInfoVO {
 	public void setChampionId(String championId) {
 		this.championId = championId;
 	}
-	
 	
 }

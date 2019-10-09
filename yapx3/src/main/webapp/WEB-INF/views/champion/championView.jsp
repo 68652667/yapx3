@@ -5,9 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
-.allChampion{
-	padding: 4px;
-}
 #championList{
 	test-align: center;
 	padding: 0, 4;
@@ -20,6 +17,7 @@
 }
 #championAll img{
 	width: 100px;
+	padding: 4px;
 }
 #championLaneTitle{
 	width: 800px;
@@ -53,21 +51,25 @@ li:hover{
 	cursor: pointer;
 	color: skyblue;
 }
+.allChampion:hover{
+	cursor: pointer;
+}
+
 </style>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:115px; min-height: 768px;">
 <div id = "championList">
 	<div id = "championLaneTitle">
 		<ul>
-			<li>전체</li>
-			<li>탑</li>
-			<li>미드</li>
-			<li>정글</li>
-			<li>바텀</li>
-			<li>로테이션</li>
+			<li id="all" value="전체">전체</li>
+			<li id="TOP" value="탑">탑</li>
+			<li id="MIDDLE" value="미드">미드</li>
+			<li id="JUNGLE" value="정글">정글</li>
+			<li id="BOTTOM" value="바텀">바텀</li>
+			<li id="LOTATION" value="로테이션">로테이션</li>
 		</ul>
 		<div id="championSearch">
-			<input type="text" placeholder="챔피언 검색 (가렌, ㄱㄹ, ...)"></input>
+			<input type="text" placeholder="챔피언 검색 (가렌, ㄱㄹ, ...)" id="searchName"></input>
 		</div>
 	</div>
 	<div id = "championAll">
@@ -75,7 +77,6 @@ li:hover{
 	</div>
 </div>
 	
-	<button id="getGameIdAllBtn">게임 아이디 전부 불러오기</button>
 <!-- End Page Container -->
 </div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
@@ -93,10 +94,9 @@ function info(id){
 			dataType : "json",
 			success : function(data){
 				console.log(data);
-				$.each(data, function(d, id){
-					//var html = "<a href='${pageContext.request.contextPath}/api/champion/info?championId='"+id+"'><img class='allChampion' src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+id+".png'/></a>";
-					var html = "<input type='hidden' id='champId' name='hidden' value=" + id + ">" +
-							   "<img class='allChampion' onclick=info('"+id+"');  id="+ d +" src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+d+".png'/>"
+				$.each(data, function(index, value){
+					var html = "<input type='hidden' id='champId' name='hidden' value=" + value.championId + ">" +
+							   "<img class='allChampion' onclick=info('"+value.championKey+"'); title="+value.championName+"  id="+ value.championKey +" src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+value.championId+".png'/>"
 					$("#championAll").append(html);
 				});
 			}, error: function(err){
@@ -104,19 +104,76 @@ function info(id){
 			}
 		});
 		
-		$("#getGameIdAllBtn").on("click", ()=>{
+		$("#searchName").keyup(()=>{
+			var text = $("#searchName").val();
+			if(text == ""){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/champion/allChampion",
+					type : "GET",
+					dataType : "json",
+					success : function(data){
+						console.log(data);
+						$.each(data, function(index, value){
+							var html = "<input type='hidden' id='champId' name='hidden' value=" + value.championId + ">" +
+									   "<img class='allChampion' onclick=info('"+value.championKey+"'); title="+value.championName+"  id="+ value.championKey +" src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+value.championId+".png'/>"
+							$("#championAll").append(html);
+						});
+					}, error: function(err){
+						console.log("sssss");
+					}
+				});
+				
+			}else{
+				$.ajax({
+					url:"${pageContext.request.contextPath}/champion/searchChampion?searchChampionName=" +text,
+					type:"GET",
+					dataType:"json",
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					success: function(data){
+						$("#championAll").empty();
+						$.each(data, function(index, value){
+							//var html = "<a href='${pageContext.request.contextPath}/api/champion/info?championId='"+id+"'><img class='allChampion' src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+id+".png'/></a>";
+							if(value != null){
+								console.log(value);
+								var html = "<input type='hidden' id='champId' name='hidden' value=" + value.championId + ">" +
+										   "<img class='allChampion' onclick=info('"+value.championKey+"'); title="+value.championName+"  id="+ value.championId +" src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+value.championId+".png'/>"
+								$("#championAll").append(html);
+							}
+						});
+					},
+					error: function(err){
+						console.log("fail");
+					}
+				});
+			}
+		
+		});
+		
+		$("ul li").on("click", (e)=>{
+			var title = $(e.target).attr("value");
 			$.ajax({
-				url:"${pageContext.request.contextPath}/match/gameMatch",
+				url:"${pageContext.request.contextPath}/champion/allChampion",
 				type:"GET",
 				dataType:"json",
 				success: function(data){
-					console.log(data);
-					
+					$("#championAll").empty();
+					$.each(data, function(index, value){
+						//var html = "<a href='${pageContext.request.contextPath}/api/champion/info?championId='"+id+"'><img class='allChampion' src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+id+".png'/></a>";
+						if(title == value.lane1 || title == value.lane2){
+							var html = "<input type='hidden' id='champId' name='hidden' value=" + value.championId + ">" +
+									   "<img class='allChampion' onclick=info('"+value.championKey+"'); title="+value.championName+"  id="+ value.championId +" src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+value.championId+".png'/>"
+							$("#championAll").append(html);
+						}else if(title == "전체"){
+							var html = "<input type='hidden' id='champId' name='hidden' value=" + value.championId + ">" +
+									   "<img class='allChampion' onclick=info('"+value.championKey+"'); title="+value.championName+"  id="+ value.championId +" src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+value.championId+".png'/>"
+							$("#championAll").append(html);
+						}
+					});
 				},
 				error: function(err){
-					console.log("sss");
+					console.log("fail");
 				}
-			});
+			})
 		});
 	});
 </script>

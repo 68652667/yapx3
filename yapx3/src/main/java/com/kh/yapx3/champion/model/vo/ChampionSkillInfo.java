@@ -12,18 +12,6 @@ public class ChampionSkillInfo extends ChampionInfoVO{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ChampionSkillInfo(String championLane, String championLaneCount, String summonerSpell1id,
-			String summonerSpell2id, String summonerSpellCountStr, String summonerSpellWinCountStr,
-			String itemStartPercent, int count, int perkPrimaryStyle, int perk0, int perk1, int perk2, int perk3,
-			int perkSubStyle, int perk4, int perk5, int statPerk0, int statPerk1, int statPerk2, String startItem,
-			String startItem1, String startItem2, String startItem3, int item0, int item1, int item2, int item3,
-			int item4, int item5, int item6, String championName, String championId) {
-		super(championLane, championLaneCount, summonerSpell1id, summonerSpell2id, summonerSpellCountStr,
-				summonerSpellWinCountStr, itemStartPercent, count, perkPrimaryStyle, perk0, perk1, perk2, perk3, perkSubStyle,
-				perk4, perk5, statPerk0, statPerk1, statPerk2, startItem, startItem1, startItem2, startItem3, item0, item1,
-				item2, item3, item4, item5, item6, championName, championId);
-		// TODO Auto-generated constructor stub
-	}
 	public ChampionSkillInfo(String passive, String qSkill, String wSkill, String eSkill, String rSkill, String tollTip,
 			String description) {
 		super();
@@ -77,6 +65,5 @@ public class ChampionSkillInfo extends ChampionInfoVO{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 	
 }
