@@ -11,22 +11,39 @@
 <title>login</title>
 <style>
 
-.bgLayer {display:none;position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:1; filter:alpha(opacity=50); z-index:100;}  /* z-index가 10이다. 이보다 위에 보이기 위해선 팝을 이보다 크게 설정해야한다. */
+.bgLayer {
+	position:absolute; 
+	top:0; 
+	left:0; 
+	width:100%; 
+	height:100%; 
+	background:#000; 
+	opacity:1; 
+	filter:alpha(opacity=50); 
+	z-index:100;
+}  /* z-index가 10이다. 이보다 위에 보이기 위해선 팝을 이보다 크게 설정해야한다. */
 
-/*중복아이디체크관련*/
 div#login-container{
 	position:relative; 
-	padding:0px;
-	left:0; 
-	right:0; 
+	padding:20px 30px;
+	
+	width:300px; 
+	height:300px;
+	top:234px;
 	margin-left:auto; 
 	margin-right:auto;
-
+	margin-top:auto;
+	margin-bottom:auto;
+	background:#fff; 
+	z-index:101;
 }
-div#memberId-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-div#memberId-container span.ok{color:green;}
-div#memberId-container span.error{color:red;}
 
+.center{
+	text-align:center;
+}
+.right{
+	text-align:right;
+}
 </style>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
 <!-- 부트스트랩관련 라이브러리 -->
@@ -43,7 +60,7 @@ div#memberId-container span.error{color:red;}
 	<form name="memberLoginFrm" action="${pageContext.request.contextPath}/user/loginCheck.do" method="post" onsubmit="return validate();" >
 		<table>
 			<tr>
-				<th>YapX3</th>
+				<th class="center">YapX3</th>
 			</tr>
 			<tr>
 				<td>Email Login</td>
@@ -74,8 +91,8 @@ div#memberId-container span.error{color:red;}
 				</td>
 			</tr>
 			<tr>
-				<td>
-				<button id="Login">Login</button>
+				<td class="right">
+				<button id="Login" >Login</button>
 				</td>
 			</tr>
 			<tr>

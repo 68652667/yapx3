@@ -66,10 +66,18 @@ $(()=>{
 	});
 	
 	$( "#btnSendMsg" ).on("click", function() {
+		if(${memberLoggedIn==null}){
+			alert("로그인을 해주세요!");
+			return;
+		}
 		var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
 		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=${tip.userEmail}&sendNickName=${tip.userNickName }", "", popup ).focus();
 	});
 	$( ".btnSendMsg2" ).on("click", function() {
+		if(${memberLoggedIn==null}){
+			alert("로그인을 해주세요!");
+			return;
+		}
 		var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
 		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=" + $( this ).attr( "eId" ) + "&sendNickName=" + $( this ).attr( "nId" ), "", popup ).focus();
 	});

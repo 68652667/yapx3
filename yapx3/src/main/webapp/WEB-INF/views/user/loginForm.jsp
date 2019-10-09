@@ -16,67 +16,114 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <style>
 
-.bgLayer {display:none;position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:1; filter:alpha(opacity=50); z-index:100;}  /* z-index가 10이다. 이보다 위에 보이기 위해선 팝을 이보다 크게 설정해야한다. */
+.bgLayer {
+	position:absolute; 
+	top:0; 
+	left:0; 
+	width:100%; 
+	height:100%; 
+	background:#000; 
+	opacity:1; 
+	filter:alpha(opacity=50); 
+	z-index:100;
+}  /* z-index가 10이다. 이보다 위에 보이기 위해선 팝을 이보다 크게 설정해야한다. */
 
 /*중복아이디체크관련*/
 div#terms-container{
 	position:relative; 
-	padding:0px;
-	left:0; 
-	right:0; 
+	padding:20px 30px;
+	
+	width:550px; 
+	height:650px;
+	top:34px;
 	margin-left:auto; 
 	margin-right:auto;
-
+	margin-top:auto;
+	margin-bottom:auto;
+	background:#fff; 
+	z-index:101;
 }
-div#memberId-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-div#memberId-container span.ok{color:green;}
-div#memberId-container span.error{color:red;}
 
+.center{
+	text-align:center;
+}
+
+.modal.modal-center {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal.modal-center:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog.modal-center {
+  text-align: center;
+  top: 40px;
+  vertical-align: middle; 
+}
+
+
+
+.formTable{
+	width:400px;
+	height:400px;
+	margin-left:auto; 
+	margin-right:auto;
+	margin-top:auto;
+	margin-bottom:auto;
+}
 </style>
 </head>
 <body>
 
-<div id="terms-container" class="bgLayer">
+<div id="terms-container">
 	<table >
 		<tr>
-			<th>YapX3</th>
+			<th class="center"><h1>YapX3</h1></th>
 		</tr>
 		<tr>
-			<th></th>
 			<td>
 				<label for="terms1">개인 정보 보호 정책 및 프로모션 이메일 수신에 동의합니다.</label>
-				<input id="terms1" type="checkbox">
+				<input id="terms1" class="cbAll" type="checkbox">
 			</td>
 			
 		</tr>
 		<tr>
-			<th></th>
 			<td>
 				<label for="terms2">이용약관</label>
-				<input id="terms2" type="checkbox">
+				<input id="terms2" class="cbAll" type="checkbox">				
+				<div class="agree__term-scroll"><iframe class="term-iframe" width="100%" height="100%" src="${pageContext.request.contextPath}/resources/terms/member_term.html" frameborder="0" allowtransparency="true" scrolling="yes"> </iframe></div>
 			</td>
 			
 		</tr>
 		<tr>
-			<th></th>
 			<td>
 				<label for="terms3">개인 정보 정책</label>
-				<input id="terms3" type="checkbox">
+				<input id="terms3" class="cbAll"  type="checkbox">
+				<div class="agree__term-scroll"><iframe class="term-iframe" width="100%" height="100%" src="${pageContext.request.contextPath}/resources/terms/privacy_policy.html" frameborder="0" allowtransparency="true" scrolling="yes"> </iframe></div>
 			</td>
 			
 		</tr>
 		<tr>
-			<th></th>
 			<td>
 				<label for="terms4">YapX3 서비스에 관한 이메일을 받는데 동의합니다.</label>
-				<input id="terms4" type="checkbox">
+				<input id="terms4" class="cbAll"  type="checkbox">
 			</td>
-			
 		</tr>
 		<tr>
-			<th></th>
 			<td>
-				<button type="button" class="btn btn-outline-success my-2 my-sm-0" id="disagree" >DISAGREE</button>
+				<label for="allTerms">모든 약관에 동의</label>
+				<input id="allTerms" type="checkbox">
+			</td>
+		</tr>
+		<tr>
+			<td class="center">
+				<button type="button" class="btn btn-outline-danger my-2 my-sm-0" id="disagree" >DISAGREE</button>
 				<button type="button" class="btn btn-outline-success my-2 my-sm-0" id="iagree" >IAGREE</button>
 				<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#loginModal">IAGREE</button> -->
 			</td>
@@ -86,17 +133,18 @@ div#memberId-container span.error{color:red;}
 	</table>                  
 </div>
 <!-- 로그인모달 : https://getbootstrap.com/docs/4.1/components/modal/#live-demo -->
-<div class="modal fade" id="loginModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="loginModal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-center" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">YapX3</h5>
+        <h5 class="modal-title" id="myLargeModalLabel">YapX3</h5>
 
       </div>
 		<div id="enroll-container">
+		<br>
 			<form name="memberEnrollFrm" action="${pageContext.request.contextPath}/user/loginFormEnd.do" method="post" onsubmit="return validate();" >
-				<table>
-					<tr>
+				<table class="formTable" >
+					<tr class="pnc">
 						<th>이메일</th>
 						<td>	
 							<div id="memberId-container" class="row">
@@ -104,16 +152,17 @@ div#memberId-container span.error{color:red;}
 									
 									<input type="email" class="form-control" placeholder="abc@xyz.com" name="userEmail" id="email">
 								</div>
-								<div class="col-md1">
+								<div class="col-md2">
 									<button type="button" class="btn btn-sm btn-success" id="emailCheck" >인증키생성</button>
 						        </div>
-						        <div class="col-md1">	
+						        <div class="col-md3">	
 						        	<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
 						        </div>
 						    </div>
 						</td>
 					</tr>
-					<tr>
+					
+					<tr class="pnc">
 						<th>인증키확인</th>
 						<td>	
 							<div id="activeKey-container" class="row">
@@ -127,7 +176,8 @@ div#memberId-container span.error{color:red;}
 						    </div>
 						</td>
 					</tr>
-					<tr>
+					
+					<tr class="pnc">
 						<th>닉네임</th>
 						<td>
 							<div id="memberId-container">
@@ -136,13 +186,16 @@ div#memberId-container span.error{color:red;}
 							
 						</td>
 					</tr>
-					<tr>
+					
+					<tr class="pnc">
 						<th>패스워드</th>
 						<td>
 							<input type="password" class="form-control" name="userPassword" id="password_" required>
 						</td>
 					</tr>
-					<tr>
+					
+					<tr class="pnc">
+						
 						<th>패스워드확인</th>
 						<td>	
 							<input type="password" class="form-control" id="password2" required>
@@ -150,15 +203,23 @@ div#memberId-container span.error{color:red;}
 					</tr>  
 					
 				</table>
-				<input type="submit" value="SIGN UP" >
-				<input type="reset" id="cancel" value="CANCEL">
+				<br>
+				<input type="reset" class="btn btn-outline-danger my-2 my-sm-0" id="cancel" value="CANCEL">
+				<input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="SIGN UP" >
+				<br>
 			</form>
+			<br>
 		</div>
 
 
      	
     </div>
   </div>
+</div>
+
+
+<div  class="bgLayer">
+
 </div>
 <script>
 var active = false;
@@ -170,6 +231,14 @@ $(()=>{
 	
 	$( "#cancel" ).on( "click", function() {
 		location.href = "${pageContext.request.contextPath}/";
+	});
+	
+	$( "#allTerms" ).on( "change", function() {
+		if( $( "#allTerms" ).is( ":checked" ) == false ){
+			$( ".cbAll" ).attr( "checked", false );
+		}else {
+			$( ".cbAll" ).attr( "checked", true );
+		}
 	});
 	
 	$( "#iagree" ).on( "click", function() {
