@@ -43,7 +43,11 @@
 	<body>
 		<div id="main_container" style="margin: 0 auto; margin-left: 12px;">
 			<div id="main_box" style="overflow: scroll;">
-				<table style="text-align: center;">
+				<table class="table table-hover" style="text-align : center;">
+					<tr>
+							<h4 style="margin-left : 320px;">구인 구직<button type="button" id="creatingRoom" style="margin-left : 280px; margin-top : +5px;" class="btn btn-outline-success" onclick="createRoom();">방만들기</button></h4>
+					</tr>
+					<thead>
 					<tr>
 						<th>No</th>
 						<th>방 제목</th>
@@ -51,7 +55,8 @@
 						<th>방장</th>
 						<th>인원</th>
 					</tr>
-
+					</thead>
+					<tbody>
 					<c:forEach items="${rlist}" var="room">
 						<tr id="${room.partnerBoardNo}" class="boardNo"
 							bNo="${room.boardPersonnelNo}" bMax="${room.partnerBoardMaxno}">
@@ -62,12 +67,7 @@
 							<td>${room.boardPersonnelNo}/${room.partnerBoardMaxno}</td>
 						</tr>
 					</c:forEach>
-					<tr>
-						<td>
-							<button type="button" id="creatingRoom" onclick="createRoom();"
-								class="btn btn-outline-success">방만들기</button>
-						</td>
-					</tr>
+					</tbody>
 				</table>
 			</div>
 			<div id="chat_box"></div>

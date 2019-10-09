@@ -27,6 +27,181 @@
 	#main_container{
 		margin : 0 auto;
 	}
+		.checkbox {
+    margin-top : 10px; }
+.checkbox label {
+    display: inline-block;
+    position: relative;
+    margin-left: 10px;
+    }
+.checkbox label::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0;
+    margin-top: 4px;
+    margin-left: -20px;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    background-color: #fff;
+    -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }
+.checkbox label::after {
+    display: inline-block;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    left: 0;
+    top: 0;
+    margin-left: -20px;
+    padding-left: 3px;
+    padding-top: 4px;
+    font-size: 11px;
+    color: #555555; }
+.checkbox input[type="checkbox"] {
+    opacity: 0; }
+.checkbox input[type="checkbox"]:focus + label::before {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px; }
+.checkbox input[type="checkbox"]:checked + label::after {
+    font-family: 'FontAwesome';
+    content: "\f00c"; }
+.checkbox input[type="checkbox"]:disabled + label {
+    opacity: 0.65; }
+.checkbox input[type="checkbox"]:disabled + label::before {
+    background-color: #eeeeee;
+    cursor: not-allowed; }
+.checkbox.checkbox-circle label::before {
+    border-radius: 50%; }
+.checkbox.checkbox-inline {
+    margin-top: 0; }
+
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+    background-color: #428bca;
+    border-color: #428bca; }
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+    color: #fff; }
+
+.checkbox-danger input[type="checkbox"]:checked + label::before {
+    background-color: #d9534f;
+    border-color: #d9534f; }
+.checkbox-danger input[type="checkbox"]:checked + label::after {
+    color: #fff; }
+
+.checkbox-info input[type="checkbox"]:checked + label::before {
+    background-color: #5bc0de;
+    border-color: #5bc0de; }
+.checkbox-info input[type="checkbox"]:checked + label::after {
+    color: #fff; }
+
+.checkbox-warning input[type="checkbox"]:checked + label::before {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e; }
+.checkbox-warning input[type="checkbox"]:checked + label::after {
+    color: #fff; }
+
+.checkbox-success input[type="checkbox"]:checked + label::before {
+    background-color: #5cb85c;
+    border-color: #5cb85c; }
+.checkbox-success input[type="checkbox"]:checked + label::after {
+    color: #fff; }
+
+.radio {
+	margin-left : 10px;
+    }
+.radio label {
+    display: inline-block;
+    position: relative;
+    padding-left: 5px; }
+.radio label::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0;
+    margin-left: -20px;
+    border: 1px solid #cccccc;
+    border-radius: 50%;
+    background-color: #fff;
+    -webkit-transition: border 0.15s ease-in-out;
+    -o-transition: border 0.15s ease-in-out;
+    transition: border 0.15s ease-in-out; }
+.radio label::after {
+    display: inline-block;
+    position: absolute;
+    content: " ";
+    width: 11px;
+    height: 11px;
+    left: 3px;
+    top: 3px;
+    margin-left: -20px;
+    border-radius: 50%;
+    background-color: #555555;
+    -webkit-transform: scale(0, 0);
+    -ms-transform: scale(0, 0);
+    -o-transform: scale(0, 0);
+    transform: scale(0, 0);
+    -webkit-transition: -webkit-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+    -moz-transition: -moz-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+    -o-transition: -o-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+    transition: transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33); }
+.radio input[type="radio"] {
+    opacity: 0; }
+.radio input[type="radio"]:focus + label::before {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px; }
+.radio input[type="radio"]:checked + label::after {
+    -webkit-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1); }
+.radio input[type="radio"]:disabled + label {
+    opacity: 0.65; }
+.radio input[type="radio"]:disabled + label::before {
+    cursor: not-allowed; }
+.radio.radio-inline {
+    margin-top: 0; }
+
+.radio-primary input[type="radio"] + label::after {
+    background-color: #428bca; }
+.radio-primary input[type="radio"]:checked + label::before {
+    border-color: #428bca; }
+.radio-primary input[type="radio"]:checked + label::after {
+    background-color: #428bca; }
+
+.radio-danger input[type="radio"] + label::after {
+    background-color: #d9534f; }
+.radio-danger input[type="radio"]:checked + label::before {
+    border-color: #d9534f; }
+.radio-danger input[type="radio"]:checked + label::after {
+    background-color: #d9534f; }
+
+.radio-info input[type="radio"] + label::after {
+    background-color: #5bc0de; }
+.radio-info input[type="radio"]:checked + label::before {
+    border-color: #5bc0de; }
+.radio-info input[type="radio"]:checked + label::after {
+    background-color: #5bc0de; }
+
+.radio-warning input[type="radio"] + label::after {
+    background-color: #f0ad4e; }
+.radio-warning input[type="radio"]:checked + label::before {
+    border-color: #f0ad4e; }
+.radio-warning input[type="radio"]:checked + label::after {
+    background-color: #f0ad4e; }
+
+.radio-success input[type="radio"] + label::after {
+    background-color: #5cb85c; }
+.radio-success input[type="radio"]:checked + label::before {
+    border-color: #5cb85c; }
+.radio-success input[type="radio"]:checked + label::after {
+    background-color: #5cb85c; }
 </style>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
@@ -44,22 +219,22 @@
 		<div><input type="hidden" name="boardPersonnelNo" id="boardPersonnelNo" value="${room.boardPersonnelNo}" /></div>
 		<div><input type="hidden" name="chatContent" id="chatContent" value="${room.chatContent}" /></div>
 		<div><input type="hidden" name="summonerTier" id="summonerTier" value="${room.summonerTier}" /></div>
-		<div>
+		<div class="form-group" style="margin-top : 25px; margin-left : 20px;">
 			<label for="chatTitle">방 제목</label>
-			<input type="text" name="partnerBoardTitle" id="chatTitle" value="${room.partnerBoardTitle }" style="width : 350px;"/>
+			<input type="text" name="partnerBoardTitle" id="chatTitle" value="${room.partnerBoardTitle }" style="width : 300px;" readonly/>
 		</div>
 		<div><input type="hidden" name="userNickname" value="${room.userNickname }" /></div>
-		<div>
-			<label for="summonerName">소환사 닉네임</label>
+		<div class="form-group" style="margin-top : 25px; margin-left : -30px;">
+			<label for="summonerName" style="margin-left : 50px;">소환사 닉네임</label>
 			<input type="text" name="summonerNickname" id="createrName" value="${room.summonerNickname }" readonly/>
 		</div>
-		<div>
+		<div style="margin-top : 25px; margin-left : 20px;">
 			<label for="personNum">방 인원</label>
-			<input type="text" id="personNum" value="${room.boardPersonnelNo}/${room.partnerBoardMaxno }"/>
+			<input type="text" id="personNum" value="${room.boardPersonnelNo}/${room.partnerBoardMaxno }"
+					style="width : 50px;"/>
 		</div>
 		<div>
-			<label for="chatTitle">티어</label>
-			<div>
+			<div class="checkbox checkbox-info" style="margin-left : 13px;">
 				<input type="checkbox" class="tier" name="summonerTier" value="IRON" />
 				<label for="iron">Iron</label>
                                                          
@@ -88,9 +263,8 @@
 				<label for="Challenger">Challenger</label>            
 			</div>
 		</div>
-		<div>
-			<label for="chatTitle">인원</label>
-			<div>
+		<div style="margin-top : 25px; margin-left : 30px;">
+			<div class="checkbox checkbox-info">
 				<label for="duo">듀오</label>
 				<input type="checkbox" name="partnerBoardPersonnel" class="rankType" value="2"/>
 
@@ -102,7 +276,7 @@
 		<div><input type="hidden" name="expulisionList" value="...." /></div>
 		<div>
 			<button type="button" class="btn btn-outline-success" id="outRoom"
-			style="position : absolute; margin-left : 720px; margin-top : -190px;">나가기</button>
+			style="position : absolute; margin-left : 720px; margin-top : -14px;">나가기</button>
 		</div>
 </c:forEach>
 </form>
