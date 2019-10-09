@@ -1,6 +1,7 @@
 package com.kh.yapx3.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.kh.yapx3.board.free.model.service.FreeService;
+import com.kh.yapx3.board.free.model.vo.FreeWithFileCount;
+import com.kh.yapx3.board.tip.model.service.TipService;
+import com.kh.yapx3.board.tip.model.vo.TipWithFileCount;
 import com.kh.yapx3.common.util.CreateRandomString;
 import com.kh.yapx3.user.mail.GmailSend;
 import com.kh.yapx3.user.model.service.MemberService;
@@ -27,6 +32,12 @@ public class MemberController {
 
 	@Autowired
 	MemberService ms;
+	
+	@Autowired
+	FreeService freeService;
+	
+	@Autowired
+	TipService tipService;
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
@@ -96,7 +107,14 @@ public class MemberController {
 		int result = ms.updateMember( member );
 		
 		//2.view단처리
-		m.addAttribute( "msg", result>0?"회원가입성공!":"회원가입실패!" );
+		if( result == 1 ) {
+			m.addAttribute( "msg", "회원가입성공!" );
+		}else if( result == -2147482646 ) {
+			m.addAttribute( "msg", "회원가입성공!" );
+		}else {
+			m.addAttribute( "msg", "회원가입실패!" );
+		}
+		
 		m.addAttribute( "loc", "/" );
 		return "common/msg";
 	}
@@ -209,8 +227,11 @@ public class MemberController {
 			}
 				
 		}
+		logger.info( "result={}" , result );
 		if( result < 1 ) {
-			
+			if( result == -2147482646 ) {
+				new GmailSend().GmailSet( memberId, "activeKey", activeKey );
+			}
 		}else {
 			new GmailSend().GmailSet( memberId, "activeKey", activeKey );
 		}
@@ -289,5 +310,19 @@ public class MemberController {
 		
 		return result;
 		
+	}
+	
+	@RequestMapping( "/myBoardList" )
+	public String myBoardList( @RequestParam String memberId,
+							   Model m ) {
+		
+		List<FreeWithFileCount> fList = freeService.selectFreeMyList(memberId);
+		
+		List<TipWithFileCount> tList = tipService.selectTipMyList(memberId);
+		
+		m.addAttribute( "fList", fList);
+		m.addAttribute( "tList", tList);
+		
+		return "user/myBoardList";
 	}
 }

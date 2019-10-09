@@ -6,6 +6,7 @@
 	<select id="viewRoom" resultType="summonerJobsChatRoom">
 		select * from p_b
 		where finish_yn = 'N'
+		order by partner_board_no desc
 	</select>
 	
 	<insert id="createRoom" parameterType="summonerJobsChatRoom">
@@ -45,7 +46,7 @@
 	</select>
 	
 	<select id="selectRoom" resultType="summonerJobsChatRoom">
-        select room_id
+        select *
 		from p_b
 		where PARTNER_BOARD_NO = #{boardNo}
 	</select>

@@ -24,4 +24,6 @@ public interface TipDAO {
 
 	int tipCommentDel(int commentNo);
 
+	List<TipWithFileCount> selectTipMyList(String memberId);
+
 }

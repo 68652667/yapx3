@@ -1,6 +1,8 @@
 package com.kh.yapx3.search.model.vo;
 
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Match {
 	
@@ -25,15 +27,19 @@ public class Match {
 	private Participant participants8;
 	private Participant participants9;
 	private Participant participants10;
-	private MyItemBuild myIteamBuild;
+	private JSONArray test1;
+	private JSONObject test2;
+	private List<MyItemBuild> myItemBuild;
+	private List<MySkillBuild> mySkillBuild;
+	
 	
 	
 	
 	
 	public Match() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-
 
 
 
@@ -41,7 +47,8 @@ public class Match {
 			String gameVersion, String gameMode, String gameType, Team team1, Team team2, Participant participants1,
 			Participant participants2, Participant participants3, Participant participants4, Participant participants5,
 			Participant participants6, Participant participants7, Participant participants8, Participant participants9,
-			Participant participants10, MyItemBuild myIteamBuild) {
+			Participant participants10, JSONArray test1, JSONObject test2, List<MyItemBuild> myItemBuild,
+			List<MySkillBuild> mySkillBuild) {
 		super();
 		this.gameId = gameId;
 		this.gameCreation = gameCreation;
@@ -64,9 +71,11 @@ public class Match {
 		this.participants8 = participants8;
 		this.participants9 = participants9;
 		this.participants10 = participants10;
-		this.myIteamBuild = myIteamBuild;
+		this.test1 = test1;
+		this.test2 = test2;
+		this.myItemBuild = myItemBuild;
+		this.mySkillBuild = mySkillBuild;
 	}
-
 
 
 
@@ -76,11 +85,9 @@ public class Match {
 
 
 
-
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
 	}
-
 
 
 
@@ -90,11 +97,9 @@ public class Match {
 
 
 
-
 	public void setGameCreation(String gameCreation) {
 		this.gameCreation = gameCreation;
 	}
-
 
 
 
@@ -104,11 +109,9 @@ public class Match {
 
 
 
-
 	public void setGameDuration(String gameDuration) {
 		this.gameDuration = gameDuration;
 	}
-
 
 
 
@@ -118,11 +121,9 @@ public class Match {
 
 
 
-
 	public void setQueueId(String queueId) {
 		this.queueId = queueId;
 	}
-
 
 
 
@@ -132,11 +133,9 @@ public class Match {
 
 
 
-
 	public void setMapId(String mapId) {
 		this.mapId = mapId;
 	}
-
 
 
 
@@ -146,11 +145,9 @@ public class Match {
 
 
 
-
 	public void setSeasonId(String seasonId) {
 		this.seasonId = seasonId;
 	}
-
 
 
 
@@ -160,11 +157,9 @@ public class Match {
 
 
 
-
 	public void setGameVersion(String gameVersion) {
 		this.gameVersion = gameVersion;
 	}
-
 
 
 
@@ -174,11 +169,9 @@ public class Match {
 
 
 
-
 	public void setGameMode(String gameMode) {
 		this.gameMode = gameMode;
 	}
-
 
 
 
@@ -188,11 +181,9 @@ public class Match {
 
 
 
-
 	public void setGameType(String gameType) {
 		this.gameType = gameType;
 	}
-
 
 
 
@@ -202,11 +193,9 @@ public class Match {
 
 
 
-
 	public void setTeam1(Team team1) {
 		this.team1 = team1;
 	}
-
 
 
 
@@ -216,11 +205,9 @@ public class Match {
 
 
 
-
 	public void setTeam2(Team team2) {
 		this.team2 = team2;
 	}
-
 
 
 
@@ -230,11 +217,9 @@ public class Match {
 
 
 
-
 	public void setParticipants1(Participant participants1) {
 		this.participants1 = participants1;
 	}
-
 
 
 
@@ -244,11 +229,9 @@ public class Match {
 
 
 
-
 	public void setParticipants2(Participant participants2) {
 		this.participants2 = participants2;
 	}
-
 
 
 
@@ -258,11 +241,9 @@ public class Match {
 
 
 
-
 	public void setParticipants3(Participant participants3) {
 		this.participants3 = participants3;
 	}
-
 
 
 
@@ -272,11 +253,9 @@ public class Match {
 
 
 
-
 	public void setParticipants4(Participant participants4) {
 		this.participants4 = participants4;
 	}
-
 
 
 
@@ -286,11 +265,9 @@ public class Match {
 
 
 
-
 	public void setParticipants5(Participant participants5) {
 		this.participants5 = participants5;
 	}
-
 
 
 
@@ -300,11 +277,9 @@ public class Match {
 
 
 
-
 	public void setParticipants6(Participant participants6) {
 		this.participants6 = participants6;
 	}
-
 
 
 
@@ -314,11 +289,9 @@ public class Match {
 
 
 
-
 	public void setParticipants7(Participant participants7) {
 		this.participants7 = participants7;
 	}
-
 
 
 
@@ -328,11 +301,9 @@ public class Match {
 
 
 
-
 	public void setParticipants8(Participant participants8) {
 		this.participants8 = participants8;
 	}
-
 
 
 
@@ -342,11 +313,9 @@ public class Match {
 
 
 
-
 	public void setParticipants9(Participant participants9) {
 		this.participants9 = participants9;
 	}
-
 
 
 
@@ -356,25 +325,57 @@ public class Match {
 
 
 
-
 	public void setParticipants10(Participant participants10) {
 		this.participants10 = participants10;
 	}
 
 
 
-
-	public MyItemBuild getMyIteamBuild() {
-		return myIteamBuild;
+	public JSONArray getTest1() {
+		return test1;
 	}
 
 
 
-
-	public void setMyIteamBuild(MyItemBuild myIteamBuild) {
-		this.myIteamBuild = myIteamBuild;
+	public void setTest1(JSONArray test1) {
+		this.test1 = test1;
 	}
 
+
+
+	public JSONObject getTest2() {
+		return test2;
+	}
+
+
+
+	public void setTest2(JSONObject test2) {
+		this.test2 = test2;
+	}
+
+
+
+	public List<MyItemBuild> getMyItemBuild() {
+		return myItemBuild;
+	}
+
+
+
+	public void setMyItemBuild(List<MyItemBuild> myItemBuild) {
+		this.myItemBuild = myItemBuild;
+	}
+
+
+
+	public List<MySkillBuild> getMySkillBuild() {
+		return mySkillBuild;
+	}
+
+
+
+	public void setMySkillBuild(List<MySkillBuild> mySkillBuild) {
+		this.mySkillBuild = mySkillBuild;
+	}
 
 
 
@@ -386,10 +387,9 @@ public class Match {
 				+ team2 + ", participants1=" + participants1 + ", participants2=" + participants2 + ", participants3="
 				+ participants3 + ", participants4=" + participants4 + ", participants5=" + participants5
 				+ ", participants6=" + participants6 + ", participants7=" + participants7 + ", participants8="
-				+ participants8 + ", participants9=" + participants9 + ", participants10=" + participants10
-				+ ", myIteamBuild=" + myIteamBuild + "]";
+				+ participants8 + ", participants9=" + participants9 + ", participants10=" + participants10 + ", test1="
+				+ test1 + ", test2=" + test2 + ", myItemBuild=" + myItemBuild + ", mySkillBuild=" + mySkillBuild + "]";
 	}
-
 	
 	
 	

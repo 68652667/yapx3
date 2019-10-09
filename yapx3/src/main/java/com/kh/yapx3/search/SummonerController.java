@@ -58,6 +58,7 @@ public class SummonerController {
 			
 			
 		} catch ( Exception e ) {
+			e.printStackTrace();
 			logger.info("없는 아이디입니다.");
 
 			response.setCharacterEncoding("utf-8");

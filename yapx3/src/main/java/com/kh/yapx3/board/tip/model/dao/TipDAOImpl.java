@@ -58,5 +58,10 @@ public class TipDAOImpl implements TipDAO {
 	public List<TipComment> selectCommentList(int tipBoardNo) {
 		return sqlSession.selectList("tip.selectCommentList", tipBoardNo);
 	}
+
+	@Override
+	public List<TipWithFileCount> selectTipMyList(String memberId) {
+		return sqlSession.selectList("tip.selectTipMyList",memberId);
+	}
 	
 }

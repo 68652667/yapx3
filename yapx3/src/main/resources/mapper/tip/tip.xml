@@ -12,6 +12,16 @@
 		order by tip_board_no desc
 	</select>
 	
+	<select id="selectTipMyList" resultType="TipWithFileCount">
+		select A.*,
+		       (select count(*) 
+		        from t_b_a 
+		        where tip_board_no = A.tip_board_no) filecount
+		from t_b A
+		where USER_EMAIL = #{userEmail}
+		order by tip_board_no desc
+	</select>
+	
 	<select id="selectCommentList" resultType="TipComment">
 		select lpad(' ',(level-1)*5,' ')||COMMENT_CONTENT B, A.* from t_b_c A where TIP_BOARD_NO = #{tipBoardNo} start with COMMENT_LEVEL = 1 connect by prior COMMENT_NO = COMMENT_REF order siblings by COMMENT_NO asc
 	</select>

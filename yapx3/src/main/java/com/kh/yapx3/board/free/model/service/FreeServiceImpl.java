@@ -59,4 +59,9 @@ public class FreeServiceImpl implements FreeService {
 		return freeDAO.freeCommentDel(commentNo);
 	}
 
+	@Override
+	public List<FreeWithFileCount> selectFreeMyList(String memberId) {
+		return freeDAO.selectFreeMyList(memberId);
+	}
+
 }

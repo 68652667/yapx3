@@ -59,5 +59,10 @@ public class FreeDAOImpl implements FreeDAO {
 	public int freeCommentDel(int commentNo) {
 		return sqlSession.delete("free.freeCommentDel", commentNo);
 	}
+
+	@Override
+	public List<FreeWithFileCount> selectFreeMyList(String memberId) {
+		return sqlSession.selectList("free.selectFreeMyList", memberId );
+	}
 	
 }

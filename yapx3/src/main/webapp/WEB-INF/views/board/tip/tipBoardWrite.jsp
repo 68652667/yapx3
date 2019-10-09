@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -24,6 +25,26 @@ margin: 0;
     word-wrap: break-word;
     min-height: 200px;
     text-align: left;
+}
+#iconDiv{
+	display: none;
+}
+#iconDiv img{width: 32px;}
+#iconDiv #champImg{
+	height: 348px;
+	overflow-y: scroll;
+    background-color: #ededed;
+    padding: 2px 0 0;
+    text-align: center;
+    display: none;
+}
+#iconDiv #skillImg{
+	height: 348px;
+	overflow-y: scroll;
+    background-color: #ededed;
+    padding: 2px 0 0;
+    text-align: center;
+    display: none;
 }
 </style>
 <script>
@@ -82,6 +103,37 @@ function txt(e) {
 	var body = $("#body").html();
 	$("#txtfield").html(body);
 }
+
+var iconsum = 1;
+function showIcon(){
+	if(iconsum == 1){
+		$("#iconDiv").css("display", "inline");
+		iconsum = 0;
+	} else {
+		$("#iconDiv").css("display", "none");
+		$("#champImg").css("display", "none");
+		$("#skillImg").css("display", "none");
+		iconsum = 1;
+	}
+}
+function champ() {
+	$(".imgcon").css("display", "none");
+	$("#champImg").css("display", "inline");
+}
+function skills() {
+	$(".imgcon").css("display", "none");
+	$("#skillImg").css("display", "inline");
+}
+function addImg(e) {
+	var src = $(e).attr("src");
+	var img = document.createElement("img");
+	img.setAttribute("src", src);
+	img.setAttribute("height", "32");
+	img.setAttribute("width", "32");
+	document.getElementById("body").appendChild(img);
+	var body = $("#body").html();
+	$("#txtfield").html(body);
+}
 </script>
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">    
 	<div id="board-container" >
@@ -134,11 +186,28 @@ function txt(e) {
 			<br />
 			<div>
 				<p style="text-align: right;">
-					<button type="button" class="btn btn-secondary btn-sm">롤 아이콘</button>
+					<button type="button" class="btn btn-secondary btn-sm" onclick="showIcon();">롤 아이콘</button>
 				</p>
 			</div>
 			<div id="iconDiv">
-				
+				<div>
+					<span onclick="champ();">챔피언</span>
+					<span onclick="skills();">스킬</span>
+				</div>
+				<div id="champImg" class="imgcon">
+					<c:forEach items="${champList }" var="b">
+					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/champion/${b.id }.png" alt="" onclick="addImg(this);"/>
+					</c:forEach>
+				</div>
+				<div id="skillImg" class="imgcon">
+					<c:forEach items="${champList }" var="b">
+					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/passive/${b.passive }" alt="" onclick="addImg(this);"/>
+					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.q }" alt="" onclick="addImg(this);"/>
+					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.w }" alt="" onclick="addImg(this);"/>
+					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.e }" alt="" onclick="addImg(this);"/>
+					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.r }" alt="" onclick="addImg(this);"/>
+					</c:forEach>
+				</div>
 			</div>
 			<br />
 			<input type="submit" class="btn btn-outline-success" value="저장" >

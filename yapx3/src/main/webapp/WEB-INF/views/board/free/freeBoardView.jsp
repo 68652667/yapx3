@@ -65,13 +65,32 @@ $(()=>{
 		
 	});
 	
+	$( "#btnSendMsg" ).on("click", function() {
+		if(${memberLoggedIn==null}){
+			alert("로그인을 해주세요!");
+			return;
+		}
+		var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
+		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=${free.userEmail}&sendNickName=${free.userNickName }", "", popup ).focus();
+	});
+	$( ".btnSendMsg2" ).on("click", function() {
+		if(${memberLoggedIn==null}){
+			alert("로그인을 해주세요!");
+			return;
+		}
+		var popup = "width=470,height=600,resizable=no,scrollbars=no,status=no";
+		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=" + $( this ).attr( "eId" ) + "&sendNickName=" + $( this ).attr( "nId" ), "", popup ).focus();
+	});
 });
 </script>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">
 	글번호 : ${free.freeBoardNo } <br />
 	제목 : ${free.freeBoardTitle } <br />
-	글쓴이 : ${free.userNickName } 
+	글쓴이 : 
+	<div class="w3-button" id="btnSendMsg" title="쪽지보내기" >
+	${free.userNickName } 
+	</div>
 	<br />
 	<c:forEach items="${free.attachList}" var="a" varStatus="vs">
 		<img src="${pageContext.request.contextPath}/resources/upload/board/${a.renamedFileName}" alt="" style="width: 400px;"/>
@@ -101,7 +120,11 @@ $(()=>{
 						<c:when test="${c.commentLevel == 1}">
 						<tr class="level1, list-group-item">
 							<td>
-								<sub class="comment-writer">${c.userNickname }</sub> 
+								<sub class="comment-writer">
+								<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
+								${c.userNickname }
+								</div>
+								</sub> 
 								<sub class="comment-date">${c.date }</sub><br /><br />
 								${c.commentContent }
 							</td>
@@ -117,7 +140,11 @@ $(()=>{
 						<c:when test="${c.commentLevel == 2}">
 							<tr class="level2, list-group-item">
 							<td style="padding-left: 20px">
-								ㄴ<sub class="comment-writer">${c.userNickname }</sub> 
+								ㄴ<sub class="comment-writer">
+								<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
+								${c.userNickname }
+								</div>
+								</sub> 
 								<sub class="comment-date">${c.date }</sub><br /><br />
 								${c.commentContent }
 							</td>
