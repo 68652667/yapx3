@@ -150,6 +150,27 @@ public class ChampionInfoController{
 		
 	}
 	
+	@RequestMapping("/championTipLike")
+	public ResponseEntity<?> championTipLikeMethod(HttpServletRequest request, HttpServletResponse response) {
+		
+		int tipNo = Integer.parseInt(request.getParameter("tipNo"));
+		String likeType = request.getParameter("likeType");
+		String userEmail = request.getParameter("userEmail");
+		
+		logger.info(userEmail);
+		int idx = userEmail.indexOf("@");
+		String emailId = userEmail.substring(0, idx);
+		
+		ChampionTipBoardVO tip = new ChampionTipBoardVO();
+		tip.setChampTipNo(tipNo);
+		tip.setUserId(emailId);
+		
+		championInfoService.championTipLike(tip, likeType);
+		
+		
+		return ResponseEntity.ok("");
+	}
+	
 
 	
 //모든 챔피언 가져오기, 선택한 포지션의 챔피언 가져오기

@@ -7,9 +7,14 @@
 		insert into champion_tip(champtip_no, champion_no, user_email, user_nickname, champtip_content, champtip_date, champtip_like, champtip_likelist)
 		values(champion_tip_seq.nextval, #{championNo}, #{userEmail}, #{userNickName}, #{champTipContent}, default, default, default )
 	</insert>
-	<select id="championTipList" resultMap = "tipVO">
-		select * from champion_tip where champion_no = ${value}
+	<select id="championTipList" resultMap="tipVO" parameterType="java.lang.Integer">
+		select champtip_no, user_nickname, champtip_content, champtip_like, user_email from champion_tip where champion_no = ${value}
 	</select>
+	<update id="championTipLike" parameterType="championTip">
+		update champion_tip 
+		set champtip_likelist = #{championTipLikeList}, champtip_like = #{champTipLike} + 1
+ 		where champtip_no = #{champTipNo}
+	</update>
 	
 	<resultMap type="championTip" id="tipVO">
 		<id column="champtip_no" property="champTipNo"/>
@@ -19,6 +24,6 @@
 		<result column="champtip_content" property="champTipContent"/>
 		<result column="champtip_date" property="champTipDate"/>
 		<result column="champtip_like" property="champTipLike"/>
-		<result column="champtip_likelist" property="champTipLikeList"/>
+		<result column="championtip_likelist" property="championTipLikeList" typeHandler="strArrTypeHandler"/>
 	</resultMap>
 </mapper>

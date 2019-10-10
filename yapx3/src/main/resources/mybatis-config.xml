@@ -8,10 +8,8 @@
   	<setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
   <typeAliases>
-
-  	<typeAlias type = "com.kh.yapx3.item.model.vo.ItemVO" alias="itemvo"/>
-  	<typeAlias type = "com.kh.yapx3.champion.model.vo.ChampionInfoVO" alias="Info"/>
-	<typeAlias type = "com.kh.yapx3.item.model.vo.Test" alias="test"/>
+  	
+	<typeAlias type = "com.kh.yapx3.champion.model.vo.ChampionInfoVO" alias="Info"/>
 	<typeAlias type = "com.kh.yapx3.champion.model.vo.ChampionTipBoardVO" alias="championTip"/>
 
   	<typeAlias type="com.kh.yapx3.user.model.vo.Member" 
@@ -48,6 +46,12 @@
 			   alias="Gontip"/>
 	<typeAlias type="com.kh.yapx3.board.gontip.model.vo.GontipComment"
 			   alias="GontipComment"/>
-
+	<typeAlias type="com.kh.yapx3.champion.common.StringArrayTypeHandler" alias="strArrTypeHandler"/>
+   	<package name="com.kh.yapx3.champion.model.vo.ChampionTipBoardVO" />
+   	 
   </typeAliases>
+  <typeHandlers>
+		<!-- 해당패키지의 모든 TypeHandler구현클래스를 등록함 -->
+		<package name="com.kh.yapx3.champion.common.StringArrayTypeHandler"/>
+	</typeHandlers>
 </configuration>

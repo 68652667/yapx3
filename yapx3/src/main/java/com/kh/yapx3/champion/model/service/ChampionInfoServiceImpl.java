@@ -365,6 +365,16 @@ public class ChampionInfoServiceImpl {
  		return tip;
 	}
 
+	public void championTipLike(ChampionTipBoardVO tip, String likeType) {
+		
+		if(likeType.equals("up")) {
+			int result = championDAO.championTipLike(tip);
+			if(result > 0 ) {
+				logger.info("성공!" );
+			}
+		}
+	}
+
 	
 
 	

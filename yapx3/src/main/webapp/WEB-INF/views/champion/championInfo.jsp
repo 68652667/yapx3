@@ -147,12 +147,13 @@ li {
 	bottom: 0px;
 	right: 0px;
 }
-.up, .down{
+.like{
 	border: 0;
 	outline: 0;
 }
 #content{
 	margin-left: 100px;
+	width: 530px;
 }
 [name=tipWriter]{
 	height: 20px;
@@ -183,33 +184,30 @@ li {
 			$(".championInfoBody").css("display", "block");
 		});
 		tippy('#passive', {
-		  	content: '<div class="tirg">${championSkillToolTip.passivSkillTolltip}</div>',
+		  	content: "<div class='tirg'>'${championSkillToolTip.passivSkillTolltip}'</div>",
 		});
 		tippy('#qskill', {
-		  	content: '<div class="tirg">${championSkillToolTip.qSkillTolltip}</div>',
+		  	content: "<div class='tirg'>'${championSkillToolTip.qSkillTolltip}'</div>",
 		});
 		tippy('#wskill', {
-		  	content: '<div class="tirg">${championSkillToolTip.wSkillTolltip}</div>',
+		  	content: "<div class='tirg'>'${championSkillToolTip.wSkillTolltip}'</div>",
 		});
 		tippy('#eskill', {
-		  	content: '<div class="tirg">${championSkillToolTip.eSkillTolltip}</div>',
+		  	content: "<div class='tirg'>'${championSkillToolTip.eSkillTolltip}'</div>",
 		});
 		tippy('#rskill', {
-		  	content: '<div class="tirg">${championSkillToolTip.rSkillTolltip}</div>',
+		  	content: "<div class='tirg'>'${championSkillToolTip.rSkillTolltip}'</div>",
 		});
 		
 		$(".like").on("click", (e)=>{
-			var like = $(e.target).attr("id");
-			
-			console.log(like);
-			$.ajax({
-				url: "${pageContext.request.contextPath}/champion/championTipLike?likes="+like,
-				type:"GET",
-				dataType:"json",
-				success: function(data){
-					
-				},
-			});
+			var tipNo = $(e.target).val();
+			var likeType = $(e.target).attr("id");
+			var userEmail = $(e.target).attr("userEmail");
+			alert(userEmail);
+			location.href="${pageContext.request.contextPath}/champion/championTipLike?tipNo="+tipNo+"&likeType="+likeType+"&userEmail="+userEmail;
+			console.log(userEmail);
+			console.log(likeType);
+			console.log(tipNo);
 		});
 	});
 	function check(){
@@ -365,11 +363,12 @@ li {
 				<c:forEach items="${championTipList }" var="tip">
 					<ul>
 						<div class="championTip" id="${tip.champTipNo }">
-							<button value="up" class="like" id="up">&and;</button>
-							<br />
-								<span>${tip.champTipLike }</span>
-							<br />
-							<button value="dowun" class="like" id="down">&or;</button>
+						<input type="hidden" id="${tip.champTipNo }">
+						<button value="${tip.champTipNo }" userEmail="${tip.userEmail }" class="like" id="up">&and;</button>
+						<br />
+							<span>${tip.champTipLike }</span>
+						<br />
+						<button value="${tip.champTipNo }" userEmail="${tip.userEmail }" class="like" id="down">&or;</button>
 						</div>
 						<div class="championTipContent">
 							<div class="writerUser">${tip.userNickName }</div>

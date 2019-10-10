@@ -38,5 +38,11 @@ public class ChampionDAO {
 		List<ChampionTipBoardVO> tipList = sqlSession.selectList("champion.championTipList", championId);
 		return tipList;
 	}
+
+
+
+	public int championTipLike(ChampionTipBoardVO tip) {
+		return sqlSession.update("champion.championTipLike", tip);
+	}
 	
 }
