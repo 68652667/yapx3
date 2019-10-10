@@ -16,11 +16,10 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.oLoader.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
+<script src="${pageContext.request.contextPath }/resources/js/jquery.oLoader.min.js"></script>
 
 <style>
 
@@ -296,6 +295,25 @@ overflow: hidden;
 
 
 /* 상세정보 - 아이템빌드 */
+
+.more{
+	
+	
+display: inline-block;
+    padding: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+
+border: 1px solid gray;
+
+}
+
 .title{
 
 	padding: 7px 14px 9px;
@@ -489,7 +507,6 @@ margin: 0 8px;
     border-bottom: 1px solid #cdd2d2; 
    	background-color: #ededed;
  } 
-
 
 
 	
@@ -709,6 +726,8 @@ margin: 0 8px;
 </div>
 	
 	<script>
+	
+	
 	$(()=>{
 		
 			var summonerName = $("#summonerName").val().replace(/ /g,"%20");
@@ -724,9 +743,8 @@ margin: 0 8px;
 			var mechap = new Array();
 			var mechapSplit = new Array();
 			var t1 = new Array();
-		
 			
-			
+				  
 			$.ajax({
 				
 				url : "${pageContext.request.contextPath}/summoner/searchView?summonerName="+summonerName,
@@ -734,7 +752,6 @@ margin: 0 8px;
 				dataType : "json",
 				success : function(data){
 						console.log(data);
-					
 					
 					for(var i in data){
 
@@ -857,7 +874,7 @@ margin: 0 8px;
 						html += "<tr>"+(me.item4 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item4+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item5 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item5+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item6 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item6+".png'/>")+"</tr><tr><tr/></table></td>";
-						html += "<td style='padding-left: 13px; padding-right: 46px;' ><table class='myTeamTable'>";
+						html += "<td style='padding-left: 13px; padding-right: 1%;' ><table class='myTeamTable'>";
 						
 						<% for(int i=1; i<6; i++) {%>
 						html += "<tr>";
@@ -2664,9 +2681,37 @@ margin: 0 8px;
 				
 										
 				},
+				
 				error : function(err){
 					console.log("fail");
-				}
+				},
+				
+				beforeSend: function () {
+		              var width = 0;
+		              var height = 0;
+		              var left = 350;
+		              var top = 300;
+
+		              width = 1024;
+		              height = 768;
+
+
+		              if($("#div_ajax_load_image").length != 0) {
+		                     $("#div_ajax_load_image").css({
+		                            "top": top+"px",
+		                            "left": left+"px"
+		                     });
+		                     $("#div_ajax_load_image").show();
+		              }
+		              else {
+		                     $('body').append('<div id="div_ajax_load_image" style="position:absolute; top:' + top + 'px; left:' + left + 'px; width:' + width + 'px; height:' + height + 'px; z-index:9999; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0;"><img src="${pageContext.request.contextPath}/resources/images/loading.gif"></div>');
+		              }
+
+		       }
+		       , complete: function () {
+		                     $("#div_ajax_load_image").hide();
+		       }
+				
 			});
 			
 			var summonerId;
@@ -2684,6 +2729,8 @@ margin: 0 8px;
 				},
 				error : function( xhr, txtStatus, err ){
 					console.log( xhr, txtStatus, err );
+					alert("없는 소환사 입니다.");
+					location.href = "${pageContext.request.contextPath}/";
 				}
 			});
 			
