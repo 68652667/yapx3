@@ -64,5 +64,16 @@ public class FreeDAOImpl implements FreeDAO {
 	public List<FreeWithFileCount> selectFreeMyList(String memberId) {
 		return sqlSession.selectList("free.selectFreeMyList", memberId );
 	}
+
+	@Override
+	public int updateFree(FreeVO free) {
+		int result = sqlSession.update("free.updateFree", free);
+		return result;
+	}
+
+	@Override
+	public int selectFreeTotal() {
+		return sqlSession.selectOne( "free.selectFreeTotal" );
+	}
 	
 }
