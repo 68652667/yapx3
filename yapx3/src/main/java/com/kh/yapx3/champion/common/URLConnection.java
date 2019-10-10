@@ -90,7 +90,7 @@ public class URLConnection {
 
 	//챔피언 데이터 url
 	public ChampionAll championData() throws IOException{
-		urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
+		urlStr = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/champion.json";
 		HttpHeaders header = new HttpHeaders();
 	    HttpEntity<String> httpEntity = new HttpEntity<>(header);
 		ResponseEntity<ChampionAll> championAll = restTemplate.exchange(urlStr, HttpMethod.GET, httpEntity, ChampionAll.class);
@@ -99,7 +99,7 @@ public class URLConnection {
 
 	//챔피언 데이터 url
 	public JSONObject championDataOrigin() throws IOException{
-		urlStr = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/ko_KR/champion.json";
+		urlStr = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/champion.json";
 		JSONObject jobj = urlInput(urlStr);
 		return jobj;
 	}

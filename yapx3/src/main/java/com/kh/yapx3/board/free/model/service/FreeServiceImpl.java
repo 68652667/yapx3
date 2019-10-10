@@ -64,4 +64,38 @@ public class FreeServiceImpl implements FreeService {
 		return freeDAO.selectFreeMyList(memberId);
 	}
 
+	@Override
+	public void increaseReadCount(int freeBoardNo) {
+		freeDAO.increaseReadCount(freeBoardNo);
+	}
+
+	@Override
+	public String likeUserList(String freeboardNo) {
+		return freeDAO.likeUserList(freeboardNo);
+	}
+
+	@Override
+	public void likeincrease(String userNickname, String freeboardNo) {
+		freeDAO.likeincrease(userNickname, freeboardNo);
+	}
+
+	@Override
+	public void likeincrease2(String likeUserList, String freeboardNo) {
+		freeDAO.likeincrease2(likeUserList, freeboardNo);
+	}
+
+	@Override
+	public void deleteLike(String likeUserList, String freeboardNo) {
+		freeDAO.deleteList(likeUserList, freeboardNo);
+	}
+
+	@Override
+	public int likeValue(String freeboardNo) {
+		return freeDAO.likeValue(freeboardNo);
+	}
+	
+	@Override
+	public int selectFreeTotal() {
+		return freeDAO.selectFreeTotal();
+	}
 }

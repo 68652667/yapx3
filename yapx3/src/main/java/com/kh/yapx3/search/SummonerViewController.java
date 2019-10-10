@@ -41,6 +41,9 @@ import com.kh.yapx3.search.model.vo.Match;
 import com.kh.yapx3.search.model.vo.MyItemBuild;
 import com.kh.yapx3.search.model.vo.MySkillBuild;
 import com.kh.yapx3.search.model.vo.Participant;
+import com.kh.yapx3.search.model.vo.Spectator;
+import com.kh.yapx3.search.model.vo.Spectator_banned;
+import com.kh.yapx3.search.model.vo.Spectator_participant;
 import com.kh.yapx3.search.model.vo.Team;
 import com.kh.yapx3.search.model.vo.Summoner_1;
 
@@ -650,21 +653,174 @@ public class SummonerViewController{
 	@GetMapping("/summonerInGame")
 	public void inGame( HttpServletRequest request,
 						HttpServletResponse response) {
-			String summonerId = request.getParameter("summonerId");
+				String summonerId = request.getParameter("summonerId");
+				
+				System.out.println(summonerId);
+			
 			
 				//인게임정보 
-				String inGameStr = "https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerId+"?api_key="+ApiKey;
 				
 				try {
+					
+					List<Spectator> list = new ArrayList<Spectator>();
+					List<Spectator_participant> spList = new ArrayList<Spectator_participant>();
+					List<Spectator_banned> banList = new ArrayList<Spectator_banned>();
+					String inGameStr = "https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerId+"?api_key="+ApiKey;
+					
+					System.out.println(inGameStr);
+					
+					String urlStr2 = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/en_US/champion.json";
+					String urlStr3 = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/en_US/summoner.json";
+					
+					URL url2 = new URL(urlStr2);
+					URL url3 = new URL(urlStr3);
+					
+					BufferedReader br2 = new BufferedReader(new InputStreamReader(url2.openConnection().getInputStream()));
+					BufferedReader br3 = new BufferedReader(new InputStreamReader(url3.openConnection().getInputStream()));
+					
+					String sb2 = br2.readLine();
+					String sb3 = br3.readLine();
+							
+					JSONObject chapdata = new JSONObject(sb2.toString());
+					JSONObject chapdataObject = chapdata.getJSONObject("data");
+					JSONObject spelldata = new JSONObject(sb3.toString());
+					JSONObject spelldataObject = spelldata.getJSONObject("data");
+					
+					
+					Iterator num1 = chapdataObject.keys();
+					Iterator num2 = spelldataObject.keys();
+					
+					Map<String, String> chap = new HashMap<String, String>();
+					Map<String, String> spell = new HashMap<String, String>();
+					
+					while(num1.hasNext()) {
+						String dataKey = num1.next().toString();
+						JSONObject data = chapdataObject.getJSONObject(dataKey);
+						JSONObject data_ = data.getJSONObject("image");
+						String img = data_.getString("full");
+						String key = data.getString("key");
+						String id = data.getString("id");
+						chap.put(key, id);
+					}
+					
+					while(num2.hasNext()) {
+						String dataKey = num2.next().toString();
+						JSONObject data = spelldataObject.getJSONObject(dataKey);
+						String key = data.getString("key");
+						String id = data.getString("id");
+						spell.put(key, id);
+					}
+					
+										
 					URL inGameUrl = new URL(inGameStr);
 					BufferedReader inGamebr = new BufferedReader(new InputStreamReader(inGameUrl.openConnection().getInputStream()));
 					String inGameSb = inGamebr.readLine();
 					JSONObject inGameObj = new JSONObject(inGameSb.toString());
+					String gameType = inGameObj.getString("gameType");
 					JSONArray inGameArr = inGameObj.getJSONArray("participants");
+					JSONObject observers = inGameObj.getJSONObject("observers");
+					JSONArray banned = inGameObj.getJSONArray("bannedChampions");
+					int banCham = 0;
+					int banTeamId = 0;
+					Spectator_banned SpBan = new Spectator_banned();
+					
+					for(int i=0; i<banned.length(); i++) {
+						JSONObject ban = (JSONObject) banned.get(i);
+						 banCham = ban.getInt("championId");
+						 banTeamId = ban.getInt("teamId");
+						 SpBan = new Spectator_banned(banTeamId,chap.get(Integer.toString(banCham)));
+						 
+						 banList.add(SpBan);
+					}
+					
+					
+					
+					JSONObject perks;
+					JSONArray perkId;
+					int perkSubStyle;
+					int championId = 0;
+					int spell1 = 0;
+					int spell2 = 0;
+					String summonerIds = "";
+					int teamId = 0;
+					String summonerName = "";
+					JSONObject perkIdResult;
+					
+					Spectator_participant sp = new Spectator_participant();
+					Spectator spt = new Spectator();
+					Spectator_banned ban = new Spectator_banned();
+					
+					JSONObject  p1 = (JSONObject) inGameArr.get(0);
+					
+					spt.setBanned(banList);
+					spt.setObservers(observers);
+					spt.setGameMode(gameType);
+					
+				
+				for(int i = 0; i<10; i++) {
+						
+					
+				 p1 = (JSONObject) inGameArr.get(i);
+				
+				 perks = (JSONObject)p1.getJSONObject("perks");
+				 perkId = (JSONArray)perks.getJSONArray("perkIds");
+				 perkSubStyle = perks.getInt("perkSubStyle");
+				 
+				 championId = p1.getInt("championId");
+				 spell1 =  p1.getInt("spell1Id");
+				 spell2 = p1.getInt("spell2Id");
+				 summonerIds = p1.getString("summonerId");
+				 teamId = p1.getInt("teamId");
+				 summonerName = p1.getString("summonerName");
+				 
+				 
+				 String urlStr = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerIds + "?api_key=" + ApiKey;
+					URL url = new URL( urlStr );
+					BufferedReader br = new BufferedReader
+						( new InputStreamReader( url.openConnection().getInputStream() ) );
+						
+						String sb = br.readLine();
+						
+						JSONArray jobj = new JSONArray( sb.toString() );
+						JSONObject job12 = (JSONObject)jobj.get(0);
+						
+						String rank = job12.getString("rank");
+						String tier = job12.getString("tier");
+						int LP = job12.getInt("leaguePoints");
+				 
+				 
+					
+					sp = new Spectator_participant();
+					
+					sp.setChampionId(chap.get(Integer.toString(championId)));
+					sp.setSummonerName(summonerName.toString());
+					sp.setPerks(perkId);
+					sp.setPerkSubStyle(perkSubStyle);
+					sp.setSpell1(spell.get(Integer.toString(spell1)));
+					sp.setSpell2(spell.get(Integer.toString(spell2)));
+					sp.setTeamId(teamId);
+					sp.setTier(tier);
+					sp.setRank(rank);
+					sp.setLP(LP);
+					
+					spList.add(sp);
+					
+					}
+				spt.setParticipant(spList);
+					
+				list.add(spt);
+				
+				System.out.println(list);
+					
+
 					//만약 게임중이 아니라면 File Not FoundException 뜸
-					System.out.println(inGameArr);
+					
+		
+					
+					
 					response.setCharacterEncoding("utf-8");
-					response.getWriter().append(inGameArr.toString());
+					new Gson().toJson(list, response.getWriter());	
+					
 					
 				}catch(FileNotFoundException e) {
 					

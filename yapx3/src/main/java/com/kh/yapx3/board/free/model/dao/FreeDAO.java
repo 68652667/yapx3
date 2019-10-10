@@ -26,4 +26,19 @@ public interface FreeDAO {
 
 	List<FreeWithFileCount> selectFreeMyList(String memberId);
 
+	Object increaseReadCount(int freeBoardNo);
+
+	String likeUserList(String freeboardNo);
+
+	void likeincrease(String userNickname, String freeboardNo);
+
+	void likeincrease2(String likeUserList, String freeboardNo);
+
+	void deleteList(String likeUserList, String freeboardNo);
+
+	int likeValue(String freeboardNo);
+
+	int selectFreeTotal();
+
+
 }

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +31,7 @@ import com.kh.yapx3.champion.model.service.ChampionInfoServiceImpl;
 import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 import com.kh.yapx3.champion.model.vo.ChampionKoN;
 import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
+import com.kh.yapx3.champion.model.vo.ChampionTipBoardVO;
 
 @Controller
 @RequestMapping("/champion")
@@ -52,8 +54,12 @@ public class ChampionInfoController{
         {'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ'
        , 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
 	
+	private int championKey;
 	@Autowired
 	ChampionInfoServiceImpl championInfoService;
+	
+	@Autowired
+	ServletContext servletContext;
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -69,9 +75,15 @@ public class ChampionInfoController{
 		
 		int championId = Integer.parseInt(request.getParameter("championId"));
 		
+		championKey = championId;
+		
 		ModelAndView mav = new ModelAndView();
-//챔피언 이미지 
+//챔피언 스킬 이미지 
 		ChampionSkillInfo championSkillInfo = championInfoService.championInfoSkill(championId);
+		
+//챔피언 스킬 설명
+		String championName = championInfoService.championGetName(championId);
+		ChampionSkillInfo championSkillToolTip = championInfoService.championInfoSkillTool(championName);
 		
 //챔피언 lane통계
 		List<ChampionInfoVO> championLaneList =  championInfoService.championInfo(championId);
@@ -89,6 +101,9 @@ public class ChampionInfoController{
 // 챔피언 아이템 리스트
 		Map<String, Integer> championItemList = championInfoService.championFinalItem(championId);
 		
+// 챔피언 팁 리스트
+		List<ChampionTipBoardVO> championTipList = championInfoService.championGetTipList(championId);
+		
 		List<String> itemCountList = new ArrayList<String>();
 		Iterator<String> iter = championItemList.keySet().iterator();
 		int count = 0;
@@ -101,6 +116,9 @@ public class ChampionInfoController{
 		}
 	
 		mav.setViewName("/champion/championInfo");
+		mav.addObject("championSkillToolTip", championSkillToolTip);
+		mav.addObject("championTipListCount", championTipList.size());
+		mav.addObject("championTipList", championTipList);
 		mav.addObject("championLaneList", championLaneList);
 		mav.addObject("summonerSkillList", summonerSkillList);
 		mav.addObject("championPerkList", championPerkList);
@@ -111,51 +129,36 @@ public class ChampionInfoController{
 		return mav;
 		
 	}
-	
-//선택한 포지션 챔피언 가져오기
-//	@RequestMapping("/categorySearch")
-	public ResponseEntity<?> championCategory(HttpServletRequest request, HttpServletResponse response){
-		List<ChampionKoN> list = new ArrayList<ChampionKoN>();
-		try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championLane.json");
-				BufferedReader br = new BufferedReader(reader);){
-			list = championInfoService.championAll();
-			Map<String, String> championLane = new HashMap<String, String>();
-			String line;
-			String jj="";
-			ChampionInfoVO championInfo;
-			while((line = br.readLine()) != null) {
-				jj += line;
-			}
-			JSONArray jarr = new JSONArray(jj.toString());
-			for(int i = 0 ; i < jarr.length(); i++) {
-				for(int j = 0 ; j < list.size(); j++) {
-					
-					if(list.get(j).getChampionKey() == jarr.getJSONObject(i).getInt("key")) {
-						Iterator<String> iter = jarr.getJSONObject(i).keySet().iterator();
-						int cnt =0;
-						String[] str = new String[3];
-						while(iter.hasNext()) {
-							str[cnt] = iter.next();
-							cnt++;
-						}
-						list.get(j).setLane1(str[0]);
-						list.get(j).setLane2(str[1]);
-					}
-				}
-			}
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    	}
-		return ResponseEntity.ok(list);
+//팁 게시판 등록
+	@RequestMapping("/championTipWrite")
+	public ModelAndView championTipMethod(HttpServletRequest request, HttpServletResponse response) {
+		String tipWriter = request.getParameter("tipWriter");
+		String content = request.getParameter("content");
+		String email = request.getParameter("email");
+		
+		ChampionTipBoardVO tipBoard = new ChampionTipBoardVO();
+		tipBoard.setChampionNo(championKey);
+		tipBoard.setUserNickName(tipWriter);
+		tipBoard.setChampTipContent(content);
+		tipBoard.setUserEmail(email);
+		
+		int result = championInfoService.championTipInsert(tipBoard);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/champion/championInfo?championId=" + championKey);
+		
+		return mav;
+		
 	}
 	
-//모든 챔피언 가져오기
+
+	
+//모든 챔피언 가져오기, 선택한 포지션의 챔피언 가져오기
 	@RequestMapping("/allChampion")
-	public ResponseEntity<?> championMethod(HttpServletRequest request, HttpServletResponse response) {
+ 	public ResponseEntity<?> championMethod(HttpServletRequest request, HttpServletResponse response) {
 		List<ChampionKoN> list = new ArrayList<ChampionKoN>();
         try {
         	list = championInfoService.championAll();
-        	try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championLane.json");
+        	try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/championLane.json"));
     				BufferedReader br = new BufferedReader(reader);){
     			list = championInfoService.championAll();
     			Map<String, String> championLane = new HashMap<String, String>();
@@ -217,9 +220,6 @@ public class ChampionInfoController{
 					searchList.add(championKon);
 				}
  			}
-			for(int i = 0 ; i < itemTitle.length; i++) {
-				logger.info("챔피언 이름: " +  itemTitle[i]);
-			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -227,6 +227,7 @@ public class ChampionInfoController{
 		return ResponseEntity.ok(searchList);
 		
 	}
+	
 	private char getInitialSound(char c) {
 		int hanBegin = (c - HANGUL_BEGIN_UNICODE);
 		int index = hanBegin / HANGUL_BASE_UNIT;
@@ -245,6 +246,7 @@ public class ChampionInfoController{
 			return false;
 		}
 	}
+	
 	private boolean isInitialSound(char c) {
 		for(int i = 0; i <INITIAL_SOUND.length; i++) {
 			if(INITIAL_SOUND[i] == c) {
@@ -253,6 +255,7 @@ public class ChampionInfoController{
 		}
 		return false;
 	}
+	
 	public boolean matchString(String keyword, String value) {
 		int t = 0;
 		int seof = value.length() - keyword.length();

@@ -26,4 +26,18 @@ public interface FreeService {
 
 	List<FreeWithFileCount> selectFreeMyList(String memberId);
 
+	void increaseReadCount(int freeBoardNo);
+
+	String likeUserList(String freeboardNo);
+
+	void likeincrease(String userNickname, String freeboardNo);
+
+	void likeincrease2(String likeUserList, String freeboardNo);
+
+	void deleteLike(String likeUserList, String freeboardNo);
+
+	int likeValue(String freeboardNo);
+
+	int selectFreeTotal();
+
 }

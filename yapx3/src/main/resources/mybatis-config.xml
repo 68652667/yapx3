@@ -12,6 +12,7 @@
   	<typeAlias type = "com.kh.yapx3.item.model.vo.ItemVO" alias="itemvo"/>
   	<typeAlias type = "com.kh.yapx3.champion.model.vo.ChampionInfoVO" alias="Info"/>
 	<typeAlias type = "com.kh.yapx3.item.model.vo.Test" alias="test"/>
+	<typeAlias type = "com.kh.yapx3.champion.model.vo.ChampionTipBoardVO" alias="championTip"/>
 
   	<typeAlias type="com.kh.yapx3.user.model.vo.Member" 
   			   alias="user"/>

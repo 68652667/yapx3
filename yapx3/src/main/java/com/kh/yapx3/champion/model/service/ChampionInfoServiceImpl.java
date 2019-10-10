@@ -2,6 +2,7 @@ package com.kh.yapx3.champion.model.service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,10 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletContext;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,10 +28,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.kh.yapx3.champion.common.URLConnection;
 import com.kh.yapx3.champion.model.champion.ChampionAll;
+import com.kh.yapx3.champion.model.dao.ChampionDAO;
 import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 import com.kh.yapx3.champion.model.vo.ChampionKoN;
 import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
+import com.kh.yapx3.champion.model.vo.ChampionTipBoardVO;
 
 
 
@@ -36,10 +43,16 @@ public class ChampionInfoServiceImpl {
 	
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Autowired
+	ChampionDAO championDAO;
+	
+	@Autowired
+	ServletContext servletContext;
 
 //챔피언 라인 통계
 	public List<ChampionInfoVO> championInfo(int championId) {
-			try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championLane.json");
+			try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/championLane.json"));
 				BufferedReader br = new BufferedReader(reader);){
 				Map<String, String> championLane = new HashMap<String, String>();
 				String line;
@@ -76,7 +89,7 @@ public class ChampionInfoServiceImpl {
 
 //챔피언 스킬 이미지와 스킬 
 	public ChampionSkillInfo championInfoSkill(int championId) {
-		try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/skill.json");
+		try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/skill.json"));
 				BufferedReader br = new BufferedReader(reader);){
 				String line;
 				String jj="";
@@ -108,7 +121,7 @@ public class ChampionInfoServiceImpl {
 	public Map<String, Integer> championFinalItem(int championId) {
 			
 //			JSONParser parser = new JSONParser();
-			try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championFinalItem.json");
+			try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/championFinalItem.json"));
 				BufferedReader br = new BufferedReader(reader);){
 				
 				String line;
@@ -162,7 +175,7 @@ public class ChampionInfoServiceImpl {
 	
 //챔피언 스팰 통계
 	public List<ChampionInfoVO> summonerSkillList(int championId) {
-		try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championSpell.json");
+		try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/championSpell.json"));
 				BufferedReader br = new BufferedReader(reader);){
 				String line;
 				String jj="";
@@ -195,7 +208,7 @@ public class ChampionInfoServiceImpl {
 	}
 //챔피언의 시작아이템 통계
 	public List<ChampionInfoVO> championRune(int championId) {
-		try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championRune.json");
+		try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/championRune.json"));
 			BufferedReader br = new BufferedReader(reader);) {
 			String line;
 			String jj="";
@@ -234,7 +247,7 @@ public class ChampionInfoServiceImpl {
 	
 //챔피언의 시작탬
 	public ChampionInfoVO championStartItem(int championId) {
-		try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championStartItem.json");
+		try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/championStartItem.json"));
 				BufferedReader br = new BufferedReader(reader);) {
 				String line;
 				String jj="";
@@ -297,6 +310,64 @@ public class ChampionInfoServiceImpl {
 
 		return championKonList;
 	}
+	
+	public String championGetName(int championId) {
+		URLConnection connection = new URLConnection();
+		String name = "";
+		try {
+			ChampionAll champion = connection.championData();
+			Iterator<String> iter = (Iterator<String>) champion.getData().keySet().iterator();
+			while(iter.hasNext()) {
+				String key = iter.next();
+				if(championId == champion.getData().get(key).getKey()) {
+					name = champion.getData().get(key).getId();
+				}
+			}
+			return name;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	public ChampionSkillInfo championInfoSkillTool(String championName) {
+		URLConnection connection = new URLConnection();
+		try {
+			JSONObject jobj = connection.championDetailData(championName);
+			JSONArray jarr = jobj.getJSONObject("data").getJSONObject(championName).getJSONArray("spells");
+			ChampionSkillInfo skilltool = new ChampionSkillInfo();
+			for(int i= 0 ; i < jarr.length(); i++) {
+				switch (i) {
+					case 0: skilltool.setqSkillTolltip(jarr.getJSONObject(i).getString("description"));break;
+					case 1: skilltool.setwSkillTolltip(jarr.getJSONObject(i).getString("description"));break;
+					case 2: skilltool.seteSkillTolltip(jarr.getJSONObject(i).getString("description"));break;
+					case 3: skilltool.setrSkillTolltip(jarr.getJSONObject(i).getString("description"));break;
+					default:break;
+				}
+			}
+			skilltool.setPassivSkillTolltip(jobj.getJSONObject("data").getJSONObject(championName).getJSONObject("passive").getString("description"));
+			return skilltool;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public int championTipInsert(ChampionTipBoardVO tipBoard) {
+		int result = championDAO.championTipInsert(tipBoard);
+		return result;
+	}
+
+	public List<ChampionTipBoardVO> championGetTipList(int championId) {
+		List<ChampionTipBoardVO> tip = championDAO.championGetTipList(championId);
+ 		return tip;
+	}
+
+	
+
+	
 
 	
 

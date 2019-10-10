@@ -13,7 +13,7 @@
 		values
 		( #{userEmail},
 		  #{userNickname},
-		  seq_user_no.nextval,
+		  1,
 		  #{ userActivationKey },
 		  #{userPassword},
 		  sysdate,

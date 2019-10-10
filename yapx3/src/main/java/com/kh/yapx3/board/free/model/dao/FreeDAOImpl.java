@@ -1,6 +1,8 @@
 package com.kh.yapx3.board.free.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -63,6 +65,50 @@ public class FreeDAOImpl implements FreeDAO {
 	@Override
 	public List<FreeWithFileCount> selectFreeMyList(String memberId) {
 		return sqlSession.selectList("free.selectFreeMyList", memberId );
+	}
+
+	@Override
+	public Object increaseReadCount(int freeBoardNo) {
+		return sqlSession.update("free.increaseReadCount", freeBoardNo);
+	}
+
+	@Override
+	public String likeUserList(String freeboardNo) {
+		return sqlSession.selectOne("free.likeUserList", freeboardNo);
+	}
+
+	@Override
+	public void likeincrease(String userNickname, String freeboardNo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userNickname", userNickname);
+		map.put("freeboardNo", freeboardNo);
+		sqlSession.update("free.likeincrease", map);
+	}
+
+	@Override
+	public void likeincrease2(String likeUserList, String freeboardNo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("likeUserList", likeUserList);
+		map.put("freeboardNo", freeboardNo);
+		sqlSession.update("free.likeincrease2", map);
+	}
+
+	@Override
+	public void deleteList(String likeUserList, String freeboardNo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("likeUserList", likeUserList);
+		map.put("freeboardNo", freeboardNo);
+		sqlSession.update("free.deleteList", map);
+	}
+
+	@Override
+	public int likeValue(String freeboardNo) {
+		return sqlSession.selectOne("free.likeValue", freeboardNo);
+	}
+
+	@Override
+	public int selectFreeTotal() {
+		return sqlSession.selectOne( "free.selectFreeTotal" );
 	}
 	
 }
