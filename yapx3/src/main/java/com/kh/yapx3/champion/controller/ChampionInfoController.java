@@ -32,7 +32,6 @@ import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 import com.kh.yapx3.champion.model.vo.ChampionKoN;
 import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 import com.kh.yapx3.champion.model.vo.ChampionTipBoardVO;
-import com.kh.yapx3.champion.model.vo.ItemInfoVO;
 
 @Controller
 @RequestMapping("/champion")

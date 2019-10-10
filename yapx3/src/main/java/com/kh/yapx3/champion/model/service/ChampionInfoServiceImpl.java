@@ -35,7 +35,6 @@ import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 import com.kh.yapx3.champion.model.vo.ChampionKoN;
 import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 import com.kh.yapx3.champion.model.vo.ChampionTipBoardVO;
-import com.kh.yapx3.champion.model.vo.ItemInfoVO;
 
 
 
@@ -406,7 +405,6 @@ public class ChampionInfoServiceImpl {
 	public String itemDescription(int itemNo) {
 		URLConnection connection = new URLConnection();
 		String description ="";
-		ItemInfoVO ivo=null;
 		try {
 			JSONObject jobj = connection.championItemInfoData();
 			JSONObject data = jobj.getJSONObject("data");
