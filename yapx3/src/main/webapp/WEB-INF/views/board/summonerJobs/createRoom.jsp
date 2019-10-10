@@ -13,7 +13,8 @@
 	    height: 300px;
 	    min-height: 300px;
 	    border: 1px solid black;
-	    margin-top : 10px;
+	    margin-top : -10px;
+	    margin-left: 80px;
 	}
 	#msg {
 	    width: 550px;
@@ -205,7 +206,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 </head>
-<body>
+<body style=" margin : 0 auto; ">
 <div class="w3-container w3-content" style=" margin : 0 auto; margin-left : 2px;">
 <div id="main_container">
 	<div id="main_box">
@@ -272,7 +273,7 @@
 		</form>
 	</div>
 	<div id="chat_box"></div>
-	<input type="text" style="height: 30px;"readonly/><input type="text" id="msg">
+	<input type="text" style="height: 30px; margin-left: 80px;"readonly/><input type="text" id="msg">
 	<button id="msg_process" class="btn btn-outline-success">전송</button>
 </div>
 </div>

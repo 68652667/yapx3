@@ -91,5 +91,10 @@ public class StompDAOImpl implements StompDAO {
 		return sqlSession.selectOne("summonerjobschatroom.checkBoardNo", roomId);
 	}
 
+	@Override
+	public int insertMsg(ChatRoom obj) {
+		return sqlSession.insert("summonerjobschatroom.insertMsg", obj);
+	}
+
 
 }

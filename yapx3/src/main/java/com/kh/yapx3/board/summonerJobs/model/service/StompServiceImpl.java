@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.yapx3.board.summonerJobs.model.dao.StompDAO;
+import com.kh.yapx3.board.summonerJobs.model.vo.ChatRoom;
 import com.kh.yapx3.board.summonerJobs.model.vo.summonerJobsChatRoom;
 
 @Service
@@ -72,6 +73,11 @@ public class StompServiceImpl implements StompService {
 	@Override
 	public int checkBoardNo(String roomId) {
 		return stomDAO.checkBoardNo( roomId );
+	}
+
+	@Override
+	public int insertMsg(ChatRoom obj) {
+		return stomDAO.insertMsg( obj );
 	}
 
 }

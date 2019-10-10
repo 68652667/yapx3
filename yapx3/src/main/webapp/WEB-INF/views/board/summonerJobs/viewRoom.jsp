@@ -14,7 +14,8 @@
 	height: 300px;
 	min-height: 300px;
 	border: 1px solid black;
-	margin-top: 10px;
+	margin-top: -10px;
+	margin-left: 80px;
 }
 
 #msg {
@@ -45,7 +46,7 @@
 			<div id="main_box" style="overflow: scroll;">
 				<table class="table table-hover" style="text-align : center;">
 					<tr>
-							<h4 style="margin-left : 320px;">구인 구직<button type="button" id="creatingRoom" style="margin-left : 280px; margin-top : +5px;" class="btn btn-outline-success" onclick="createRoom();">방만들기</button></h4>
+						<h4 style="margin-left : 280px; font-weight: bold ;">구인 구직<button type="button" id="creatingRoom" style="margin-left : 260px; margin-top : +5px;" class="btn btn-outline-success" onclick="createRoom();">방만들기</button><button class="btn btn-outline-success" type="button"  style="margin-left : 10px; margin-top : 5px;" onclick="ViewreDirect();"/>⟳</button></h4>
 					</tr>
 					<thead>
 					<tr>
@@ -71,13 +72,17 @@
 				</table>
 			</div>
 			<div id="chat_box"></div>
-			<input type="text" style="height: 30px;" id="summonerNameVal"
+			<input type="text" style="height: 30px; margin-left: 80px;" id="summonerNameVal"
 				readonly /><input type="text" id="msg">
 			<button id="msg_process" class="btn btn-outline-success">전송</button>
 		</div>
 	</body>
 	<script type="text/javascript">
+	function ViewreDirect(){
+		window.location.href = "${pageContext.request.contextPath}/board/viewRoom.do";
+	}
 	$(() => {
+		
 		var memberLoggedIn = "${memberLoggedIn.userEmail}";
 		console.log( "${memberLoggedIn.userEmail}" );
 		$("#creatingRoom").on( "click", function(){

@@ -32,4 +32,6 @@ public interface StompService {
 
 	int checkBoardNo(String roomId);
 
+	int insertMsg(ChatRoom obj);
+
 }

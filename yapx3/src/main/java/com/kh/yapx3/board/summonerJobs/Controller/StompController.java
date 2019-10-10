@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.yapx3.user.model.vo.Member;
 import com.kh.yapx3.board.summonerJobs.model.service.StompService;
+import com.kh.yapx3.board.summonerJobs.model.vo.ChatRoom;
 import com.kh.yapx3.board.summonerJobs.model.vo.summonerJobsChatRoom;
 
 @Controller
@@ -145,6 +146,17 @@ public class StompController {
 		mav.setViewName("board/summonerJobs/robi");
 		
 		return mav;
+	}
+	
+	//메세지저장
+	@ResponseBody
+	@RequestMapping("/insertMsg.do")
+	public int insertMsg( ChatRoom obj ) {
+
+		
+		int result = stompService.insertMsg( obj );
+		
+		return result;
 	}
 	
 	//채팅방 인원수 체크

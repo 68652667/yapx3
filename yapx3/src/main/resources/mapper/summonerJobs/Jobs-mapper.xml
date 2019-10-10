@@ -26,6 +26,18 @@
 			   'N')
 	</insert>
 	
+	<insert id="insertMsg">
+		insert into CHATROOM
+		values( 
+			#{roomId},
+			#{userEmail},
+			#{chatContent},
+			#{userKey},
+			#{summonerNickname},
+			default 
+		)
+	</insert>
+	
 	<select id="selectRobi">
 		select A.*, B*
 		from P_B A left join attachment B

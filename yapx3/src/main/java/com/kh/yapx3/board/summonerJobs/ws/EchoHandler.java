@@ -35,9 +35,9 @@ public class EchoHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		//client단 기본 websocket은 
 		logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
+		
 		for (WebSocketSession sess : sessionList) {
 			sess.sendMessage(new TextMessage(session.getId() + " : " + message.getPayload()));
-			logger.info("{} 받음", message.toString());
 		}
 	}
 

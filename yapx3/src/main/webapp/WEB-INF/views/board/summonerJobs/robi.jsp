@@ -14,7 +14,8 @@
 	    height: 300px;
 	    min-height: 300px;
 	    border: 1px solid black;
-	    margin-top : 10px;
+	    margin-top : -10px;
+	    margin-left: 80px;
 	}
 	#inputMessage {
 	    width: 550px;
@@ -207,8 +208,55 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script>
+var firstCheck = false;
+	window.onbeforeunload = function(){
+		if( firstCheck ) return;
+		firstCheck = true;
+		if( createrName != currentuser_session ){
+			//방장이아닐경우
+			//인원수 - 1 update문 작성
+				$.ajax({
+					url : "${pageContext.request.contextPath}/board/outRoom.do?roomId=" + $("#roomId").val() + "&summonerId=" + currentuser_session,
+					type : "GET",
+					dataType : "json",
+					success : function( data ){
+						console.log( "data" , data );
+						if( data != 0 ){
+							sock.send(currentuser_session+" : " + "님이 퇴장했습니다." + ":" + $("#roomId").val() );
+							alert("채팅방을 나가셨습니다.");
+							location.href = "${pageContext.request.contextPath}/board/viewRoom.do";
+							$("#personNum").val( data + "/" +$("#partnerBoardMaxno").val() );
+							$("#personNum").val();
+						}
+
+					},
+					error : function( err ){
+						console.log("방 나가기에 실패했습니다.")
+					}
+				});
+			//방장일경우
+			//방을 삭제
+			}else{
+				$.ajax({
+					url : "${pageContext.request.contextPath}/board/deleteRoom.do?roomId=" + $("#roomId").val(),
+					type : "GET",
+					dataType : "json",
+					success : function( data ){
+						if( data == 1 ){
+							sock.send( $("#roomId").val() + ":" + "방장이 나갔습니다." + ":" + $("#roomId").val());
+							alert("채팅방이 삭제되었습니다.");
+							location.href = "${pageContext.request.contextPath}/board/viewRoom.do";
+						}
+					},
+					error : function( err ){
+					}
+				});
+			}
+	}
+</script>
 </head>
-<body oncontextmenu="return false">
+<body>
 <div id="main_container">
 <div id="main_box">
 	<form id="createRoomFrm"  style="text-align : left;">
@@ -291,11 +339,12 @@
 	</div>
 </div>
 	<br />
-	<input type="text" value="${summonerName }" id="summonerName" name="summonerName" readonly>
+	<input type="text" value="${summonerName }" id="summonerName" name="summonerName" readonly style="margin-left: 80px;" />
 	<input type="text" id="inputMessage" name="sendMessage" />
 	<button id="msg_process" class="btn btn-outline-success" onclick="sendMessage();">전송</button>
 </body>
 <script type="text/javascript">
+
 //새로고침 못하게하기
 function noEvent() {
 	if (event.keyCode == 116) {
@@ -471,11 +520,32 @@ function sendMessage(){
 		
 	}else{
 		sock.send(currentuser_session+" : "+$("#inputMessage").val() + ":" + $("#roomId").val() );
+		
+		var obj = {
+			roomId :$("#roomId").val(),
+			userEmail :"${memberLoggedIn.userEmail}",
+			chatContent :$("#inputMessage").val(),
+			userKey : rnd,
+			summonerNickname : currentuser_session
+		}
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/board/insertMsg.do",
+			data : obj,
+			type : "GET",
+			dataType : "json",
+			success : function( data ){
+				
+			},
+			error : function( err ){
+				
+			}
+		});
 	}
 }
 
 //event 파라미터는 websocket이 보내준 데이터. 즉, message
-function onMessage(event){ //변수 안에 function자체를 넣는다.
+function onMessage( event ){ //변수 안에 function자체를 넣는다.
 	var data = event.data;
 	
 	var sessionId = null;
@@ -591,6 +661,7 @@ function onMessage(event){ //변수 안에 function자체를 넣는다.
 }
 
 	$("#outRoom").on( "click", function(){
+		firstCheck = true;
 		if( createrName != currentuser_session ){
 		//방장이아닐경우
 		//인원수 - 1 update문 작성
