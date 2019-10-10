@@ -261,6 +261,19 @@ ol{
 	list-style: none;
 	padding-left: 20px;
 }
+.champbuild{
+	display: block;
+    width: 100%;
+    padding: 7px 0 8px;
+    border-radius: 4px;
+    background-color: #fff;
+    border: solid 1px #cdd2d2;
+    line-height: 15px;
+    font-size: 12px;
+    text-align: center;
+    color: #9b9b9b;
+    cursor: pointer;
+}
 </style>
 <div>
 	<div class="MenuList">
