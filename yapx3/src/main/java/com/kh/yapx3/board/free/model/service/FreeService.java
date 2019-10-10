@@ -38,4 +38,6 @@ public interface FreeService {
 
 	int likeValue(String freeboardNo);
 
+	int selectFreeTotal();
+
 }

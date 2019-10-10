@@ -94,4 +94,8 @@ public class FreeServiceImpl implements FreeService {
 		return freeDAO.likeValue(freeboardNo);
 	}
 	
+	@Override
+	public int selectFreeTotal() {
+		return freeDAO.selectFreeTotal();
+	}
 }

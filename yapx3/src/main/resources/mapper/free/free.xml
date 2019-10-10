@@ -12,6 +12,11 @@
 		order by free_board_no desc
 	</select>
 	
+	<select id="selectFreeTotal" resultType="int">
+		select count(*) 
+		        from f_b
+	</select>
+	
 	<select id="selectFreeMyList" resultType="FreeWithFileCount">
 		select A.*,
 		       (select count(*) 
@@ -44,6 +49,23 @@
 		from f_b a left join f_b_attach b on a.free_board_no = b.free_board_no
 		where a.free_board_no = #{freeBoardNo}
 	</select>
+	
+	<update id="updateFree">
+		update f_b 
+		<trim prefix="set" suffixOverrides=",">
+		<if test="freeBoardTitle != null and freeBoardTitle !=''">
+		FREE_BOARD_TITLE = #{freeBoardTitle},
+		</if>
+		<if test="freeBoardContent != null and freeBoardContent !=''">
+		FREE_BOARD_CONTENT = #{ freeBoardContent },
+		</if>
+		<if test="freeBoardViews != null">
+		FREE_BOARD_VIEWS = #{freeBoardViews},
+		</if>
+		</trim>
+		WHERE FREE_BOARD_NO = #{freeBoardNo}
+	</update>
+	
 	<resultMap type="FreeVO" id="FreeCollectionMap">
 		<id column="FREE_BOARD_NO" property="freeBoardNo"/>
 		<result column="USER_EMAIL" property="userEmail"/>

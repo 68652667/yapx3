@@ -38,4 +38,7 @@ public interface FreeDAO {
 
 	int likeValue(String freeboardNo);
 
+	int selectFreeTotal();
+
+
 }

@@ -11,6 +11,33 @@
 tr[freeBoardNo]:hover {
 	cursor: pointer;
 }
+
+.pageBar {
+  text-align: center;
+  margin: 20px;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #cdd2d2;
+}
+
+.pagination a.active {
+  background-color: #4d636f;
+  color: white;
+  border: 1px solid #4d636f;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
 </style>
 <script>
 function makeFree() {
@@ -24,7 +51,7 @@ $(()=>{
 });
 </script>
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">
+<div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 660px;">
 <c:if test="${memberLoggedIn!=null}">
 	<p style="text-align: right;"><button type="button" class="btn btn-secondary btn-sm" id="makeFree" onclick="makeFree();">글쓰기</button></p>
 </c:if>
@@ -59,5 +86,10 @@ $(()=>{
   </tbody>
 </table>
 <!-- End Page Container -->
+</div>
+<div class="pageBar">
+	<div class="pagination">
+		${pageBar }
+	</div>
 </div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

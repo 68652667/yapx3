@@ -33,6 +33,9 @@ import com.kh.yapx3.user.model.vo.Member;
 @RequestMapping("/free")
 public class FreeController {
 	
+	final int NUM_PER_PAGE = 10;
+	final int pageBarSize = 10;
+	
 	@Autowired
 	FreeService freeService;
 	
@@ -42,7 +45,45 @@ public class FreeController {
 		
 		List<FreeWithFileCount> list = freeService.selectFreeList(cPage);
 		
+		int totalBoard = freeService.selectFreeTotal();
+		
+		int totalPage = (int) Math.ceil((double)totalBoard/NUM_PER_PAGE);
+		String pageBar = "";
+		int pageStart = ((cPage-1)/pageBarSize)*pageBarSize+1;
+		int pageEnd = pageStart+pageBarSize-1;
+		int pageNo = pageStart;
+		//a.[이전]
+		if(pageNo==1) {
+//			pageBar += "<span>&laquo;</span>";
+			pageBar += "<a href='#' class='none'>&laquo;</a>"; 
+		}
+		else {
+			pageBar += "<a href='/yapx3/free/freeList.do?cPage="+(pageNo-1)+"'>&laquo;</a>"; 
+		}
+		
+		//b.page
+		while(pageNo<=pageEnd && pageNo<=totalPage) {
+			//현재 페이지인 경우. 링크필요없음
+			if(pageNo == cPage) {
+//				pageBar += "<span class='active'>"+pageNo+"</span>";
+				pageBar += "<a href='/yapx3/free/freeList.do?cPage="+pageNo+"' class='active'>"+pageNo+"</a>"; 
+			}
+			else {
+				pageBar += "<a href='/yapx3/free/freeList.do?cPage="+pageNo+"'>"+pageNo+"</a>"; 
+			}
+			pageNo++;
+		}
+		
+		//c.[다음]
+		if(pageNo>totalPage) {
+			pageBar += "<a href='#' class='none'>&raquo;</a>";
+		}
+		else {
+			pageBar += "<a href='/yapx3/free/freeList.do?cPage="+pageNo+"'>&raquo;</a>"; 
+		}
+		
 		mav.addObject("list", list);
+		mav.addObject("pageBar", pageBar);
 		
 		return mav;
 	}
@@ -52,7 +93,7 @@ public class FreeController {
 		mav.setViewName("board/free/freeBoardView");
 		FreeVO free = freeService.selectFreeOne(freeBoardNo);
 		freeService.increaseReadCount(freeBoardNo);
-		
+
 		List<FreeComment> commentList = null;
 		commentList = freeService.selectCommentList(freeBoardNo);
 		

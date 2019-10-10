@@ -26,4 +26,8 @@ public interface TipDAO {
 
 	List<TipWithFileCount> selectTipMyList(String memberId);
 
+	int updateTip(TipVO tip);
+
+	int selectTipTotal();
+
 }

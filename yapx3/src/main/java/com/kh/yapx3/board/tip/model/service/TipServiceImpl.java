@@ -63,4 +63,14 @@ public class TipServiceImpl implements TipService {
 		return tipDAO.selectTipMyList(memberId);
 	}
 
+	@Override
+	public int updateTip(TipVO tip) {
+		return tipDAO.updateTip(tip);
+	}
+
+	@Override
+	public int selectTipTotal() {
+		return tipDAO.selectTipTotal();
+	}
+
 }
