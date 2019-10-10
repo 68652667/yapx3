@@ -42,6 +42,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	display: inline;
 	float: right;
 }
+#nickName{
+	margin-top: 0px;
+	display: inline-block;
+	position: absolute;
+}
 .championSkill{
 	display: inline;
 	position: relative;
@@ -142,6 +147,13 @@ li {
 	bottom: 0px;
 	right: 0px;
 }
+.up, .down{
+	border: 0;
+	outline: 0;
+}
+#content{
+	margin-left: 100px;
+}
 [name=tipWriter]{
 	height: 20px;
 	margin-top: 10px;
@@ -152,6 +164,14 @@ li {
 </style>
 <script>
 	$(()=>{
+		var memberLoggedIn = "${memberLoggedIn.userEmail}";
+        console.log( "${memberLoggedIn.userEmail}" );
+        $("#content").on( "click", function(){
+            if( memberLoggedIn == "" ){
+                alert("로그인후 사용가능합니다 !")
+                location.href="${pageContext.request.contextPath}/user/loginClick.do";
+            }
+        });
 
 		$(".championLaneInfo ul li:gt(0)").css('margin-left','10px');
 		$("#championTipLi").on("click", ()=>{
@@ -176,6 +196,20 @@ li {
 		});
 		tippy('#rskill', {
 		  	content: '<div class="tirg">${championSkillToolTip.rSkillTolltip}</div>',
+		});
+		
+		$(".like").on("click", (e)=>{
+			var like = $(e.target).attr("id");
+			
+			console.log(like);
+			$.ajax({
+				url: "${pageContext.request.contextPath}/champion/championTipLike?likes="+like,
+				type:"GET",
+				dataType:"json",
+				success: function(data){
+					
+				},
+			});
 		});
 	});
 	function check(){
@@ -318,12 +352,12 @@ li {
 		<div class="chapmpionTipCount" style="width: 100%; margin-left:0px;">
 			<span>등록된 팁</span>
 			<h3>${championTipListCount }</h3>
-			<button data-tippy-content="Tooltip">Text</button>
 		</div>
 		<br /><br />
 		<div class="championTipWriteDiv">
 			<form action="${pageContext.request.contextPath }/champion/championTipWrite" id="tipFrm" method="post" onsubmit="return check()">
-				<input type="text" name="tipWriter" value="userName">
+				<input type="hidden" name="email" value="${memberLoggedIn.userEmail}"/>
+				<span id="nickName">${memberLoggedIn.userNickname } </span>
 				<textarea rows="5px" id="content" name="content" cols="90px" style="resize: none; border:0; overflow-y:scroll; background:clear;" placeholder="내용을 입력하세요"></textarea>
 				<input type="submit" value="등록" />
 			</form>
@@ -331,11 +365,11 @@ li {
 				<c:forEach items="${championTipList }" var="tip">
 					<ul>
 						<div class="championTip" id="${tip.champTipNo }">
-							<button value="up" class="up">&and;</button>
+							<button value="up" class="like" id="up">&and;</button>
 							<br />
 								<span>${tip.champTipLike }</span>
 							<br />
-							<button value="dowun" class="down">&or;</button>
+							<button value="dowun" class="like" id="down">&or;</button>
 						</div>
 						<div class="championTipContent">
 							<div class="writerUser">${tip.userNickName }</div>
