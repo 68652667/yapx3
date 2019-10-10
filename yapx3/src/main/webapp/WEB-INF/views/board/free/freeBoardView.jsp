@@ -104,7 +104,7 @@ table#tbl-comment tr td:last-child{
 	padding-left: 35px;
 }
 img{
-	margin: 0 0 0 0;
+	
 }
 </style>
 <script>
