@@ -357,7 +357,7 @@ li {
 		<div class="championTipWriteDiv">
 			<form action="${pageContext.request.contextPath }/champion/championTipWrite" id="tipFrm" method="post" onsubmit="return check()">
 				<input type="hidden" name="email" value="${memberLoggedIn.userEmail}"/>
-				<span id="nickName">${memberLoggedIn.userNickname } </span>
+				<input type="text" readonly="readonly" name="tipWriter" value="${memberLoggedIn.userNickname }"/>
 				<textarea rows="5px" id="content" name="content" cols="90px" style="resize: none; border:0; overflow-y:scroll; background:clear;" placeholder="내용을 입력하세요"></textarea>
 				<input type="submit" value="등록" />
 			</form>
