@@ -3,91 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="champion">
-	<insert id="champInsert" parameterType="java.util.Map">
-		<foreach collection="map" item="item" separator=" , ">
-		insert into (champion_no, champion_name) values (#{item.championKey}, #{item.championName})
-		</foreach>
+	<insert id="championTipInsert" parameterType="com.kh.yapx3.champion.model.vo.ChampionTipBoardVO" >
+		insert into champion_tip(champtip_no, champion_no, user_email, user_nickname, champtip_content, champtip_date, champtip_like, champtip_likelist)
+		values(champion_tip_seq.nextval, #{championNo}, #{userNickName}||'.naver.com', #{userNickName}, #{champTipContent}, default, default, default )
 	</insert>
-	<select id="championCount" resultType="java.lang.Integer">
-		select count(*) from participantall where championid = #{id}
-	</select>
-	<select id="championWin" resultType="java.lang.Integer">
-		select count(*) from participantall where championid = #{id} and win = 'true'
-	</select>
-	<select id="championLineAll" parameterType="Integer" resultType="Map">
-		SELECT T1.lane, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.lane order by count(*) desc
-	</select>
- 	<select id="summonerSkillRank" parameterType="Integer" resultMap="champion">
-		SELECT T1.spell1id, T1.spell2id, COUNT(*) FROM participantall T1 where championid=${value} GROUP BY T1.spell1id, T1.spell2id order by count(*) desc
-	</select> 
-	<select id="summonerWinSkillRank" parameterType="Integer" resultMap="champion">
-		SELECT T1.spell1id, T1.spell2id, COUNT(*) FROM participantall T1 where championid=${value} and win = 'true' GROUP BY T1.spell1id, T1.spell2id order by count(*) desc
-	</select> 
- 	<select id="championPerk" parameterType="Integer" resultMap="champion">
-		SELECT T1.perk0, t1.perk1,t1.perk2, t1.perk3, t1.perk4, t1.perk5, t1.perkprimarystyle, t1.perksubstyle, t1.statperk0, t1.statperk1, t1.statperk2,  COUNT(*) FROM 
-		participantall T1 where championid=${value} 
-		GROUP BY T1.perk0, t1.perk1,t1.perk2, t1.perk3, t1.perk4, t1.perk5,t1.perkprimarystyle, t1.perksubstyle, t1.statperk0, t1.statperk1, t1.statperk2  
-		order by count(*) desc
-	</select>
-	<select id="championStartItem" parameterType="Integer" resultMap="champion">
-		SELECT  t1.itemid, COUNT(*)  FROM eventtable T1 where championid=${value} and type='ITEM_PURCHASED' and itemid != 3340 and itemid != 3364 GROUP BY T1.type, t1.championid, t1.itemid order by count(*) desc
-	</select>
-	<select id="championItem0" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item0, COUNT(*) count FROM participantall T1 where championid=${value} and item0 != 0 GROUP BY T1.item0 order by count(*) desc
-	</select>
-	<select id="championItem1" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item1, COUNT(*) count FROM participantall T1 where championid=${value} and item1 != 0 GROUP BY T1.item1 order by count(*) desc
-	</select>
-	<select id="championItem2" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item2, COUNT(*) count FROM participantall T1 where championid=${value} and item2 != 0 GROUP BY T1.item2 order by count(*) desc
-	</select>
-	<select id="championItem3" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item3, COUNT(*) count FROM participantall T1 where championid=${value} and item3 != 0 GROUP BY T1.item3 order by count(*) desc
-	</select>
-	<select id="championItem4" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item4, COUNT(*) count FROM participantall T1 where championid=${value} and item4 != 0 GROUP BY T1.item4 order by count(*) desc
-	</select>
-	<select id="championItem5" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item5, COUNT(*) count FROM participantall T1 where championid=${value} and item5 != 0 GROUP BY T1.item5 order by count(*) desc
-	</select>
-	<select id="championItem6" parameterType="Integer" resultMap="champion">
-		SELECT  t1.item6, COUNT(*) count FROM participantall T1 where championid=${value} and item6 != 0 GROUP BY T1.item6 order by count(*) desc
+	<select id="championTipList" resultMap = "tipVO">
+		select * from champion_tip where champion_no = ${value}
 	</select>
 	
-	<!-- <resultMap type="Info" id="summonerSpell">
-		<result column="spell1id" property="summonerSpell1id"/>
-		<result column="spell2id" property="summonerSpell2id"/>
-		<result column="COUNT(*)" property="count"/>
-	</resultMap> -->
-	
-	<resultMap type="Info" id="champion">
-		<result column="perk0" property="perk0"/>
-		<result column="perk1" property="perk1"/>
-		<result column="perk2" property="perk2"/>
-		<result column="perk3" property="perk3"/>
-		<result column="perk4" property="perk4"/>
-		<result column="perk5" property="perk5"/>
-		<result column="item0" property="item0"/>
-		<result column="item1" property="item1"/>
-		<result column="item2" property="item2"/>
-		<result column="item3" property="item3"/>
-		<result column="item4" property="item4"/>
-		<result column="item5" property="item5"/>
-		<result column="item6" property="item6"/>
-		<result column="spell1id" property="summonerSpell1id"/>
-		<result column="spell2id" property="summonerSpell2id"/>
-		<result column="perkprimarystyle" property="perkPrimaryStyle"/>
-		<result column="perksubstyle" property="perkSubStyle"/>
-		<result column="statperk0" property="statPerk0"/>
-		<result column="statperk1" property="statPerk1"/>
-		<result column="statperk2" property="statPerk2"/>
-		<result column="itemid" property="startItem"/>
-		<result column="COUNT(*)" property="count"/>
-		<result column="count" property="count"/>
+	<resultMap type="championTip" id="tipVO">
+		<id column="champtip_no" property="champTipNo"/>
+		<result column="champion_no" property="championNo"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="user_nickname" property="userNickName"/>
+		<result column="champtip_content" property="champTipContent"/>
+		<result column="champtip_date" property="champTipDate"/>
+		<result column="champtip_like" property="champTipLike"/>
+		<result column="champtip_likelist" property="champTipLikeList"/>
 	</resultMap>
-	
-	<!-- <resultMap type="Info" id="championItem">
-		<result column="itemid" property="startItem"/>
-		<result column="COUNT(*)" property="count"/>
-	</resultMap>  -->
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
+import com.kh.yapx3.champion.model.vo.ChampionTipBoardVO;
 
 @Repository
 public class ChampionDAO {
@@ -25,55 +26,17 @@ public class ChampionDAO {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public int championCount(int id) {
-		int championCount = sqlSession.selectOne("champion.championCount", id);
-		return championCount;
-	}
-
-	public int championWin(int championId) {
-		int championWin = sqlSession.selectOne("champion.championWin", championId);
-		return championWin;
-	}
-
-	public int championLineTop(int championId) {
-		int championLineTop = sqlSession.selectOne("champion.championLineTop", championId);
-		return championLineTop;
-	}
-
-	public int championLineBottom(int championId) {
-		int championLineBottom = sqlSession.selectOne("champion.championLineBottom", championId);
-		return championLineBottom;
-	}
-
-	public List<Map<String, String>> championLineAll(int championId){
-		List<Map<String, String>> lineList = sqlSession.selectList("champion.championLineAll", championId);
-		return lineList;
-	}
-	public List<ChampionInfoVO> summonerSkill(int championId){
-		List<ChampionInfoVO> spellList = sqlSession.selectList("champion.summonerSkillRank", championId);
-		return spellList;
-	}
-	
-	public List<ChampionInfoVO> summonerWinSkillRank(int championId){
-		List<ChampionInfoVO> spellList = sqlSession.selectList("champion.summonerWinSkillRank", championId);
-		return spellList;
-	}
-
-	public List<ChampionInfoVO> championRune(int championId) {
-		List<ChampionInfoVO> championPerkList = sqlSession.selectList("champion.championPerk",championId);
-		return championPerkList;
-	}
 	
 
-	public List<ChampionInfoVO> championStartItem(int championId) {
-		List<ChampionInfoVO> itemStartList = sqlSession.selectList("champion.championStartItem", championId);
-		return itemStartList;
-		
+	public int championTipInsert(ChampionTipBoardVO tipBoard) {
+		return sqlSession.insert("champion.championTipInsert", tipBoard);
 	}
 
-	public List<ChampionInfoVO> championItem(int championId, int i) {
-		List<ChampionInfoVO> itemRank =	sqlSession.selectList("champion.championItem"+i, championId);
-		return itemRank;
+
+
+	public List<ChampionTipBoardVO> championGetTipList(int championId) {
+		List<ChampionTipBoardVO> tipList = sqlSession.selectList("champion.championTipList", championId);
+		return tipList;
 	}
 	
 }

@@ -31,7 +31,6 @@
 	float:left;
 }
 ul {
-	
 	margin-left: 10px;
     list-style:none;
     margin:0;
@@ -112,7 +111,7 @@ function info(id){
 					type : "GET",
 					dataType : "json",
 					success : function(data){
-						console.log(data);
+						$("#championAll").empty();
 						$.each(data, function(index, value){
 							var html = "<input type='hidden' id='champId' name='hidden' value=" + value.championId + ">" +
 									   "<img class='allChampion' onclick=info('"+value.championKey+"'); title="+value.championName+"  id="+ value.championKey +" src = 'http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+value.championId+".png'/>"
