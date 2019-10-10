@@ -110,6 +110,13 @@ public class URLConnection {
 		return jobj;
 	}
 		
+//아이템 정보
+	public JSONObject championItemInfoData() throws IOException{
+		urlStr = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/item.json";
+		JSONObject jobj = urlInput(urlStr);
+		return jobj;
+	}
+	
 	//첼린져 리그들 
 	public JSONObject challengerLegue() throws IOException{
 		urlStr = "https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?" + api;

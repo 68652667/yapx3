@@ -36,8 +36,8 @@
 <table class="table table-bordered" style="width:800px; ">
 	<thead>
       <tr>
-      	<th colspan="3"><h2>룬</h2></th>
-      	<th><h2>픽률</h2></th>
+      	<th colspan="3">룬</th>
+      	<th style="text-align: center; width:40px;">픽률</th>
       </tr>
     </thead>
 	<c:forEach items="${championPerkList}" var="perk">
@@ -976,7 +976,6 @@
 					</div>
 				</td>
 			</tr>
-		<hr />
 	</c:forEach>
 </table>
 

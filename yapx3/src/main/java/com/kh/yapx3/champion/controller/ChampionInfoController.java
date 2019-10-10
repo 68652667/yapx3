@@ -32,6 +32,7 @@ import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 import com.kh.yapx3.champion.model.vo.ChampionKoN;
 import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 import com.kh.yapx3.champion.model.vo.ChampionTipBoardVO;
+import com.kh.yapx3.champion.model.vo.ItemInfoVO;
 
 @Controller
 @RequestMapping("/champion")
@@ -150,28 +151,51 @@ public class ChampionInfoController{
 		
 	}
 	
+//팁 게시판 좋아요
 	@RequestMapping("/championTipLike")
-	public ResponseEntity<?> championTipLikeMethod(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView championTipLikeMethod(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView();
 		
 		int tipNo = Integer.parseInt(request.getParameter("tipNo"));
+		int like = Integer.parseInt(request.getParameter("like"));
 		String likeType = request.getParameter("likeType");
 		String userEmail = request.getParameter("userEmail");
 		
-		logger.info(userEmail);
+		logger.info("like: " +like);
 		int idx = userEmail.indexOf("@");
 		String emailId = userEmail.substring(0, idx);
 		
 		ChampionTipBoardVO tip = new ChampionTipBoardVO();
 		tip.setChampTipNo(tipNo);
 		tip.setUserId(emailId);
+		tip.setChampTipLike(like);
 		
-		championInfoService.championTipLike(tip, likeType);
+		String[] checkuser =  championInfoService.championTipLike(tip, likeType);
+		mav.setViewName("redirect:/champion/championInfo?championId=" + championKey);
+		mav.addObject("checkuser", checkuser);
 		
+		return mav;
 		
-		return ResponseEntity.ok("");
 	}
 	
-
+//아이템 정보 가져오기
+	@RequestMapping(value="/itemInfo",produces = "application/String; charset=utf8")
+	public ResponseEntity<?> itemDescriptionMethod(HttpServletRequest request, HttpServletResponse reponse){
+		int itemNo = Integer.parseInt( request.getParameter("itemId"));
+		
+		String description = championInfoService.itemDescription(itemNo);
+		return ResponseEntity.ok(description);
+	}
+//소환사 스킬 정보 가져오기
+	@RequestMapping(value="/summonerInfo", produces = "application/String; charset=utf8")
+	public ResponseEntity<?> summonerDescriptionMethod(HttpServletRequest request, HttpServletResponse response){
+		String spellName = request.getParameter("spellName");
+		String description = championInfoService.summonerSpellDescription(spellName);
+		return ResponseEntity.ok(description);
+		
+	}
+	
 	
 //모든 챔피언 가져오기, 선택한 포지션의 챔피언 가져오기
 	@RequestMapping("/allChampion")

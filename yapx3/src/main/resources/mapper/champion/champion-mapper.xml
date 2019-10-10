@@ -10,6 +10,9 @@
 	<select id="championTipList" resultMap="tipVO" parameterType="java.lang.Integer">
 		select champtip_no, user_nickname, champtip_content, champtip_like, user_email from champion_tip where champion_no = ${value}
 	</select>
+	<select id="championTipLikeSelectList" parameterType="java.lang.Integer" resultType="java.lang.String">
+		select champtip_likelist from champion_tip where champtip_no = ${value}
+	</select>
 	<update id="championTipLike" parameterType="championTip">
 		update champion_tip 
 		set champtip_likelist = #{championTipLikeList}, champtip_like = #{champTipLike} + 1
@@ -21,9 +24,10 @@
 		<result column="champion_no" property="championNo"/>
 		<result column="user_email" property="userEmail"/>
 		<result column="user_nickname" property="userNickName"/>
+		<result column="userId" property="userId"/>
 		<result column="champtip_content" property="champTipContent"/>
 		<result column="champtip_date" property="champTipDate"/>
 		<result column="champtip_like" property="champTipLike"/>
-		<result column="championtip_likelist" property="championTipLikeList" typeHandler="strArrTypeHandler"/>
+		<result column="champtip_likelist" property="champTipLikeList"/>
 	</resultMap>
 </mapper>

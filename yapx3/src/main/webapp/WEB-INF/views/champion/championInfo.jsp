@@ -14,7 +14,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 .championHeaderInfo{
 	width: 800px;
-	height: 400px;
+	height: 300px;
 	background: #292e38;
 	padding: 30px;
 	position: relative;
@@ -164,6 +164,8 @@ li {
 }
 </style>
 <script>
+
+
 	$(()=>{
 		var memberLoggedIn = "${memberLoggedIn.userEmail}";
         console.log( "${memberLoggedIn.userEmail}" );
@@ -183,6 +185,67 @@ li {
 			$(".championTipBody").css("display", "none");
 			$(".championInfoBody").css("display", "block");
 		});
+		
+		$(".itemImg").mouseenter(function(e){
+			var id = $(e.target).attr("itemkey");
+			var ssss;
+			$.ajax({
+				url: "${pageContext.request.contextPath}/champion/itemInfo?itemId=" + id,
+				type: "GET",
+				success:function(data){
+					tippy('#item'+id, {
+					  	content: "<div class='tirg'>"+data+"</div>",
+					});
+				},
+				error: function(err){
+					console.log("fail");
+				}
+			});
+		});
+		
+		$("[name=itemImg]").mouseenter(function(e){
+			var id = $(e.target).attr("start");
+			$.ajax({
+				url: "${pageContext.request.contextPath}/champion/itemInfo?itemId=" + id,
+				type: "GET",
+				success:function(data){
+					tippy('.start1'+id, {
+					  	content: "<div class='tirg'>"+data+"</div>",
+					});
+					tippy('.start2'+id, {
+					  	content: "<div class='tirg'>"+data+"</div>",
+					});
+					tippy('.start3'+id, {
+					  	content: "<div class='tirg'>"+data+"</div>",
+					});
+				},
+				error: function(err){
+					console.log("fail");
+				}
+			});
+			
+		});
+		
+		$("[name=spell]").mouseenter(function(e){
+		var spell = $(e.target).attr("class");
+			$.ajax({
+				url: "${pageContext.request.contextPath}/champion/summonerInfo?spellName=" + spell,
+				type: "GET",
+				success:function(data){
+					console.log(data);
+					tippy("#spell1"+spell, {
+					  	content: "<div class='tirg'>"+data+"</div>",
+					});
+					tippy("#spell2"+spell, {
+					  	content: "<div class='tirg'>"+data+"</div>",
+					});
+				},
+				error: function(err){
+					console.log("fail");
+				}
+			});
+			
+		});
 		tippy('#passive', {
 		  	content: "<div class='tirg'>'${championSkillToolTip.passivSkillTolltip}'</div>",
 		});
@@ -199,15 +262,13 @@ li {
 		  	content: "<div class='tirg'>'${championSkillToolTip.rSkillTolltip}'</div>",
 		});
 		
+		
 		$(".like").on("click", (e)=>{
 			var tipNo = $(e.target).val();
 			var likeType = $(e.target).attr("id");
 			var userEmail = $(e.target).attr("userEmail");
-			alert(userEmail);
-			location.href="${pageContext.request.contextPath}/champion/championTipLike?tipNo="+tipNo+"&likeType="+likeType+"&userEmail="+userEmail;
-			console.log(userEmail);
-			console.log(likeType);
-			console.log(tipNo);
+			var like = $(e.target).attr("like");
+			location.href="${pageContext.request.contextPath}/champion/championTipLike?tipNo="+tipNo+"&likeType="+likeType+"&userEmail="+userEmail+"&like="+like;
 		});
 	});
 	function check(){
@@ -306,8 +367,8 @@ li {
 				<tr><th >소환사 주문</th><th style="text-align: center; width:40px;">픽률</th><th style="text-align: center; width:40px;">승률</th></tr>
 					<c:forEach items="${summonerSkillList }" var="spell">
 						<tr>
-							<td><img src="//opgg-static.akamaized.net/images/lol/spell/${spell.summonerSpell1id }.png?image=w_42&v=15354684000"/>
-								<img src="//opgg-static.akamaized.net/images/lol/spell/${spell.summonerSpell2id }.png?image=w_42&v=15354684000"/></td>
+							<td><img src="//opgg-static.akamaized.net/images/lol/spell/${spell.summonerSpell1id }.png?image=w_42&v=15354684000" name="spell" id="spell1${spell.summonerSpell1id }" class="${spell.summonerSpell1id }"/>
+								<img src="//opgg-static.akamaized.net/images/lol/spell/${spell.summonerSpell2id }.png?image=w_42&v=15354684000" name="spell" id="spell2${spell.summonerSpell2id }" class="${spell.summonerSpell2id }"/></td>
 							<td style="text-align:center; font-size:20px;">${spell.summonerSpellCountStr }</td>
 							<td style="text-align:center; font-size:20px;">${spell.summonerSpellWinCountStr }</td>
 						</tr>
@@ -316,13 +377,13 @@ li {
 			<table class="table table-bordered" style="width:800px; ">
 				<tr><th>시작 아이템</th><th style="text-align: center; width:40px;">픽률</th></tr>
 					<tr>
-						<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" alt="" /> 
-							<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem2 }.png?image=w_42&v=1" alt="" /></td>
+						<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem1 }" class="start1${championItemListSum.startItem1 }" alt="" /> 
+							<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem2 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem2 }"  class="start2${championItemListSum.startItem2 }"alt="" /></td>
 							<td style="text-align:center; font-size:20px;">${championItemListSum.itemStartPercent1 }</td>
 					</tr>
 					<tr>
-						<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" alt="" /> 
-							<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem3 }.png?image=w_42&v=1" alt="" /></td>
+						<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem1 }" class="start1${championItemListSum.startItem1 }" alt="" /> 
+							<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem3 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem3 }" class="start3${championItemListSum.startItem3 }"alt="" /></td>
 							<td style="text-align:center; font-size:20px;">${championItemListSum.itemStartPercent2 }</td>
 					</tr>
 			</table>
@@ -335,7 +396,7 @@ li {
 						<tr>
 							<td>
 					</c:if>
-							<img src="//opgg-static.akamaized.net/images/lol/item/${entry }.png?image=w_42&v=1" alt="" /> 
+							<img src="//opgg-static.akamaized.net/images/lol/item/${entry }.png?image=w_42&v=1"name="items" class="itemImg" itemkey="${entry }" id="item${entry }" alt="" /> 
 					<c:if test="${i%j == j-1 }">
 							</td>
 						</tr>
@@ -364,11 +425,10 @@ li {
 					<ul>
 						<div class="championTip" id="${tip.champTipNo }">
 						<input type="hidden" id="${tip.champTipNo }">
-						<button value="${tip.champTipNo }" userEmail="${tip.userEmail }" class="like" id="up">&and;</button>
+						<button value="${tip.champTipNo }" like="${tip.champTipLike }" userEmail="${tip.userEmail }" class="like" id="up">&and;</button>
 						<br />
 							<span>${tip.champTipLike }</span>
 						<br />
-						<button value="${tip.champTipNo }" userEmail="${tip.userEmail }" class="like" id="down">&or;</button>
 						</div>
 						<div class="championTipContent">
 							<div class="writerUser">${tip.userNickName }</div>
@@ -378,7 +438,6 @@ li {
 							<button id="extraBtn">신고</button>
 						</div>
 					</ul>
-					<hr />
 				</c:forEach>
 			</div>
 		</div>

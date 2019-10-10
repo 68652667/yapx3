@@ -35,6 +35,7 @@ import com.kh.yapx3.champion.model.vo.ChampionInfoVO;
 import com.kh.yapx3.champion.model.vo.ChampionKoN;
 import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 import com.kh.yapx3.champion.model.vo.ChampionTipBoardVO;
+import com.kh.yapx3.champion.model.vo.ItemInfoVO;
 
 
 
@@ -104,6 +105,11 @@ public class ChampionInfoServiceImpl {
 						championSkillInfo.setwSkill(jarr.getJSONObject(i).getString("championWSkill"));
 						championSkillInfo.seteSkill(jarr.getJSONObject(i).getString("championESkill"));
 						championSkillInfo.setrSkill(jarr.getJSONObject(i).getString("championRSkill"));
+						championSkillInfo.setqSkillTolltip(jarr.getJSONObject(i).getString("championQSkill").substring(0, jarr.getJSONObject(i).getString("championQSkill").length()-4));
+						championSkillInfo.setwSkillTolltip(jarr.getJSONObject(i).getString("championWSkill").substring(0, jarr.getJSONObject(i).getString("championWSkill").length()-4));
+						championSkillInfo.seteSkillTolltip(jarr.getJSONObject(i).getString("championESkill").substring(0, jarr.getJSONObject(i).getString("championESkill").length()-4));
+						championSkillInfo.setrSkillTolltip(jarr.getJSONObject(i).getString("championRSkill").substring(0, jarr.getJSONObject(i).getString("championRSkill").length()-4));
+						championSkillInfo.setPassivSkillTolltip(jarr.getJSONObject(i).getString("championPassiveSkill").substring(0, jarr.getJSONObject(i).getString("championPassiveSkill").length()-4));
 						championSkillInfo.setChampionId(jarr.getJSONObject(i).getString("championId"));
 						championSkillInfo.setChampionName(jarr.getJSONObject(i).getString("championName"));
 						championSkillInfo.setPassive(jarr.getJSONObject(i).getString("championPassiveSkill"));
@@ -365,24 +371,77 @@ public class ChampionInfoServiceImpl {
  		return tip;
 	}
 
-	public void championTipLike(ChampionTipBoardVO tip, String likeType) {
+	public String[] championTipLike(ChampionTipBoardVO tip, String likeType) {
 		
+		
+		String[] likeSelectIdSplit = null;
 		if(likeType.equals("up")) {
-			int result = championDAO.championTipLike(tip);
-			if(result > 0 ) {
-				logger.info("성공!" );
+			
+			String likeSelectUser="";
+			String likeSelectId = championDAO.championTipLikeSelect(tip.getChampTipNo());
+			int result = 0;
+			if(likeSelectId == null) {
+				tip.setChampionTipLikeList(tip.getUserId()+", ");
+				logger.info("likeSelectId == null: " + tip.getUserId());
+				result = championDAO.championTipLike(tip);
+			}else {
+				likeSelectIdSplit = likeSelectId.split(", ");
+				for(int i= 0; i < likeSelectIdSplit.length; i++) {
+					if(likeSelectIdSplit[i].equals(tip.getUserId())) {
+						logger.info("리턴이다!");
+						return likeSelectIdSplit;
+					}
+					logger.info("likeSelectIdSplit : " + likeSelectIdSplit[i]);
+					likeSelectUser += likeSelectIdSplit[i]+", "; 
+				}
+				logger.info("likeSelectUser: " + likeSelectUser);
+				tip.setChampionTipLikeList(likeSelectUser+tip.getUserId());
+				logger.info("tip.getChampionTipLikeList(): " + tip.getChampionTipLikeList());
+				result = championDAO.championTipLike(tip);
 			}
 		}
+		return likeSelectIdSplit;
 	}
 
-	
+	public String itemDescription(int itemNo) {
+		URLConnection connection = new URLConnection();
+		String description ="";
+		ItemInfoVO ivo=null;
+		try {
+			JSONObject jobj = connection.championItemInfoData();
+			JSONObject data = jobj.getJSONObject("data");
+			Iterator<String> iter = data.keySet().iterator();
+			while(iter.hasNext()) {
+				String itemKey = iter.next();
+				if(Integer.parseInt(itemKey) == itemNo) {
+					description = data.getJSONObject(itemKey).getString("description");
+				}
+			}
+			return description;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-	
-
-	
-
-	
-
-	
-	
+	public String summonerSpellDescription(String spell) {
+		URLConnection connection = new URLConnection();
+		String description ="";
+		try {
+			JSONObject jobj = connection.summonerSpell();
+			JSONObject data = jobj.getJSONObject("data");
+			Iterator<String> iter = data.keySet().iterator();
+			while(iter.hasNext()) {
+				String spellName = iter.next();
+				if(data.getJSONObject(spellName).getString("id").equals(spell)) {
+					description = data.getJSONObject(spellName).getString("description");
+				}
+			}
+			return description;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 }
