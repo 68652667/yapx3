@@ -1,10 +1,14 @@
 package com.kh.yapx3.board.free.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.kh.yapx3.board.free.model.service.FreeService;
 import com.kh.yapx3.board.free.model.vo.Free;
 import com.kh.yapx3.board.free.model.vo.FreeAttachment;
@@ -45,6 +51,7 @@ public class FreeController {
 	public ModelAndView freeBoardView(ModelAndView mav, @RequestParam int freeBoardNo) {
 		mav.setViewName("board/free/freeBoardView");
 		FreeVO free = freeService.selectFreeOne(freeBoardNo);
+		freeService.increaseReadCount(freeBoardNo);
 		
 		List<FreeComment> commentList = null;
 		commentList = freeService.selectCommentList(freeBoardNo);
@@ -130,6 +137,47 @@ public class FreeController {
 		int result = freeService.freeCommentDel(commentNo);
 		mav.setViewName("redirect:/free/freeBoardView.do?freeBoardNo="+freeBoardNo);
 		return mav;
+	}
+	
+	@RequestMapping("/freeboardLike")
+	public void freeboardLike(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Integer> likeValue = new HashMap<String, Integer>();
+		String freeboardNo = request.getParameter("freeboardNo");
+		String userNickname = request.getParameter("userNickname");
+		
+		String likeUserList = freeService.likeUserList(freeboardNo);
+		System.out.println(likeUserList);
+		if(likeUserList==null) {
+			freeService.likeincrease(userNickname, freeboardNo);
+		}
+		else if(!likeUserList.contains(userNickname)){
+			likeUserList += ", "+userNickname;
+			freeService.likeincrease2(likeUserList, freeboardNo);
+		}
+		else {
+			if(userNickname.equals(likeUserList)) {
+				likeUserList = null;
+			}
+			else {
+				likeUserList.replaceAll(userNickname, "");
+			}
+			freeService.deleteLike(likeUserList, freeboardNo);
+		}
+		int like = freeService.likeValue(freeboardNo);
+		
+		likeValue.put("like", like);
+		
+		response.setCharacterEncoding("utf-8");
+		try {
+			new Gson().toJson(likeValue, response.getWriter());
+		} catch (JsonIOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 

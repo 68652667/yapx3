@@ -72,4 +72,40 @@
 	<delete id="freeCommentDel">
 		delete from f_b_c where COMMENT_NO = #{commentNo}
 	</delete>
+	
+	<update id="increaseReadCount">
+		update f_b
+		set free_board_views = free_board_views + 1
+		where free_board_no = #{freeBoardNo}
+	</update>
+	
+	<select id="likeUserList" resultType="String">
+		select free_board_likelist
+		from f_b
+		where free_board_no = #{freeBoardNo}
+	</select>
+	
+	<update id="likeincrease" parameterType="map">
+		update f_b
+		set free_board_like = free_board_like + 1, free_board_likelist = #{userNickname}
+		where free_board_no = #{freeboardNo}
+	</update>
+	
+	<update id="likeincrease2" parameterType="map">
+		update f_b
+		set free_board_like = free_board_like + 1, free_board_likelist = #{likeUserList}
+		where free_board_no = #{freeboardNo}
+	</update>
+	
+	<update id="deleteList" parameterType="map">
+		update f_b
+		set free_board_like = free_board_like - 1, free_board_likelist = #{likeUserList}
+		where free_board_no = #{freeboardNo}
+	</update>
+	
+	<select id="likeValue" resultType="int">
+		select free_board_like
+		from f_b
+		where free_board_no = #{freeboardNo}
+	</select>	
 </mapper>
