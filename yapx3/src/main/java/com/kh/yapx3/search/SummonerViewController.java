@@ -2,6 +2,7 @@ package com.kh.yapx3.search;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,6 +25,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -37,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
+import com.kh.yapx3.champion.model.vo.ChampionSkillInfo;
 import com.kh.yapx3.search.model.vo.Match;
 import com.kh.yapx3.search.model.vo.MyItemBuild;
 import com.kh.yapx3.search.model.vo.MySkillBuild;
@@ -55,7 +59,9 @@ public class SummonerViewController{
 	
 	private String ApiKey = "RGAPI-b0f1c9f8-bc6b-48c9-bd2d-e303c45548ff";
 //	private String ApiKey = "RGAPI-e933f166-9bc4-48f7-bd07-b25986d1d51d";
-
+	
+	@Autowired
+	ServletContext servletContext;
 	
 	
 	@GetMapping("/summonerView")
@@ -106,6 +112,7 @@ public class SummonerViewController{
 		String urlStr = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+searchName+"?api_key="+ApiKey;
 		String urlStr2 = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/en_US/champion.json";
 		String urlStr3 = "http://ddragon.leagueoflegends.com/cdn/9.18.1/data/en_US/summoner.json";
+		
 		
 		
 		
@@ -175,8 +182,7 @@ public class SummonerViewController{
 		List<Match> list = new ArrayList<Match>();
 		
 		
-		
-		
+		int tempi = 0;	
 		
 			for(int i=0; i<20; i++) {
 				
@@ -482,55 +488,119 @@ public class SummonerViewController{
 				}//y
 				}//x	
 			
+	
 				
-				
-			Participant p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(),build1,skb1);
+			Participant p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(),build1,skb1,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/skill.json"));
+			BufferedReader KObr = new BufferedReader(reader);
+			String line;
+			String jj="";
+			
+			while((line = KObr.readLine()) != null) {
+				jj += line;
+			}
+			JSONArray jarr = new JSONArray(jj.toString());
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants1(p);
 			
-//			System.out.println("참가자 VO확인"+p);
-						
+			
 			participant = (JSONObject) ja_1.get(1);
 			participantIdentities = (JSONObject) ja_2.get(1);
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
 			
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build2, skb2);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build2, skb2,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
+			
 			m.setParticipants2(p);
 			
 			participant = (JSONObject) ja_1.get(2);
 			participantIdentities = (JSONObject) ja_2.get(2);
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build3, skb3);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build3, skb3,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants3(p);
 			
 			participant = (JSONObject) ja_1.get(3);
 			participantIdentities = (JSONObject) ja_2.get(3);
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build4, skb4);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build4, skb4,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants4(p);
 			
 			participant = (JSONObject) ja_1.get(4);
 			participantIdentities = (JSONObject) ja_2.get(4);
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build5, skb5);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build5, skb5,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants5(p);
 			
 			participant = (JSONObject) ja_1.get(5);
@@ -538,10 +608,21 @@ public class SummonerViewController{
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
 			
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build6, skb6);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build6, skb6,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants6(p);
 			
 			participant = (JSONObject) ja_1.get(6);
@@ -549,10 +630,21 @@ public class SummonerViewController{
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
 			
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build7, skb7);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build7, skb7,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants7(p);
 			
 			participant = (JSONObject) ja_1.get(7);
@@ -560,10 +652,21 @@ public class SummonerViewController{
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
 			
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build8, skb8);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build8, skb8,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants8(p);
 			
 			participant = (JSONObject) ja_1.get(8);
@@ -571,10 +674,21 @@ public class SummonerViewController{
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
 			
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build9, skb9);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build9, skb9,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants9(p);
 			
 			participant = (JSONObject) ja_1.get(9);
@@ -582,10 +696,21 @@ public class SummonerViewController{
 			stats = participant.getJSONObject("stats");
 			player = participantIdentities.getJSONObject("player");
 			
-			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build10, skb10);
+			p = new Participant(participant.get("participantId").toString(), participant.get("teamId").toString(), participant.get("championId").toString(), participant.get("spell1Id").toString(), participant.get("spell2Id").toString(), stats.get("win").toString(), stats.get("item0").toString(), stats.get("item1").toString(), stats.get("item2").toString(), stats.get("item3").toString(), stats.get("item4").toString(), stats.get("item5").toString(), stats.get("item6").toString(), stats.get("kills").toString(), stats.get("deaths").toString(), stats.get("assists").toString(), stats.get("largestKillingSpree").toString(), stats.get("largestMultiKill").toString(), stats.get("totalDamageTaken").toString(), stats.get("totalMinionsKilled").toString(), player.getString("accountId"), player.getString("summonerName"), player.getString("summonerId"), player.getString("currentAccountId"), player.getString("matchHistoryUri"), stats.get("champLevel").toString(),stats.get("perkPrimaryStyle").toString(),stats.get("perkSubStyle").toString(),stats.get("perk0").toString(),stats.get("perk1").toString(),stats.get("perk2").toString(),stats.get("perk3").toString(),stats.get("perk4").toString(), stats.get("perk5").toString(), stats.get("statPerk0").toString(),stats.get("statPerk1").toString(),stats.get("statPerk2").toString(), build10, skb10,participant.get("championId").toString(),"","","","","");
 			p.setChampionId(chap.get(p.getChampionId()));
 			p.setSpell1Id(spell.get(p.getSpell1Id()));
 			p.setSpell2Id(spell.get(p.getSpell2Id()));
+			
+			for(int ix = 0; ix < jarr.length(); ix++) {
+				if(Integer.parseInt(participant.get("championId").toString()) == jarr.getJSONObject(ix).getInt("key")) {
+					p.setChampionKO(jarr.getJSONObject(ix).getString("championName"));
+					p.setChamQ(jarr.getJSONObject(ix).getString("championQSkill"));
+					p.setChamW(jarr.getJSONObject(ix).getString("championWSkill"));
+					p.setChamE(jarr.getJSONObject(ix).getString("championESkill"));
+					p.setChamR(jarr.getJSONObject(ix).getString("championRSkill"));
+				}
+			}
+			
 			m.setParticipants10(p);
 			
 			m.setTest1(b1);

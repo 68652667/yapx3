@@ -46,6 +46,10 @@ img {
 	height : 100;
 }
 
+#championLote{
+	cursor: pointer;
+}
+
 </style>
 <body class="w3-theme-l5">
 
@@ -128,14 +132,6 @@ img {
 	  </a>
   </c:if>
  </div>
-<div class="form-group">
-<input class="form-control" id="exampleInputEmail1" placeholder="소환사 이름을 입력하세요." type="text" name="username"
-  style="position: absolute;
-    width: 190px;
-    height: 30px;
-    text-align: center;
-    margin-left: 80%;">
-</div>
 </div>
 
 <!-- Page Container -->
@@ -230,12 +226,11 @@ function myBoardClick() {
 			dataType : "json",
 			success : function( data ){
 				console.log( data );
-				var chamHmtml = "<img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/";
-				var chamHmtml2 = "";
 
-				for(var i = 0; i < data.length; i++){
-					chamHmtml2 = "' title=" + data[i].substring( 0, data[i].length - 4 ) + ">";
-					var html = chamHmtml + data[i] + chamHmtml2;
+				for(var i = 0; i <data.length; i++){
+					var html = "<a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].ChamNum+"'><img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].ChamName+"'>'"+"</a>";
+					
+					
 					if( i%5 == 4 ){	
 						html += "<br/>";
 					}
