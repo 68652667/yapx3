@@ -16,9 +16,16 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.oLoader.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery.oLoader.min.js"></script>
 
 <style>
+
+	a{
+	cursor: pointer;
+	}
 
 	ul{
 	list-style: none;
@@ -43,10 +50,15 @@
 	}
 	#WinloseText{
 	margin: 20px;
+	font-size: 18px;
 	}
 	
 	
-/* 	게임승리시 파란색 패배시 붉은색으로 컨테이너 표시 */
+/* 	소환사 메인컨테이너 */
+
+	.summonerContainer{
+	margin-left: 66px;
+	}
 	
 	.GameContainerWin td, .GameContainerFail td{
 		border: none;
@@ -54,16 +66,21 @@
 	.GameContainerWin{
 		background-color: #a3cfec; border-color: #99b9cf;
 		margin-bottom: 20px;
+		width: 917px;
 /* 		float: left; */
 	}
 	.GameContainerFail{
 		background-color: #e2b6b3; border-color: #cea7a7;
 		margin-bottom: 20px;
+		width: 917px;
 /* 		float: left; */
 	}
 	.myTeamTable{
 		border: none;
+	    cursor: pointer;
 	}
+	
+	
 	
 /* 	더보기 페이지 패배시, 승리시 */
 	
@@ -75,11 +92,63 @@
 	.GameDetailResult_true{
 	background-color: #a3cfec; border-color: #99b9cf;
 	margin-bottom: 20px;
+	width: 917px;
 	}
 	.GameDetailResult_false{
 	background-color: #e2b6b3; border-color: #cea7a7;
 	margin-bottom: 20px;
+	width: 917px;
 	}
+	
+	.GameDetailResult_true table tbody th{
+		padding: 15px;
+		text-align: center;
+	}
+	
+	.GameDetailResult_false table tbody th{
+		padding: 15px;
+		text-align: center;
+	}
+	
+	.GameDetailResult_true table tbody tr td{
+		padding: 11px;
+	}
+	
+	.GameDetailResult_false table tbody tr td{
+		padding: 11px;
+	}
+	
+	.more_total{
+	
+	background: #007bc3;
+    border-color: #007bc3;
+    color: #fff;
+	min-width: 45px;
+    height: 25px;
+    line-height: 22px;
+    padding: 0 9px;
+    font-size: 13px;
+    font-weight: 300;
+	margin-bottom: 15px;
+	
+	}
+
+	.more_build{
+	
+	background: #007bc3;
+    border-color: #007bc3;
+    color: #fff;
+	min-width: 45px;
+    height: 25px;
+    line-height: 22px;
+    padding: 0 9px;
+    font-size: 13px;
+    font-weight: 300;
+    margin-left: 26px;
+	
+	}
+	
+    
 	
 /* 	빌드페이지 - 숨겨주기 */
 	.myBuild{
@@ -89,11 +158,32 @@
 /* 	소환사 프로필(사진, 아이디, 랭킹) */
 	
 	#summonerProfile {
-		border: 1px solid black;
-		width: 1000px;
-		height: 200px;
-		margin: 55px;
-		position: static;
+    border: 3px solid #4d636f;
+    width: 955px;
+    height: 247px;
+    margin: 36px;
+    position: static;
+	}
+	
+	.SummonerLevel{
+	
+    position: absolute;
+    top: 39%;
+    left: 16%;
+/*     margin-top: -14px; */
+/*     margin-left: -22px; */
+    width: 44px;
+    height: 24px;
+    padding-top: 3px;
+    box-sizing: border-box;
+    background: url(${pageContext.request.contextPath}/resources/images/Level.jpg); 
+    background-size: 100%;
+    line-height: 17px;
+    font-family: Helvetica,AppleSDGothic,"Apple SD Gothic Neo",AppleGothic,Arial,Tahoma;
+    font-size: 14px;
+    text-align: center;
+    color: #eabd56;
+	
 	}
 
 	
@@ -107,6 +197,7 @@
 		background-position: center bottom;
 		background-repeat: no-repeat;
 	}
+	
 	
 	#name{
 	position: absolute;
@@ -124,6 +215,16 @@
 	top: 215px;
 	
 	}
+	
+	#SummonerViewBtn{
+	    margin-left: 30%;
+	    border: 1px solid gray;
+	}
+	
+	#InGameBtn{
+		margin-left: 150px;
+		border: 1px solid gray;
+	}
 
 /* 소환사 상세정보 페이지	 */
 .Container{
@@ -132,18 +233,15 @@ overflow: hidden;
 }
 
 /* 	상세정보 컨테이너 - 사이드*/
-.SideContent{
-    width: 300px;
-    font-size: 12px;
-    vertical-align: top;
-    margin-bottom: 40px;
-}
+
 
 .TierBox{
     display: table;
     position: relative;
     padding: 8px 0;
 	margin-left: 55px;
+	left: 527px;
+    top: 36px;
 }
 
 #TierBoxImg{
@@ -183,9 +281,39 @@ overflow: hidden;
 
 }
 
+#Death{
+	color: red;
+}
+.GameList{
+    text-align: center;
+	font-size: 17px;
+}
+#Top3{
+	font-size: 17px;
+}
+
 
 
 /* 상세정보 - 아이템빌드 */
+
+.more{
+	
+	
+display: inline-block;
+    padding: 8px 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+
+border: 1px solid gray;
+
+}
+
 .title{
 
 	padding: 7px 14px 9px;
@@ -196,6 +324,7 @@ overflow: hidden;
     color: #333;
     margin-top: 40px;
     margin-bottom: 40px;
+    width: 917px;
 }
 
 .myItemBuild{
@@ -305,6 +434,80 @@ background-color: black;
 margin: 0 8px;
 }
 
+/* 인게임정보  */
+
+.InGameContainer{
+	display: none;
+}
+
+.SpectatorSummoner{
+	margin-left: 20px;
+	margin-top: 25px;
+}
+
+
+.team-100{
+
+	width: 100%;
+	
+								
+
+}
+
+.SpectatorBar{
+	margin-top: 25px;
+}
+
+.team-200{
+
+	width: 100%;
+	margin-bottom: 20px;
+
+}
+
+.InGameCham{
+    width: 40px;
+    height: 40px;
+}
+.InGameSpell{
+	width: 25px;
+    height: 25px;
+}
+
+.SpectatorCell_BlueTeamName{
+	padding-left: 15px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: Blue;
+     padding: 9px 0 8px 0;
+    border-bottom: 1px solid #cdd2d2;
+    background-color: #ededed;
+}
+
+.SpectatorCell_RedTeamName{
+	padding-left: 15px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: Red;
+    padding: 9px 0 8px 0;
+    border-bottom: 1px solid #cdd2d2;
+    background-color: #ededed;
+}
+
+ .team-100 .SpectatorCell{ 
+ 	padding: 9px 0 8px 0; 
+    border-bottom: 1px solid #cdd2d2; 
+   background-color: #ededed;
+ } 
+
+ .team-200 .SpectatorCell{ 
+ 	padding: 9px 0 8px 0; 
+    border-bottom: 1px solid #cdd2d2; 
+   	background-color: #ededed;
+ } 
+
 
 	
 </style>
@@ -315,6 +518,7 @@ margin: 0 8px;
 	img.mini{width:20px;}
 	img.minispell{width:20px;}
 	img.miniitem{width:20px;}
+	img.moreCham{width:35px;}
 	/* tr.more{display:none;} */
 	#summonerRank img {width:35px; height: 30px;}
 	
@@ -334,26 +538,18 @@ margin: 0 8px;
 	<div id="summonerProfile">
 		<div id="face">
 			<div id="icon"> <!-- 아이콘아미지 -->
-				<span id="level"></span> <!-- 레벨 text -->
+				<span class="SummonerLevel"></span> <!-- 레벨 text -->
 			</div>
 		</div>
 		<div id="profile">
 			<div id="information">
 			<span id="name"></span>
-			<img src="${pageContext.request.contextPath}/resources/images/star.png" id="favorite" />
 			</div>
 		</div>
 		<div id="ranking">
 			<h3 id="rankingText"></h3>
 		</div>
-	</div>
-	
-	<button id="SummonerViewBtn">소환사정보</button>
-	<button id="InGameBtn">인게임정보</button>
-	
-	<div class="Container">
-	<!-- 티어 이미지, 티어 표시 -->
-	<div class="SideContent" style="float: left;">	
+		
 		<div class="TierBox">
 			<div id="TierBoxView">
 				<div id="TierBoxImg">
@@ -381,15 +577,25 @@ margin: 0 8px;
 				</div>
 			</div>
 		</div>
+		
+		
 	</div>
+	
+	<button class="w3-button" id="SummonerViewBtn">소환사정보</button>
+	<button class="w3-button" id="InGameBtn" data-toggle="InGameBtnTooltip">인게임정보</button>
+	<hr class="Separator"/>
+	
+	<div class="Container">
+	<!-- 티어 이미지, 티어 표시 -->
+		
 
 <!-- 게임종류, 승패여부, 사용한 챔피언,아이템,팀원 -->	
 <div class="MainContainer">
 
-<div id="WinRatio" style="border: hidden;">
+<div id="WinRatio" style="border: hidden; margin-left: 10%;">
 	<table id="winloseResult">
 		<tr>
-			<td style="border: hidden; margin: 10px;">
+			<td style="border: hidden; margin: 10px; font-size: 15px;">
 				<div id="WinloseText">
 					<span></span>전				
 					<span></span>승			
@@ -399,27 +605,27 @@ margin: 0 8px;
 		</tr>
 		<tr>
 			<td>
-				<div>
-					<canvas id="myChart" width="150" height="150"></canvas>
-				</div>
+			<div>
+			<canvas id="myChart" width="150" height="150"></canvas>
+			</div>
 			</td>
 			<td>
-			<div class="GameList" >
-				<div id="KDA">
-					<span id="Kill"></span> /
-					<span id="Death"></span> /
-					<span id="Assist"></span>
-				</div>
-				<div id="KDARatio">
-					<span id="KDARatioText"></span>평점
-				</div>
-				<div id="Status">
-					<div id="Status_Level"></div>
-					<div id="Status_CS"><span></span></div>
-					<div id="Status_Kill"><span></span></div>
-					<div id="Status_MMR"><span></span><br /><b></b></div>
-				</div>
-			</div>	
+				<div class="GameList" >
+			<div id="KDA">
+				<span id="Kill"></span> /
+				<span id="Death"></span> /
+				<span id="Assist"></span>
+			</div>
+			<div id="KDARatio"  style="margin: 15px;">
+				<span id="KDARatioText"></span>평점
+			</div>
+			<div id="Status">
+				<div id="Status_Level"></div>
+				<div id="Status_CS"><span></span></div>
+				<div id="Status_Kill"></div>
+				<div id="Status_MMR"><span></span><br /><b></b></div>
+			</div>
+</div>	
 			</td>
 			
 			<td style="border: hidden;">
@@ -456,7 +662,7 @@ margin: 0 8px;
 		
 
 </div>
-
+<hr class="Separator"/>
 
 
 <div class="summonerContainer">
@@ -490,45 +696,28 @@ margin: 0 8px;
 		<table class="team-100">
 			<thead>
 			<tr>
-				<th>블루팀</th>
-				<th>챔피언</th>
-				<th>소환사</th>
+				<th class="SpectatorCell_BlueTeamName" colspan="2">블루팀</th>
+				<th class="SpectatorCell" colspan="2">스펠/룬</th>
+				<th class="SpectatorCell">소환사</th>
+				<th class="SpectatorCell"  colspan="4">S9</th>
+				<th class="SpectatorCell" >밴리스트</th>
 			</tr>
 			</thead>
 			<tbody id="SPteam-100">
-			<tr>
-				<td class="SPChampionImage"></td>
-				<td class="SPSummonerSpell">
-					<div class="spell1"></div>
-					<div class="spell2"></div>
-				</td>
-				<td class="Runes">
-					<div class="Run1"></div>
-					<div class="Run2"></div>
-				</td>
-				<td class="SpName"></td>
-				<td class="SpBanned"></td>
-			</tr>
-			<tr></tr>
-			<tr></tr>
-			<tr></tr>
-			<tr></tr>
 			</tbody>
 		</table>
+		<div class="SpectatorBar"></div>
 		<table class="team-200">
 			<thead>
 			<tr>
-				<th>레드팀</th>
-				<th>챔피언</th>
-				<th>소환사</th>
+				<th class="SpectatorCell_RedTeamName"  colspan="2">레드팀</th>
+				<th class="SpectatorCell" colspan="2">스펠/룬</th>
+				<th class="SpectatorCell">소환사</th>
+				<th class="SpectatorCell"  colspan="4">S9</th>
+				<th class="SpectatorCell" >밴리스트</th>
 			</tr>
 			</thead>
 			<tbody id="SPteam-200">
-			<tr></tr>
-			<tr></tr>
-			<tr></tr>
-			<tr></tr>
-			<tr></tr>
 			</tbody>
 		</table>
 		</div>
@@ -537,6 +726,8 @@ margin: 0 8px;
 </div>
 	
 	<script>
+	
+	
 	$(()=>{
 		
 			var summonerName = $("#summonerName").val().replace(/ /g,"%20");
@@ -552,9 +743,8 @@ margin: 0 8px;
 			var mechap = new Array();
 			var mechapSplit = new Array();
 			var t1 = new Array();
-		
 			
-			
+				  
 			$.ajax({
 				
 				url : "${pageContext.request.contextPath}/summoner/searchView?summonerName="+summonerName,
@@ -562,7 +752,6 @@ margin: 0 8px;
 				dataType : "json",
 				success : function(data){
 						console.log(data);
-					
 					
 					for(var i in data){
 
@@ -660,17 +849,24 @@ margin: 0 8px;
 							
 						html ="<div class='GameContainer"+myteam.win+"'>"+"<table style='border: none;'><tr>";
 						
-						html += "<td><table style='border: none;'><tr>"+gameType+"</tr><br /><tr>"+(myteam.win == 'Win' ? '승리' : '패배')+"</tr><br /><tr>"+gamemin+"분"+gamesec+"초</tr></td></table>";
-						html += "<td><img class='chap' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+me.championId+".png'/></td>";
-						html += "<td><table style='border: none;'><tr><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+me.spell1Id+".png'/></tr>";
+						if(myteam.win == 'Win'){
+						html += "<td style='padding: 20px;'><table style='border: none;'><div>"+gameType+"</div><br /><div style='color:blue;'>"+(myteam.win == 'Win' ? '승리' : '패배')+"</div><br /><div>"+gamemin+"분"+gamesec+"초</div></td></table>";
+							
+						}
+						else{
+							html += "<td style='padding: 20px;'><table style='border: none;'><div>"+gameType+"</div><br /><div style='color:red;'>"+(myteam.win == 'Win' ? '승리' : '패배')+"</div><br /><div>"+gamemin+"분"+gamesec+"초</div></td></table>";
+							
+						}
+						html += "<td style='padding-right: 11px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+me.championIdNum+"'><img class='chap' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+me.championId+".png'/></a><div class='championKO'>"+me.championKO+"</div></td>";
+						html += "<td style='padding-right: 11px;'><table style='border: none;'><tr><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+me.spell1Id+".png'/></tr>";
 						html += "<tr><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+me.spell2Id+".png'/></tr>";
 						html += "<tr><img class='spell' src='//opgg-static.akamaized.net/images/lol/perk/"+me.perk0+".png'/></tr>";
 						html += "<tr><img class='spell' src='//opgg-static.akamaized.net/images/lol/perkStyle/"+me.perkSubStyle+".png'/></tr>";
 						
 						html +="</table></td>";
-						html += "<td>"+me.kills+"/"+me.deaths+"/"+me.assists+"</br>("+((Number(me.kills) + Number(me.assists)) / Number(me.deaths)).toFixed(1)+")</td>";
-						html += "<td>"+me.champLevel+"레벨</td>";
-						html += "<td><table style='border: none;'>";
+						html += "<td style='padding-right: 11px;'>"+me.kills+" / "+me.deaths+" / "+me.assists+"</br>("+((Number(me.kills) + Number(me.assists)) / Number(me.deaths)).toFixed(1)+")</td>";
+						html += "<td style='padding-right: 11px;'>"+me.champLevel+"레벨</td>";
+						html += "<td style='padding-right: 11px;'><table style='border: none;'>";
 						html += "<tr>"+(me.item0 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item0+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item1 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item1+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item2 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item2+".png'/>")+"</tr><br />";
@@ -678,15 +874,18 @@ margin: 0 8px;
 						html += "<tr>"+(me.item4 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item4+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item5 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item5+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item6 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item6+".png'/>")+"</tr><tr><tr/></table></td>";
-						html += "<td><table class='myTeamTable'>";
+						html += "<td style='padding-left: 13px; padding-right: 1%;' ><table class='myTeamTable'>";
 						
 						<% for(int i=1; i<6; i++) {%>
-						html += "<tr><td>";
-						html += "<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/> "+data[i].participants<%=i%>.summonerName;
-						html += "</td><td>";
-						html += "<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i+5%>.championId+".png'/> "+data[i].participants<%=i+5%>.summonerName;
-						html += "</td></tr>";
+						html += "<tr>";
+						html += "<td><img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/> <a class='myTeamName' href='http://localhost:9090/yapx3/summoner/summonerView?Name="+data[i].participants<%=i%>.summonerName+"'>"+data[i].participants<%=i%>.summonerName+"</a></td>";
+						html += "<td><img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i+5%>.championId+".png'/> <a class='myTeamName' href='http://localhost:9090/yapx3/summoner/summonerView?Name="+data[i].participants<%=i+5%>.summonerName+"'>"+data[i].participants<%=i+5%>.summonerName+"</a></td>";
+						html += "</tr>";
 						<%} %>
+						
+						
+						
+						
 						html += "</table></td><td><button class='more' >더보기</button></td>";
 						html += "</tr></table></div>";
 						
@@ -698,7 +897,7 @@ margin: 0 8px;
 						html += "<button class='more_total'>종합</button>  <button class='more_build'>빌드</button>";
 						html += "<div class='GameDetailResult_"+data[i].participants1.win+"'>";
 						html += "<tr class='more'><td colspan='8'><table>";
-						html += "<tr><th>챔피언</th><th>스펠</th><th>닉네임</th><th>KDA</th><th>피해량</th><th>CS</th><th>아이템</th></tr>"
+						html += "<tr><th>챔피언</th><th>스펠</th><th>닉네임</th><th>KDA</th><th>레벨</th><th>피해량</th><th>CS</th><th>아이템</th></tr>";
 						<% for(int i=1; i<6; i++) {%>
 						if(data[i].participants<%=i%>.summonerName != Name){
 						html += "<tr>";
@@ -706,7 +905,7 @@ margin: 0 8px;
 						else{
 						html +="<tr style='background-color: white; border-color: white;'>";	
 						}
-						html += "<td>"+data[i].participants<%=i%>.champLevel+"<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></td>";
+						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a></td>";
 						html += "<td><table style='border: none;'><tr>";
 						html += "<img class='minispell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[i].participants<%=i%>.spell1Id+".png'/>";
 						html += "</tr><tr>";
@@ -717,10 +916,10 @@ margin: 0 8px;
 						html += "<img class='minispell' src='//opgg-static.akamaized.net/images/lol/perkStyle/"+data[i].participants<%=i%>.perkSubStyle+".png'/>";
 						html += "</table></td>";
 						
-						html += "<td>"+data[i].participants<%=i%>.summonerName+"</td>";
+						html += "<td style='text-align: center;'>"+data[i].participants<%=i%>.summonerName+"</td>";
 						//킬관여율
 						if(<%=i%><6){
-						html += "<td>"+data[i].participants<%=i%>.kills+"/"+data[i].participants<%=i%>.deaths+"/"+data[i].participants<%=i%>.assists+"</br>("+
+						html += "<td>"+data[i].participants<%=i%>.kills+" / "+data[i].participants<%=i%>.deaths+" / "+data[i].participants<%=i%>.assists+"</br>("+
 								((Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / Number(data[i].participants<%=i%>.deaths)).toFixed(1)+
 								")</br>"+(( (Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / (Number(data[i].participants6.deaths)
 								 + Number(data[i].participants7.deaths)	
@@ -737,7 +936,7 @@ margin: 0 8px;
 								 }
 						}
 						else if(<%=i%>>5){
-							html += "<td>"+data[i].participants<%=i%>.kills+"/"+data[i].participants<%=i%>.deaths+"/"+data[i].participants<%=i%>.assists+"</br>("+
+							html += "<td>"+data[i].participants<%=i%>.kills+" / "+data[i].participants<%=i%>.deaths+" / "+data[i].participants<%=i%>.assists+"</br>("+
 									((Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / Number(data[i].participants<%=i%>.deaths)).toFixed(1)+
 									")</br>"+(( (Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / ( Number(data[i].participants1.deaths)
 											 + Number(data[i].participants2.deaths)	
@@ -753,7 +952,8 @@ margin: 0 8px;
 										 + Number(data[i].participants5.deaths)) )*100).toFixed(1));
 							 }
 						}
-						html += "<td>"+data[i].participants<%=i%>.totalDamageTaken+"</td>";
+						html += "<td>"+data[i].participants<%=i%>.champLevel+"</td>";
+						html += "<td>"+data[i].participants<%=i%>.totalDamageTaken+" / </td>";
 						html += "<td>"+data[i].participants<%=i%>.totalMinionsKilled+"</td>";
 						html += "<td>";
 						<%for(int j=0; j<7; j++){%>
@@ -766,7 +966,7 @@ margin: 0 8px;
 						/*더보기2팀*/
 						html += "<div class='GameDetailResult_"+data[i].participants6.win+"'>";
 						html += "<tr class='more'><td colspan='8'><table>";
-						html += "<tr><th>챔피언</th><th>스펠</th><th>닉네임</th><th>KDA</th><th>피해량</th><th>CS</th><th>아이템</th></tr>"
+						html += "<tr><th>챔피언</th><th>스펠</th><th>닉네임</th><th>KDA</th><th>레벨</th><th>피해량</th><th>CS</th><th>아이템</th></tr>";
 						<% for(int i=6; i<11; i++) {%>
 						if(data[i].participants<%=i%>.summonerName != Name){
 							html += "<tr>";
@@ -774,7 +974,7 @@ margin: 0 8px;
 						else{
 							html +="<tr style='background-color: white; border-color:white;'>";	
 						}
-						html += "<td>"+data[i].participants<%=i%>.champLevel+"<img class='mini' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></td>";
+						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a></td>";
 						html += "<td><table style='border: none;'><tr>";
 						html += "<img class='minispell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[i].participants<%=i%>.spell1Id+".png'/>";
 						html += "</tr><tr>";
@@ -785,10 +985,10 @@ margin: 0 8px;
 						html += "<img class='minispell' src='//opgg-static.akamaized.net/images/lol/perkStyle/"+data[i].participants<%=i%>.perkSubStyle+".png'/>";
 						html += "</table></td>";
 						
-						html += "<td>"+data[i].participants<%=i%>.summonerName+"</td>";
+						html += "<td style='text-align: center;'>"+data[i].participants<%=i%>.summonerName+"</td>";
 						//킬관여율
 						if(<%=i%><6){
-						html += "<td>"+data[i].participants<%=i%>.kills+"/"+data[i].participants<%=i%>.deaths+"/"+data[i].participants<%=i%>.assists+"</br>("+
+						html += "<td>"+data[i].participants<%=i%>.kills+" / "+data[i].participants<%=i%>.deaths+" / "+data[i].participants<%=i%>.assists+"</br>("+
 								((Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / Number(data[i].participants<%=i%>.deaths)).toFixed(1)+
 								")</br>"+(( (Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / (Number(data[i].participants6.deaths)
 								 + Number(data[i].participants7.deaths)	
@@ -805,7 +1005,7 @@ margin: 0 8px;
 								 }
 						}
 						else if(<%=i%>>5){
-							html += "<td>"+data[i].participants<%=i%>.kills+"/"+data[i].participants<%=i%>.deaths+"/"+data[i].participants<%=i%>.assists+"</br>("+
+							html += "<td>"+data[i].participants<%=i%>.kills+" / "+data[i].participants<%=i%>.deaths+" / "+data[i].participants<%=i%>.assists+"</br>("+
 									((Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / Number(data[i].participants<%=i%>.deaths)).toFixed(1)+
 									")</br>"+(( (Number(data[i].participants<%=i%>.kills) + Number(data[i].participants<%=i%>.assists)) / ( Number(data[i].participants1.deaths)
 											 + Number(data[i].participants2.deaths)	
@@ -821,6 +1021,7 @@ margin: 0 8px;
 										 + Number(data[i].participants5.deaths)) )*100).toFixed(1));
 							 }
 						}
+						html += "<td>"+data[i].participants<%=i%>.champLevel+"</td>";
 						html += "<td>"+data[i].participants<%=i%>.totalDamageTaken+"</td>";
 						html += "<td>"+data[i].participants<%=i%>.totalMinionsKilled+"</td>";
 						html += "<td>";
@@ -2264,40 +2465,42 @@ margin: 0 8px;
 			 			$("#winloseResult tr>td>div>span:eq(1)").text(win);
 			 			$("#winloseResult tr>td>div>span:eq(2)").text(lose);
 			 			
-						//chart js 원형차트 설정
 						
-						var ctx = document.getElementById("myChart").getContext('2d');
-						var winLoseChart = new Chart(ctx,{
-							type: "doughnut",
-							data:{
-									labels:["승","패"], 
-								datasets:[{
-									data:[win,lose],
-								
-								backgroundColor:[
-					                'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 99, 132, 0.2)'
-								],
-								borderColor:[
-					                'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 99, 132, 0.2)'
-								],
-								borderWidth: 1
-								
-								}]
-							},
-							options: {
-								cutoutPercentage: 65,
-								legend:{
-									display: false
-								}
-								
-							}
-						});
 			 			
 			 			
 
 					}// data[i] for문끝 
+					
+					//chart js 원형차트 설정
+					
+					var ctx = document.getElementById("myChart").getContext('2d');
+					var winLoseChart = new Chart(ctx,{
+						type: "doughnut",
+						data:{
+								labels:["승","패"], 
+							datasets:[{
+								data:[win,lose],
+							
+							backgroundColor:[
+				                'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 99, 132, 0.2)'
+							],
+							borderColor:[
+				                'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 99, 132, 0.2)'
+							],
+							borderWidth: 1
+							
+							}]
+						},
+						options: {
+							cutoutPercentage: 65,
+							legend:{
+								display: false
+							}
+							
+						}
+					});
 					
 					
 					//더보기 눌렀을때 슬라이드다운 다시누르면 슬라이드업
@@ -2352,7 +2555,7 @@ margin: 0 8px;
 					$("#Death").text(deathResult);
 					$("#Assist").text(assistResult);
 					$("#KDARatioText").text(totalGrade);
-					$("#Status_Kill").text(totalkillratio+"%");
+					$("#Status_Kill").text("킬관여율 : "+totalkillratio+"%");
 					
 					var mechapTop3 = new Array();
 					
@@ -2473,16 +2676,42 @@ margin: 0 8px;
 				}
 				
 				
-				
-				
-				
-				
+				$("#InGameBtn").attr("title","현재 게임중이 아닙니다");
+				$('[data-toggle="InGameBtnTooltip"]').tooltip(); 
 				
 										
 				},
+				
 				error : function(err){
 					console.log("fail");
-				}
+				},
+				
+				beforeSend: function () {
+		              var width = 0;
+		              var height = 0;
+		              var left = 350;
+		              var top = 300;
+
+		              width = 1024;
+		              height = 768;
+
+
+		              if($("#div_ajax_load_image").length != 0) {
+		                     $("#div_ajax_load_image").css({
+		                            "top": top+"px",
+		                            "left": left+"px"
+		                     });
+		                     $("#div_ajax_load_image").show();
+		              }
+		              else {
+		                     $('body').append('<div id="div_ajax_load_image" style="position:absolute; top:' + top + 'px; left:' + left + 'px; width:' + width + 'px; height:' + height + 'px; z-index:9999; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0;"><img src="${pageContext.request.contextPath}/resources/images/loading.gif"></div>');
+		              }
+
+		       }
+		       , complete: function () {
+		                     $("#div_ajax_load_image").hide();
+		       }
+				
 			});
 			
 			var summonerId;
@@ -2492,15 +2721,20 @@ margin: 0 8px;
 				type : "GET",
 				dataType : "json",
 				success : function( data ){
-					$("#icon").html("<img id='profileIcon' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/profileicon/"+ data.profileIconId +".png'>");
-					$("#level").text(data.summonerLevel);
+					console.log(data);
+					
+					$("#icon").html("<img id='profileIcon' src='//opgg-static.akamaized.net/images/profile_icons/profileIcon"+ data.profileIconId +".jpg'><span class='SummonerLevel' title='레벨' data-toggle='summonerLevelTooltip'></span>");
+					$(".SummonerLevel").text(data.summonerLevel);
 					$("#name").text(data.name);
 				},
 				error : function( xhr, txtStatus, err ){
 					console.log( xhr, txtStatus, err );
+					alert("없는 소환사 입니다.");
+					location.href = "${pageContext.request.contextPath}/";
 				}
-				
 			});
+			
+			$('[data-toggle="summonerLevelTooltip"]').tooltip();  
 			
 			$.ajax({
  				url : "${pageContext.request.contextPath}/summoner/summonerRank?summonerId=" + summonerId,
@@ -2508,6 +2742,7 @@ margin: 0 8px;
 				async : false,
 				dataType : "json",
 				success : function( data ){
+					console.log(data);
 					for(var i in data){
 						if( data[i].queueType != "RANKED_TFT" ){
 						   if( data[i].queueType == "RANKED_FLEX_SR" ){
@@ -2543,6 +2778,7 @@ margin: 0 8px;
 						   $("#wins").text(data[i].wins+"승");
 						   $("#losses").text(data[i].losses+"패");
 						   $("#winratio").text("승률 : "+Math.round(( data[i].wins/( data[i].wins + data[i].losses ) )*100)+"%");
+						    
 
 						}
 					}
@@ -2551,7 +2787,9 @@ margin: 0 8px;
 					console.log( xhr, txtStatus, err );
 				}
 			});
+			 
 			
+			//인게임정보 ajax
 			$.ajax({
 				url: "${pageContext.request.contextPath}/summoner/summonerInGame?summonerId=" + summonerId,
 				type: "GET",
@@ -2560,43 +2798,144 @@ margin: 0 8px;
 				success : function( data ){
 					console.log(data);
 					$("#InGameBtn").css("background-color","green");
+					$("#InGameBtn").removeAttr('title');
+					$("#InGameBtn").attr("title","현재 게임중입니다 클릭하시면 인게임데이터를 볼 수 있습니다!");
+					$('[data-toggle="InGameBtnTooltip"]').tooltip(); 
 					
 					$("#InGameBtn").click(function(){
 						
 						$(".Container").css("display","none");
 						$(".InGameContainer").css("display","block");
+						
+					});
 						var SpRed;
 						var SpBlue;
-						for(var i in data){
+						var spRedTier;
+						var spBlueTier;
+						var banRed = new Array();
+						var banBlue = new Array();
+						
+						for(var a = 0; a<10; a++){
+							if(data[0].banned[a].teamId == 100){
+								if(data[0].banned[a].bannedchampion != null){
+									banRed.push(data[0].banned[a].bannedchampion);
+									}
+							}
+							else if(data[0].banned[a].teamId == 200){
+								if(data[0].banned[a].bannedchampion != null){
+								banBlue.push(data[0].banned[a].bannedchampion);
+								}
+							}
 							
-							if(data[i].teamId == 100){
-							SpRed = "<tr>";
-							SpRed = "<td class='SPChampionImage'><img class='small' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championId+".png'></td>";
+						}
+						
+						
+						for(var i =0; i<10; i++){
+							
+							if(i<=4){
+							SpRed += "<tr>";
+							SpRed += "<td class='SPChampionImage' colspan='2'><img class='InGameCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[0].participant[i].championId+".png'></td>";
+							SpRed += "<td class='SPSummonerSpell'><div class='spell1'><img class='InGameSpell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[0].participant[i].spell1+".png'/></div>";
+							SpRed += "<div class='spell2'><img class='InGameSpell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[0].participant[i].spell2+".png'/></div></td>";
+							SpRed +="<td class='Runes'><div class='Rune1'><img class='InGameSpell' src='//opgg-static.akamaized.net/images/lol/perk/"+data[0].participant[i].perks.myArrayList[0]+".png'/></div>";
+							SpRed +="<div class='Rune2'><img class='InGameSpell' src='//opgg-static.akamaized.net/images/lol/perkStyle/"+data[0].participant[i].perkSubStyle+".png'/></td>";
+							SpRed += "<td class='SpName'>"+data[0].participant[i].summonerName+"</td>";
 							
 							
+							if( data[0].participant[i].tier == "IRON" ){
+								SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/IRON.png'></td>";
+							   }else if( data[0].participant[i].tier == "BRONZE" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/BRONZE.png'></td>";
+							   }else if( data[0].participant[i].tier == "SILVER" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/SILVER.png'></td>";
+							   }else if( data[0].participant[i].tier == "GOLD" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/GOLD.png'></td>";
+							   }else if( data[0].participant[i].tier == "PLATINUM" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/PLATINUM.png'></td>";
+							   }else if( data[0].participant[i].tier == "DIAMOND" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/DIAMOND.png'></td>";
+							   }else if( data[0].participant[i].tier == "MASTER" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/MASTER.png'></td>";
+							   }else if( data[0].participant[i].tier == "GRANDMASTER" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/GRANDMASTER.png'></td>";
+							   }else if( data[0].participant[i].tier == "CHALLENGER" ){
+								   SpRed += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/CHALLENGER.png'></td>";
+							   }
+							   else{
+								   SpRed +="<td></td>";
+							   }
+							
+							SpRed += "<td class='SpTierRed' colspan='2'>"+data[0].participant[i].tier+" "+data[0].participant[i].rank+" ("+ data[0].participant[i].LP+" LP)</td>";
+							if(data[0].banned[i].teamId == 100){
+								if(data[0].banned[i].bannedchampion != null){	
+							SpRed +="<td><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[0].banned[i].bannedchampion+".png'></td>";
+								
+							}
+						}
 							
 							SpRed += "</tr>";
 								
 							}
-							else if(data[i].teamId == 200){
-							SpBlue = "<tr></tr>";
+							else if(5<=i){
+								SpBlue += "<tr>";
+								SpBlue += "<td class='SPChampionImage' colspan='2'><img class='InGameCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[0].participant[i].championId+".png'></td>";
+								SpBlue += "<td class='SPSummonerSpell'><div class=''><img class='InGameSpell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[0].participant[i].spell1+".png'/></div>";
+								SpBlue += "<div class='spell2'><img class='InGameSpell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[0].participant[i].spell2+".png'/></div></td>";
+								SpBlue +="<td class='Runes'><div class='Rune1'><img class='InGameSpell' src='//opgg-static.akamaized.net/images/lol/perk/"+data[0].participant[i].perks.myArrayList[0]+".png'/></div>";
+								SpBlue +="<div class='Rune2'><img class='InGameSpell' src='//opgg-static.akamaized.net/images/lol/perkStyle/"+data[0].participant[i].perkSubStyle+".png'/></td>";
+								SpBlue += "<td class='SpName'>"+data[0].participant[i].summonerName+"</td>";
+								
+								if( data[0].participant[i].tier == "IRON" ){
+									SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/IRON.png'></td>";
+								   }else if( data[0].participant[i].tier == "BRONZE" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/BRONZE.png'></td>";
+								   }else if( data[0].participant[i].tier == "SILVER" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/SILVER.png'></td>";
+								   }else if( data[0].participant[i].tier == "GOLD" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/GOLD.png'></td>";
+								   }else if( data[0].participant[i].tier == "PLATINUM" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/PLATINUM.png'></td>";
+								   }else if( data[0].participant[i].tier == "DIAMOND" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/DIAMOND.png'></td>";
+								   }else if( data[0].participant[i].tier == "MASTER" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/MASTER.png'></td>";
+								   }else if( data[0].participant[i].tier == "GRANDMASTER" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/GRANDMASTER.png'></td>";
+								   }else if( data[0].participant[i].tier == "CHALLENGER" ){
+									   SpBlue += "<td class='tier'><img class='spell' src='${pageContext.request.contextPath}/resources/images/tier/CHALLENGER.png'></td>";
+								   }
+								   else{
+									   SpBlue +="<td></td>";
+								   }
+								
+								
+								SpBlue  += "<td class='SpTierBlue' colspan='2'>"+data[0].participant[i].tier+" "+data[0].participant[i].rank+" ("+ data[0].participant[i].LP+" LP)</td>";
+								if(data[0].banned[i].teamId == 200){
+									if(data[0].banned[i].bannedchampion != null){
+								SpBlue +=	"<td><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[0].banned[i].bannedchampion+".png'></td>";
+										
+									}
+								}
+								
+								
+								SpBlue += "</tr>";
 							}
-							
-							$("#Spteam-100").append(SpRed);
-							$("#Spteam-200").append(SpBlue);
 						}
 						
-						
+							$("#SPteam-100").append(SpRed);
+							$("#SPteam-200").append(SpBlue);
+							
+					
+					
+					$("#SummonerViewBtn").click(function(){
+						$(".InGameContainer").css("display","none");
+						$(".Container").css("display","block");
 					});
 					
 				},
 				error : function( xhr, txtStatus, err ){
 					console.log("현재 게임중이 아닙니다");
-					if($("#InGameBtn").click(function(){
-						alert("현재 게임중이 아닙니다");	
-						
-					})){
-					}
+					
 				}
 				
 			});

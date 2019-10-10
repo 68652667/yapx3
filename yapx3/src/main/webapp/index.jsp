@@ -46,6 +46,10 @@ img {
 	height : 100;
 }
 
+#championLote{
+	cursor: pointer;
+}
+
 </style>
 <body class="w3-theme-l5">
 
@@ -87,8 +91,10 @@ img {
 		<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white">
 		    <button class="w3-bar-item w3-button" onclick="messageClick();" title="" id="messageBtn" >쪽지함</button>
 			<button class="w3-bar-item w3-button" onclick="myPassClick();" title="">비밀번호 변경</button>
-			<!-- <button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button> -->
 			<button class="w3-bar-item w3-button" onclick="myBoardClick();" title="">내글보기</button>
+			<c:if test="${memberLoggedIn.userCode == 0 }">
+				<button class="w3-bar-item w3-button" onclick="memberClick();" title="">회원관리</button>
+			</c:if>
 		</div>
 	</div>
 	<script>
@@ -139,26 +145,16 @@ img {
 					<h1>League Of Legends</h1>
 					<p>전적 검색</p>
 					<br>
-					<form role="form">
 						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">소환사 이름</label> 
 							<input class="form-control" id="exampleInputEmail1"
 								   placeholder="소환사 이름을 입력하세요." 
 								   type="text" name="username"
-								   style="width : 500px; text-align : center; margin-left: 100px;">
+								   style="width : 500px; text-align : center; margin-left: 200px;">
 						</div>
-						<button type="button" class="btn btn-default">Search</button>
-						<table id="summonerStatus" style="text-align: center; margin-left: 100px;"></table>
-						<table id="summonerRank" style="text-align: center; margin-left: 100px; margin-top : 10px;"></table>
-					</form>
 					<br> <br>
 					<form role="form">
-						<button id="spectatorBoolean" style="display: none;">인게임정보</button>
-					</form>
-					<br /><br />
-					<form role="form">
-						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">금주의 로테이션</label> 
+						<div class="form-group" style="margin-left: 49px;">
+							<label class="control-label" for="exampleInputEmail1" style="margin-bottom: 28px; margin-right: 51px; font-size: 25px;">금주의 로테이션</label> 
 							<table id="championLote" style="text-align: center; margin-left: 100px; margin-top : 10px;">
 								
 							</table>
@@ -213,8 +209,8 @@ function myPassClick() {
 	window.open( "${pageContext.request.contextPath}/user/updatePassword?memberId=${memberLoggedIn.userEmail}", "", popup ).focus();
 }
 
-function bookmarkClick() {
-	alert( "bookmarkClick" );	
+function memberClick() {
+	location.href = "${pageContext.request.contextPath}/user/memberList";
 }
 
 function myBoardClick() {
@@ -232,12 +228,11 @@ function myBoardClick() {
 			dataType : "json",
 			success : function( data ){
 				console.log( data );
-				var chamHmtml = "<img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/";
-				var chamHmtml2 = "";
 
-				for(var i = 0; i < data.length; i++){
-					chamHmtml2 = "' title=" + data[i].substring( 0, data[i].length - 4 ) + ">";
-					var html = chamHmtml + data[i] + chamHmtml2;
+				for(var i = 0; i <data.length; i++){
+					var html = "<a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].ChamNum+"'><img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].ChamName+"'>'"+"</a>";
+					
+					
 					if( i%5 == 4 ){	
 						html += "<br/>";
 					}
@@ -251,12 +246,20 @@ function myBoardClick() {
 		
 		
 		
-		$(".btn").on("click", function(){
-			$("#summonerRank").html("");
-			$("#spectatorBoolean").attr("style","display: none;");
-			var summonerName = $(".form-control").val();
+		
+		
+		$("#exampleInputEmail1").on("keypress", function(e){
 			
+			console.log(e.keyCode);
+			
+			if(e.keyCode == '13'){
+			
+			$("#summonerRank").html("");
+			
+			var summonerName = $(".form-control").val();
 			location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name=" + summonerName;
+			
+			}
 			
 		});
 		

@@ -63,8 +63,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white">
 		    <button class="w3-bar-item w3-button" onclick="messageClick();" title="" id="messageBtn" >쪽지함</button>
 			<button class="w3-bar-item w3-button" onclick="myPassClick();" title="">비밀번호 변경</button>
-			<!-- <button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button> -->
 			<button class="w3-bar-item w3-button" onclick="myBoardClick();" title="">내글보기</button>
+			<c:if test="${memberLoggedIn.userCode == 0 }">
+				<button class="w3-bar-item w3-button" onclick="memberClick();" title="">회원관리</button>
+			</c:if>
 		</div>
 	</div>
 	<script>
@@ -103,6 +105,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	  </a>
   </c:if>
  </div>
+ <div class="form-group">
+<input class="form-control" id="exampleInputEmail1" placeholder="소환사 이름을 입력하세요." type="text" name="username"
+  style="position: absolute;
+    width: 190px;
+    height: 30px;
+    text-align: center;
+    margin-left: 80%;">
+</div>
 </div>
 <script>
 	function messageClick() {
@@ -115,12 +125,23 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		window.open( "${pageContext.request.contextPath}/user/updatePassword?memberId=${memberLoggedIn.userEmail}", "", popup ).focus();
 	}
 	
-	function bookmarkClick() {
-		alert( "bookmarkClick" );	
+	function memberClick() {
+		location.href = "${pageContext.request.contextPath}/user/memberList";
 	}
 	
 	function myBoardClick() {
 		location.href = "${pageContext.request.contextPath}/user/myBoardList?memberId=${memberLoggedIn.userEmail}";
 	}
+	
+	$("#exampleInputEmail1").on("keypress", function(e){
+		
+		if(e.keyCode == '13'){
+		
+		var summonerName = $(".form-control").val();
+		location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name=" + summonerName;
+		
+		}
+		
+	});
 
 </script>

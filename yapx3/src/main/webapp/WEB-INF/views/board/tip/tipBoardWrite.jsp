@@ -11,6 +11,9 @@ div#board-container{width:400px; margin:0 auto; text-align:center;}
 div#board-container input{margin-bottom:15px;}
 /* 부트스트랩 : 파일라벨명 정렬*/
 div#board-container label.custom-file-label{text-align:left;}
+#txtfield{
+	display: none;
+}
 #txt{min-height: 200px;}
 #body{
 margin: 0;
@@ -45,6 +48,46 @@ margin: 0;
     padding: 2px 0 0;
     text-align: center;
     display: none;
+}
+#champIcon{
+	padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+#champIcon:hover{
+	cursor: pointer;
+	padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    background-color: #5a6268;
+}
+#skillIcon{
+	padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+#skillIcon:hover{
+	cursor: pointer;
+	padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    background-color: #5a6268;
+}
+.icon{
+	overflow: auto;
+	border: 1px solid #EBEEF1;
+	width: 398px;
+	height: 200px;
 }
 </style>
 <script>
@@ -190,23 +233,25 @@ function addImg(e) {
 				</p>
 			</div>
 			<div id="iconDiv">
-				<div>
-					<span onclick="champ();">챔피언</span>
-					<span onclick="skills();">스킬</span>
+				<div style="margin-bottom: 10px;">
+					<span id="champIcon" onclick="champ();">챔피언</span>
+					<span id="skillIcon" onclick="skills();">스킬</span>
 				</div>
-				<div id="champImg" class="imgcon">
-					<c:forEach items="${champList }" var="b">
-					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/champion/${b.id }.png" alt="" onclick="addImg(this);"/>
-					</c:forEach>
-				</div>
-				<div id="skillImg" class="imgcon">
-					<c:forEach items="${champList }" var="b">
-					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/passive/${b.passive }" alt="" onclick="addImg(this);"/>
-					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.q }" alt="" onclick="addImg(this);"/>
-					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.w }" alt="" onclick="addImg(this);"/>
-					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.e }" alt="" onclick="addImg(this);"/>
-					<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.r }" alt="" onclick="addImg(this);"/>
-					</c:forEach>
+				<div class="icon">
+					<div id="champImg" class="imgcon">
+						<c:forEach items="${champList }" var="b">
+						<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/champion/${b.id }.png" alt="" onclick="addImg(this);"/>
+						</c:forEach>
+					</div>
+					<div id="skillImg" class="imgcon">
+						<c:forEach items="${champList }" var="b">
+						<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/passive/${b.passive }" alt="" onclick="addImg(this);"/>
+						<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.q }" alt="" onclick="addImg(this);"/>
+						<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.w }" alt="" onclick="addImg(this);"/>
+						<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.e }" alt="" onclick="addImg(this);"/>
+						<img src="http://ddragon.leagueoflegends.com/cdn/9.19.1/img/spell/${b.r }" alt="" onclick="addImg(this);"/>
+						</c:forEach>
+					</div>
 				</div>
 			</div>
 			<br />

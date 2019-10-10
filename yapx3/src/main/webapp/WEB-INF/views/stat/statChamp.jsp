@@ -245,7 +245,13 @@ function statBanB() {
 }
 </script>
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px; margin-bottom: 15px;">    
+<div class="w3-container w3-content" style="max-width:1024px;margin-top:115px; min-height: 768px; margin-bottom: 15px;">
+
+	<div class="pageDescription" style="margin-bottom: 10px;">
+		<span class="text">통계 데이터는 riot제공 api기준 마스터 이상(10월 1일 기준)으로 제공합니다.</span>
+		<br />
+	</div>
+    
    <table class="w3-table-all w3-card-4" id="statTable">
    <tr>
       <th style="width: 200px;">챔피언</th>

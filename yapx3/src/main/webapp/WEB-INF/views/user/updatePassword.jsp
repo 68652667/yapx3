@@ -9,12 +9,20 @@
 <meta charset="UTF-8">
 <title>비밀번호 변경</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<style>
 
+
+.yapx3Margin{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+</style>
 
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -37,10 +45,10 @@ function passwordValidate(){
 }
 </script>
 </head>
-<body>
-	<div id="updatePassword-container">
+<body class="w3-theme-l5">
+	<div id="container" class="w3-top w3-center w3-display-position" style="top:15px;">
 		<form name="updatePwdFrm" action="${pageContext.request.contextPath}/user/updatePasswordEnd.do" method="post" >
-			<table>
+			<table class="yapx3Margin" >
 				<tr>
 					<th>현재 비밀번호</th>
 					<td><input type="password" name="password" id="password" required></td>
@@ -59,8 +67,8 @@ function passwordValidate(){
 				</tr>
 				<tr>
 					<td colspan="2">
-						<input type="submit"  value="변경" onclick="return passwordValidate();"/>&nbsp;
-						<input type="button" onclick="self.close();" value="닫기" />						
+						<input type="submit"  class="btn btn-sm btn-success" value="변경" onclick="return passwordValidate();"/>
+						<input type="button" class="btn btn-sm btn-success" onclick="self.close();" value="닫기" />						
 					</td>
 				</tr>
 			</table>

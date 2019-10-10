@@ -12,15 +12,11 @@ public class Member {
 	private Date userEnrollDate;
 	private String favoriteSummoner;
 	private String favoriteChampion;
+	private String userYn;
 	
 	
-	public Member() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	public Member(String userEmail, String userNickname, int userCode, String userActivationKey, String userPassword,
-			Date userEnrollDate, String favoriteSummoner, String favoriteChampion) {
+			Date userEnrollDate, String favoriteSummoner, String favoriteChampion, String userYn) {
 		super();
 		this.userEmail = userEmail;
 		this.userNickname = userNickname;
@@ -30,6 +26,21 @@ public class Member {
 		this.userEnrollDate = userEnrollDate;
 		this.favoriteSummoner = favoriteSummoner;
 		this.favoriteChampion = favoriteChampion;
+		this.userYn = userYn;
+	}
+
+	public Member() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public String getUserYn() {
+		return userYn;
+	}
+
+	public void setUserYn(String userYn) {
+		this.userYn = userYn;
 	}
 
 	public String getUserEmail() {
@@ -101,8 +112,10 @@ public class Member {
 		return "Member [userEmail=" + userEmail + ", userNickname=" + userNickname + ", userCode=" + userCode
 				+ ", userActivationKey=" + userActivationKey + ", userPassword=" + userPassword + ", userEnrollDate="
 				+ userEnrollDate + ", favoriteSummoner=" + favoriteSummoner + ", favoriteChampion=" + favoriteChampion
-				+ "]";
+				+ ", userYn=" + userYn + "]";
 	}
+
+	
 	
 	
 }

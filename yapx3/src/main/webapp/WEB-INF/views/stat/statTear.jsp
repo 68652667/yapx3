@@ -15,7 +15,7 @@ canvas {
 }
 </style>
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1024px; margin-top:175px; min-height: 950px;">    
+<div class="w3-container w3-content" style="max-width:1024px; margin-top:115px; min-height: 950px;">    
     <div style="width: 60%; display: inline-block; height: 915px;">
 		<canvas id="canvas"></canvas>
 		<canvas id="chart-area" style="margin-top: 65px"></canvas>

@@ -467,6 +467,9 @@ public class RankingController {
 			key = apikeyuse();
 			org.json.JSONObject jobj = urlSession2(url);
 			String id = jobj.getString("id");
+			int profileIconId_ = jobj.getInt("profileIconId");
+			String profileIconId = profileIconId_ + ".png";
+			m.put("PICONID", profileIconId);
 			url = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/"+id+"?api_key="+key;
 			apikeyuse++;
 			key = apikeyuse();

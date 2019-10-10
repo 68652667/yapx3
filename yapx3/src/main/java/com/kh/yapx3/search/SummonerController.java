@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
+import com.kh.yapx3.search.model.vo.RotationCham;
 
 
 @Controller
@@ -60,7 +61,7 @@ public class SummonerController {
 		} catch ( Exception e ) {
 			e.printStackTrace();
 			logger.info("없는 아이디입니다.");
-
+			
 			response.setCharacterEncoding("utf-8");
 			try {
 				response.getWriter().append("noneId");
@@ -124,7 +125,9 @@ public class SummonerController {
 
 			Iterator num = dataObject.keys();
 			
-			List<String> list = new ArrayList<String>();
+			List<RotationCham> list = new ArrayList<RotationCham>();
+			
+			RotationCham RC = new RotationCham();
 			
 			while( num.hasNext() ) {
 				String dataKey = num.next().toString();
@@ -138,7 +141,10 @@ public class SummonerController {
 				for( int i = 0; i < jar.length(); i++ ) {
 					String chap = jar.get(i).toString();
 					if( championKey.equals( chap ) ) {
-						list.add( img );
+						RC = new RotationCham();
+						RC.setChamName(img);
+						RC.setChamNum(championKey);
+						list.add(RC);
 					}
 				}
 			}
@@ -154,37 +160,4 @@ public class SummonerController {
 		
 	}
 	
-	@GetMapping("/spectator")
-	public void spectator (HttpServletRequest request,
-						  HttpServletResponse response) {
-		
-		String key = "RGAPI-b0f1c9f8-bc6b-48c9-bd2d-e303c45548ff";
-		String summonerId = request.getParameter("summonerId");
-		String urlStr = "https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerId+"?api_key="+ApiKey;
-		
-		try {
-			
-			URL url = new URL(urlStr);
-			
-			BufferedReader br = new BufferedReader
-					( new InputStreamReader( url.openConnection().getInputStream() ) );
-			
-			String sb = br.readLine();
-			
-			JSONObject jobj = new JSONObject( sb.toString() );
-			
-			response.setCharacterEncoding("utf-8");
-			response.getWriter().append(jobj.toString());
-			
-			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
 }

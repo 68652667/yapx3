@@ -32,5 +32,7 @@ public interface StompDAO {
 
 	int checkBoardNo(String roomId);
 
+	int insertMsg(ChatRoom obj);
+
 
 }

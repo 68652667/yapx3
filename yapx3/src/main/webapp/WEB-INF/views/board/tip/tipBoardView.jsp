@@ -7,6 +7,106 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<style>
+.w3-content{
+	margin-bottom: 25px;
+}
+.header{
+	padding: 24px 16px;
+	display: block;
+}
+.title{
+	line-height: 36px;
+    font-size: 24px;
+    color: #1e2022;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.leftInfo{
+	float: left;
+}
+.rightInfo{
+	float: right;
+}
+.boardType, .boardType:hover{
+	text-decoration: none;
+	color: inherit;
+}
+.boardComment{
+	margin: auto;
+	width: 75%;
+}
+#tbl-comment{
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
+}
+.boardContent{
+	border: 1px solid #EBEEF1;
+	background: white;
+	margin: auto;
+	width: 75%;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
+}
+.boardType, .date, #btnSendMsg{
+	display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    margin-left: 8px;
+    padding-left: 9px;
+}
+.date{
+	border-left: 1px solid #EBEEF1;
+}
+.content{
+	padding: 20px;
+	border-top: 1px solid #EBEEF1;
+}
+#btnSendMsg{
+	border-left: 1px solid #EBEEF1;
+	height: 20px;
+	padding: 0 0 0 9px;
+}
+.boardType{
+	padding-left: 0;
+	margin-left: 0;
+}
+.vote{
+	text-align: center;
+	padding: 10px 0;
+	border-top: 1px solid #EBEEF1;
+}
+.like{
+	border-left: 1px solid #EBEEF1;
+	margin-left: 8px;
+	padding-left: 9px;
+}
+.comment{
+	border-left: 1px solid #EBEEF1;
+	margin-left: 8px;
+	padding-left: 9px;
+}
+textarea{
+	resize: none;
+}
+.commentHeader{
+	padding: 16px;
+}
+table#tbl-comment tr td:first-child{
+	width: 585px;
+}
+table#tbl-comment tr td:last-child{
+	width: 115px;
+	text-align: right;
+}
+.commentContent1{
+	padding-left: 15px;
+}
+.commentContent2{
+	padding-left: 35px;
+}
+.input-group{
+	background: white;
+}
+</style>
 <script>
 $(()=>{
 	$("[name=commentContent]").click(()=>{
@@ -82,26 +182,70 @@ $(()=>{
 		window.open( "${pageContext.request.contextPath}/message/messageSned?memberId=${memberLoggedIn.userEmail}&sendEmail=" + $( this ).attr( "eId" ) + "&sendNickName=" + $( this ).attr( "nId" ), "", popup ).focus();
 	});
 });
+$(document).on("click", ".btn-like", (e)=>{
+	if(${memberLoggedIn==null}){
+		alert("로그인을 해주세요!");
+		return;
+	}
+	var tipboardNo = $("[name=tipBoardNo]").val();
+	var userEmail = $("[name=userEmail]").val();
+	$.ajax({
+		url: "tipboardLike?tipboardNo="+tipboardNo+"&userEmail="+userEmail,
+		type: "GET",
+		dataType: "json",
+		success: function(data){
+			$(".btn-like span").text(" "+data.like);
+			$(".like").text("추천 "+data.like);
+		},
+		error: function(err){
+			console.log("실패!");
+		}
+	});
+});
 </script>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">
-	글번호 : ${tip.tipBoardNo } <br />
-	제목 : ${tip.tipBoardTitle } <br />
-	글쓴이 : 
-	<div class="w3-button" id="btnSendMsg" title="쪽지보내기" >
-	${tip.userNickName } 
+	<div class="boardContent">
+		<div class="header">
+			<div class="title">${tip.tipBoardTitle }</div><br />
+			<div class="leftInfo">
+				<a href="${pageContext.request.contextPath}/tip/tipList.do" class="boardType">팁</a>
+				<span class="date">${tip.tipBoardDate }</span>
+				<div class="w3-button" id="btnSendMsg" title="쪽지보내기" >
+				${tip.userNickName } 
+				</div>
+			</div>
+			<div class="rightInfo">
+				<span>조회 ${tip.tipBoardViews }</span>
+				<span class="comment">댓글 ${commentNumber }</span>
+				<span class="like">추천 ${tip.tipBoardLike }</span>
+			</div>
+		</div>
+	<br />
+		<div class="content">
+			<c:if test="${!empty tip.attachList }">
+				<c:forEach items="${tip.attachList}" var="a" varStatus="vs">
+					<img src="${pageContext.request.contextPath}/resources/upload/board/${a.renamedFileName}" alt="" style="width: 400px;"/>
+				</c:forEach>
+			</c:if>
+			<br />
+			<c:if test="${!empty tip.YL}">
+				<iframe width="400" height="315" src="//www.youtube.com/embed/${tip.YL }" frameborder="0" allowfullscreen></iframe>
+			</c:if>
+			<br />
+			${tip.tipBoardContent }
+		</div>
+	<br />
+		<div class="vote">
+			<button class="btn-like btn btn-small btn-pink"><img src="https://image.flaticon.com/icons/svg/686/686308.svg" width="30px" height="30px"><span> ${tip.tipBoardLike }</span></button>
+		</div>
 	</div>
 	<br />
-	<c:forEach items="${tip.attachList}" var="a" varStatus="vs">
-		<img src="${pageContext.request.contextPath}/resources/upload/board/${a.renamedFileName}" alt="" style="width: 400px;"/>
-	</c:forEach>
-	<br />
-	<c:if test="${tip.YL != null}">
-	<iframe width="400" height="315" src="//www.youtube.com/embed/${tip.YL }" frameborder="0" allowfullscreen></iframe>
-	</c:if>
-	<br />
-	내용 : ${tip.tipBoardContent }
-	<br />
+	<div class="boardComment">
+		<div class="commentHeader">
+			<h2 style="font-size: 18px; display: inline;">댓글</h2>
+			<span> ${commentNumber }개</span>
+		</div>
 	<form action="${pageContext.request.contextPath}/tip/tipCommentUp.do"
 					name="boardCommentFrm" method="post">
 		<div class="input-group mb-3">
@@ -120,7 +264,7 @@ $(()=>{
 				<c:forEach items="${commentList }" var="c">
 					<c:choose>
 						<c:when test="${c.commentLevel == 1}">
-						<tr class="level1, list-group-item">
+						<tr class="level1 list-group-item">
 							<td>
 								<sub class="comment-writer">
 								<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
@@ -129,7 +273,7 @@ $(()=>{
 								</sub> 
 								
 								<sub class="comment-date">${c.date }</sub><br /><br />
-								${c.commentContent }
+								<span class="commentContent1">${c.commentContent }</span>
 							</td>
 							<td>
 								<button class="btn-reply btn btn-small btn-pink" value="${c.commentNo }">답글</button>
@@ -141,15 +285,15 @@ $(()=>{
 						</c:when>
 						
 						<c:when test="${c.commentLevel == 2}">
-							<tr class="level2, list-group-item">
+							<tr class="level2 list-group-item">
 							<td style="padding-left: 20px">
-								ㄴ<sub class="comment-writer">
+								└<sub class="comment-writer">
 								<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
 								${c.userNickname }
 								</div>
 								</sub> 
 								<sub class="comment-date">${c.date }</sub><br /><br />
-								${c.commentContent }
+								<span class="commentContent2">${c.commentContent }</span>
 							</td>
 							<td>
 								<c:if test="${memberLoggedIn.userEmail == c.userEmail }">
@@ -161,6 +305,7 @@ $(()=>{
 					</c:choose>
 		</c:forEach>
 		</table>
+	</div>
 <!-- End Page Container -->
 </div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

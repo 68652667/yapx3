@@ -5,6 +5,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
+tr[tipBoardNo]:hover {
+	cursor: pointer;
+}
 #makeFree{
 	margin-bottom: -8px;
 }
