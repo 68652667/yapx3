@@ -96,9 +96,11 @@ public class FreeController {
 
 		List<FreeComment> commentList = null;
 		commentList = freeService.selectCommentList(freeBoardNo);
+		int commentNumber = freeService.selectCommentNumber(freeBoardNo);
 		
 		mav.addObject("free", free);
 		mav.addObject("commentList", commentList);
+		mav.addObject("commentNumber", commentNumber);
 		
 		return mav;
 	}
@@ -184,23 +186,28 @@ public class FreeController {
 	public void freeboardLike(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Integer> likeValue = new HashMap<String, Integer>();
 		String freeboardNo = request.getParameter("freeboardNo");
-		String userNickname = request.getParameter("userNickname");
+		String userEmail = request.getParameter("userEmail");
 		
 		String likeUserList = freeService.likeUserList(freeboardNo);
 		System.out.println(likeUserList);
 		if(likeUserList==null) {
-			freeService.likeincrease(userNickname, freeboardNo);
+			freeService.likeincrease(userEmail, freeboardNo);
 		}
-		else if(!likeUserList.contains(userNickname)){
-			likeUserList += ", "+userNickname;
+		else if(!likeUserList.contains(userEmail)){
+			likeUserList += ", "+userEmail;
 			freeService.likeincrease2(likeUserList, freeboardNo);
 		}
 		else {
-			if(userNickname.equals(likeUserList)) {
+			if(userEmail.equals(likeUserList)) {
 				likeUserList = null;
 			}
 			else {
-				likeUserList.replaceAll(userNickname, "");
+				if(likeUserList.contains(", "+userEmail)) {
+					likeUserList.replaceAll(", "+userEmail, "");
+				}
+				else {
+					likeUserList.replaceAll(userEmail, "");
+				}
 			}
 			freeService.deleteLike(likeUserList, freeboardNo);
 		}

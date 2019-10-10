@@ -98,4 +98,9 @@ public class FreeServiceImpl implements FreeService {
 	public int selectFreeTotal() {
 		return freeDAO.selectFreeTotal();
 	}
+
+	@Override
+	public int selectCommentNumber(int freeBoardNo) {
+		return freeDAO.selectCommentNumber(freeBoardNo);
+	}
 }

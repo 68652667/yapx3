@@ -129,5 +129,11 @@
 		select free_board_like
 		from f_b
 		where free_board_no = #{freeboardNo}
-	</select>	
+	</select>
+	
+	<select id="selectCommentNumber" resultType="int">
+		select count(*) as commenetNumber
+		from f_b_c
+		where free_board_no = #{freeBoardNo}
+	</select>
 </mapper>
