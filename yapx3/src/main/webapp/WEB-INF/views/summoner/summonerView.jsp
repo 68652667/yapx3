@@ -387,7 +387,7 @@ margin: 0 8px;
 <div class="MainContainer">
 
 <div id="WinRatio" style="border: hidden;">
-	<table id="winloseResult">
+	<table id="winloseResult" >
 		<tr>
 			<td style="border: hidden; margin: 10px;">
 				<div id="WinloseText">

@@ -68,17 +68,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		</div>
 	</div>
 	<script>
-<<<<<<< HEAD
 	$(()=>{
 		$( "#btnHoverCheck" ).hover(function(){
 			messageCount();
-=======
-		$(()=>{
-			$( "#btnHoverCheck" ).hover(function(){
-				
-				messageCount();
-			});
->>>>>>> branch 'master' of https://github.com/68652667/yapx3.git
 		});
 		
 		function messageCount() {
@@ -102,6 +94,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 			
 			});
 		}
+	});
 	</script>
   </c:if>
   <c:if test="${memberLoggedIn==null}">
