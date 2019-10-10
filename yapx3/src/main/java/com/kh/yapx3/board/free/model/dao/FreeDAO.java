@@ -26,4 +26,8 @@ public interface FreeDAO {
 
 	List<FreeWithFileCount> selectFreeMyList(String memberId);
 
+	int updateFree(FreeVO free);
+
+	int selectFreeTotal();
+
 }

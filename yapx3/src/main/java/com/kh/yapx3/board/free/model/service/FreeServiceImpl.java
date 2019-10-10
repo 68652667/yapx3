@@ -64,4 +64,14 @@ public class FreeServiceImpl implements FreeService {
 		return freeDAO.selectFreeMyList(memberId);
 	}
 
+	@Override
+	public int updateFree(FreeVO free) {
+		return freeDAO.updateFree(free);
+	}
+
+	@Override
+	public int selectFreeTotal() {
+		return freeDAO.selectFreeTotal();
+	}
+
 }

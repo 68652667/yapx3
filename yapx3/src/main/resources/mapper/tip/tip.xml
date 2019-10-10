@@ -12,6 +12,11 @@
 		order by tip_board_no desc
 	</select>
 	
+	<select id="selectTipTotal" resultType="int">
+		select count(*) 
+		        from t_b
+	</select>
+	
 	<select id="selectTipMyList" resultType="TipWithFileCount">
 		select A.*,
 		       (select count(*) 
@@ -44,6 +49,23 @@
 		from t_b a left join t_b_a b on a.tip_board_no = b.tip_board_no
 		where a.tip_board_no = #{tipBoardNo}
 	</select>
+	
+	<update id="updateTip">
+		update t_b
+		<trim prefix="set" suffixOverrides=",">
+		<if test="tipBoardTitle != null and tipBoardTitle !=''">
+		TIP_BOARD_TITLE = #{tipBoardTitle},
+		</if>
+		<if test="tipBoardContent != null and tipBoardContent !=''">
+		TIP_BOARD_CONTENT = #{ tipBoardContent },
+		</if>
+		<if test="tipBoardViews != null and tipBoardViews !=''">
+		TIP_BOARD_VIEWS = #{tipBoardViews},
+		</if>
+		</trim>
+		WHERE TIP_BOARD_NO = #{tipBoardNo}
+	</update>
+	
 	<resultMap type="TipVO" id="TipCollectionMap">
 		<id column="TIP_BOARD_NO" property="tipBoardNo"/>
 		<result column="USER_EMAIL" property="userEmail"/>
