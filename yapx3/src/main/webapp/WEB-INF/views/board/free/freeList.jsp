@@ -8,6 +8,9 @@
 #makeFree{
 	margin-bottom: -8px;
 }
+tr[freeBoardNo]:hover {
+	cursor: pointer;
+}
 
 .pageBar {
   text-align: center;
@@ -65,7 +68,7 @@ $(()=>{
     </tr>
   </thead>
   <tbody>
-  <c:forEach items="${list }" var="b">
+  <c:forEach items="${list }" var="b" varStatus="vs">
 		<tr freeBoardNo="${b.freeBoardNo }" >
 			<td scope="row">${b.freeBoardLike }</td>
 			<td>

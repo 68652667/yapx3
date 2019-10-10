@@ -77,6 +77,14 @@ div#terms-container{
 	margin-top:auto;
 	margin-bottom:auto;
 }
+
+.yapx3Margin{
+	margin-left:auto; 
+	margin-right:auto;
+}
+.btn-width{
+	width: 100px;
+}
 </style>
 </head>
 <body>
@@ -137,7 +145,7 @@ div#terms-container{
   <div class="modal-dialog modal-center" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myLargeModalLabel">YapX3</h5>
+        <h5 class="modal-title yapx3Margin" id="myLargeModalLabel">YapX3</h5>
 
       </div>
 		<div id="enroll-container">
@@ -147,33 +155,35 @@ div#terms-container{
 					<tr class="pnc">
 						<th>이메일</th>
 						<td>	
-							<div id="memberId-container" class="row">
-								<div class="col-md1">
-									
-									<input type="email" class="form-control" placeholder="abc@xyz.com" name="userEmail" id="email">
-								</div>
-								<div class="col-md2">
-									<button type="button" class="btn btn-sm btn-success" id="emailCheck" >인증키생성</button>
-						        </div>
-						        <div class="col-md3">	
-						        	<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
-						        </div>
-						    </div>
+							<div class="col-md1">
+								
+								<input type="email" class="form-control" placeholder="abc@xyz.com" name="userEmail" id="email">
+							</div>
+							
+						</td>
+						<td>
+							<div class="col-md2">
+								<button type="button" class="btn btn-sm btn-success btn-width" id="emailCheck" >인증키생성</button>
+					        </div>
+					        <div class="col-md3">	
+					        	<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
+					        </div>
 						</td>
 					</tr>
 					
 					<tr class="pnc">
 						<th>인증키확인</th>
 						<td>	
-							<div id="activeKey-container" class="row">
-								<div class="col-md1">
-									
-									<input type="text" class="form-control" name="activeKey" id="activeKey">
-								</div>
-								<div class="col-md1">
-									<button type="button" class="btn btn-sm btn-success" id="activeCheck" >인증</button>
-						        </div>
-						    </div>
+							<div class="col-md1">
+								
+								<input type="text" class="form-control" name="activeKey" id="activeKey">
+							</div>
+						</td>	
+						<td>
+							<div class="col-md1">
+								<button type="button" class="btn btn-sm btn-success btn-width" id="activeCheck" >인증</button>
+					        </div>
+						    
 						</td>
 					</tr>
 					
