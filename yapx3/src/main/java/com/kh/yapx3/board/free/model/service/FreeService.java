@@ -40,4 +40,6 @@ public interface FreeService {
 
 	int selectFreeTotal();
 
+	int selectCommentNumber(int freeBoardNo);
+
 }

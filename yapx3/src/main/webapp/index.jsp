@@ -46,6 +46,10 @@ img {
 	height : 100;
 }
 
+#championLote{
+	cursor: pointer;
+}
+
 </style>
 <body class="w3-theme-l5">
 
@@ -87,8 +91,10 @@ img {
 		<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white">
 		    <button class="w3-bar-item w3-button" onclick="messageClick();" title="" id="messageBtn" >쪽지함</button>
 			<button class="w3-bar-item w3-button" onclick="myPassClick();" title="">비밀번호 변경</button>
-			<!-- <button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button> -->
 			<button class="w3-bar-item w3-button" onclick="myBoardClick();" title="">내글보기</button>
+			<c:if test="${memberLoggedIn.userCode == 0 }">
+				<button class="w3-bar-item w3-button" onclick="memberClick();" title="">회원관리</button>
+			</c:if>
 		</div>
 	</div>
 	<script>
@@ -128,14 +134,6 @@ img {
 	  </a>
   </c:if>
  </div>
-<div class="form-group">
-<input class="form-control" id="exampleInputEmail1" placeholder="소환사 이름을 입력하세요." type="text" name="username"
-  style="position: absolute;
-    width: 190px;
-    height: 30px;
-    text-align: center;
-    margin-left: 80%;">
-</div>
 </div>
 
 <!-- Page Container -->
@@ -211,8 +209,8 @@ function myPassClick() {
 	window.open( "${pageContext.request.contextPath}/user/updatePassword?memberId=${memberLoggedIn.userEmail}", "", popup ).focus();
 }
 
-function bookmarkClick() {
-	alert( "bookmarkClick" );	
+function memberClick() {
+	location.href = "${pageContext.request.contextPath}/user/memberList";
 }
 
 function myBoardClick() {
@@ -230,12 +228,11 @@ function myBoardClick() {
 			dataType : "json",
 			success : function( data ){
 				console.log( data );
-				var chamHmtml = "<img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/";
-				var chamHmtml2 = "";
 
-				for(var i = 0; i < data.length; i++){
-					chamHmtml2 = "' title=" + data[i].substring( 0, data[i].length - 4 ) + ">";
-					var html = chamHmtml + data[i] + chamHmtml2;
+				for(var i = 0; i <data.length; i++){
+					var html = "<a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].ChamNum+"'><img src='https://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].ChamName+"'>'"+"</a>";
+					
+					
 					if( i%5 == 4 ){	
 						html += "<br/>";
 					}

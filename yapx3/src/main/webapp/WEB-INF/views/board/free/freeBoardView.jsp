@@ -8,6 +8,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
+.w3-content{
+	margin-bottom: 25px;
+}
 .header{
 	padding: 24px 16px;
 	display: block;
@@ -32,6 +35,8 @@
 .boardComment{
 	margin: auto;
 	width: 75%;
+}
+#tbl-comment{
 	box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
 }
 .boardContent{
@@ -74,8 +79,32 @@
 	margin-left: 8px;
 	padding-left: 9px;
 }
+.comment{
+	border-left: 1px solid #EBEEF1;
+	margin-left: 8px;
+	padding-left: 9px;
+}
 textarea{
 	resize: none;
+}
+.commentHeader{
+	padding: 16px;
+}
+table#tbl-comment tr td:first-child{
+	width: 585px;
+}
+table#tbl-comment tr td:last-child{
+	width: 115px;
+	text-align: right;
+}
+.commentContent1{
+	padding-left: 15px;
+}
+.commentContent2{
+	padding-left: 35px;
+}
+img{
+	
 }
 </style>
 <script>
@@ -165,9 +194,9 @@ $(document).on("click", ".btn-like", (e)=>{
 		return;
 	}
 	var freeboardNo = $("[name=freeBoardNo]").val();
-	var userNickname = $("[name=userNickname]").val();
+	var userEmail = $("[name=userEmail]").val();
 	$.ajax({
-		url: "freeboardLike?freeboardNo="+freeboardNo+"&userNickname="+userNickname,
+		url: "freeboardLike?freeboardNo="+freeboardNo+"&userEmail="+userEmail,
 		type: "GET",
 		dataType: "json",
 		success: function(data){
@@ -194,6 +223,7 @@ $(document).on("click", ".btn-like", (e)=>{
 		</div>
 		<div class="rightInfo">
 			<span>조회 ${free.freeBoardViews }</span>
+			<span class="comment">댓글 ${commentNumber }</span>
 			<span class="like">추천 ${free.freeBoardLike }</span>
 		</div>
 	</div>
@@ -218,6 +248,10 @@ $(document).on("click", ".btn-like", (e)=>{
 	</div>
 	<br />
 	<div class="boardComment">
+	<div class="commentHeader">
+		<h2 style="font-size: 18px; display: inline;">댓글</h2>
+		<span> ${commentNumber }개</span>
+	</div>
 		<form action="${pageContext.request.contextPath}/free/freeCommentUp.do"
 						name="boardCommentFrm" method="post">
 			<div class="input-group mb-3">
@@ -236,7 +270,7 @@ $(document).on("click", ".btn-like", (e)=>{
 					<c:forEach items="${commentList }" var="c">
 						<c:choose>
 							<c:when test="${c.commentLevel == 1}">
-							<tr class="level1, list-group-item">
+							<tr class="level1 list-group-item">
 								<td>
 									<sub class="comment-writer">
 									<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
@@ -244,7 +278,7 @@ $(document).on("click", ".btn-like", (e)=>{
 									</div>
 									</sub> 
 									<sub class="comment-date">${c.date }</sub><br /><br />
-									${c.commentContent }
+									<span class="commentContent1">${c.commentContent }</span>
 								</td>
 								<td>
 									<button class="btn-reply btn btn-small btn-pink" value="${c.commentNo }">답글</button>
@@ -256,7 +290,7 @@ $(document).on("click", ".btn-like", (e)=>{
 							</c:when>
 							
 							<c:when test="${c.commentLevel == 2}">
-								<tr class="level2, list-group-item">
+								<tr class="level2 list-group-item">
 								<td style="padding-left: 20px">
 									ㄴ<sub class="comment-writer">
 									<div class="w3-button btnSendMsg2" title="쪽지보내기" eId="${c.userEmail }" nId="${c.userNickname }" >
@@ -264,7 +298,7 @@ $(document).on("click", ".btn-like", (e)=>{
 									</div>
 									</sub> 
 									<sub class="comment-date">${c.date}</sub><br /><br />
-									${c.commentContent }
+									<span class="commentContent2">${c.commentContent }</span>
 								</td>
 								<td>
 									<c:if test="${memberLoggedIn.userEmail == c.userEmail }">

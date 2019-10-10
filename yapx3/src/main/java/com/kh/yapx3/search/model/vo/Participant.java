@@ -47,12 +47,20 @@ public class Participant {
 	
 	private List<MyItemBuild> myItemBuild;
 	private List<MySkillBuild> mySkillBuild;
+	private String championIdNum;
+	
+	private String championKO;
+	private String chamQ;
+	private String chamW;
+	private String chamE;
+	private String chamR;
 	
 	
 	
 	
 	public Participant() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 
@@ -65,7 +73,8 @@ public class Participant {
 			String summonerName, String summonerId, String currentAccountId, String matchHistoryUri, String champLevel,
 			String perkPrimaryStyle, String perkSubStyle, String perk0, String perk1, String perk2, String perk3,
 			String perk4, String perk5, String statPerk0, String statPerk1, String statPerk2,
-			List<MyItemBuild> myItemBuild, List<MySkillBuild> mySkillBuild) {
+			List<MyItemBuild> myItemBuild, List<MySkillBuild> mySkillBuild, String championIdNum, String championKO,
+			String chamQ, String chamW, String chamE, String chamR) {
 		super();
 		this.participantId = participantId;
 		this.teamId = teamId;
@@ -106,6 +115,12 @@ public class Participant {
 		this.statPerk2 = statPerk2;
 		this.myItemBuild = myItemBuild;
 		this.mySkillBuild = mySkillBuild;
+		this.championIdNum = championIdNum;
+		this.championKO = championKO;
+		this.chamQ = chamQ;
+		this.chamW = chamW;
+		this.chamE = chamE;
+		this.chamR = chamR;
 	}
 
 
@@ -657,6 +672,90 @@ public class Participant {
 
 
 
+	public String getChampionIdNum() {
+		return championIdNum;
+	}
+
+
+
+
+	public void setChampionIdNum(String championIdNum) {
+		this.championIdNum = championIdNum;
+	}
+
+
+
+
+	public String getChampionKO() {
+		return championKO;
+	}
+
+
+
+
+	public void setChampionKO(String championKO) {
+		this.championKO = championKO;
+	}
+
+
+
+
+	public String getChamQ() {
+		return chamQ;
+	}
+
+
+
+
+	public void setChamQ(String chamQ) {
+		this.chamQ = chamQ;
+	}
+
+
+
+
+	public String getChamW() {
+		return chamW;
+	}
+
+
+
+
+	public void setChamW(String chamW) {
+		this.chamW = chamW;
+	}
+
+
+
+
+	public String getChamE() {
+		return chamE;
+	}
+
+
+
+
+	public void setChamE(String chamE) {
+		this.chamE = chamE;
+	}
+
+
+
+
+	public String getChamR() {
+		return chamR;
+	}
+
+
+
+
+	public void setChamR(String chamR) {
+		this.chamR = chamR;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		return "Participant [participantId=" + participantId + ", teamId=" + teamId + ", championId=" + championId
@@ -670,8 +769,13 @@ public class Participant {
 				+ ", perkPrimaryStyle=" + perkPrimaryStyle + ", perkSubStyle=" + perkSubStyle + ", perk0=" + perk0
 				+ ", perk1=" + perk1 + ", perk2=" + perk2 + ", perk3=" + perk3 + ", perk4=" + perk4 + ", perk5=" + perk5
 				+ ", statPerk0=" + statPerk0 + ", statPerk1=" + statPerk1 + ", statPerk2=" + statPerk2
-				+ ", myItemBuild=" + myItemBuild + ", mySkillBuild=" + mySkillBuild + "]";
+				+ ", myItemBuild=" + myItemBuild + ", mySkillBuild=" + mySkillBuild + ", championIdNum=" + championIdNum
+				+ ", championKO=" + championKO + ", chamQ=" + chamQ + ", chamW=" + chamW + ", chamE=" + chamE
+				+ ", chamR=" + chamR + "]";
 	}
+	
+	
+	
 	
 	
 	

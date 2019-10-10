@@ -1,5 +1,7 @@
 package com.kh.yapx3.user.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +27,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateMember(Member member) {
 		return mDao.updateMember( member );
+	}
+
+	@Override
+	public List<Member> selectMemberList(int cPage) {
+		return mDao.selectMemberList( cPage );
+	}
+
+	@Override
+	public int selectMemberTotal() {
+		return mDao.selectMemberTotal();
 	}
 }

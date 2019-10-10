@@ -24,6 +24,10 @@
 
 <style>
 
+	a{
+	cursor: pointer;
+	}
+
 	ul{
 	list-style: none;
 	}
@@ -47,6 +51,7 @@
 	}
 	#WinloseText{
 	margin: 20px;
+	font-size: 18px;
 	}
 	
 	
@@ -214,10 +219,12 @@
 	
 	#SummonerViewBtn{
 	    margin-left: 30%;
+	    border: 1px solid gray;
 	}
 	
 	#InGameBtn{
 		margin-left: 150px;
+		border: 1px solid gray;
 	}
 
 /* 소환사 상세정보 페이지	 */
@@ -273,6 +280,17 @@ overflow: hidden;
 #TierView{
 
 
+}
+
+#Death{
+	color: red;
+}
+.GameList{
+    text-align: center;
+	font-size: 17px;
+}
+#Top3{
+	font-size: 17px;
 }
 
 
@@ -815,23 +833,23 @@ margin: 0 8px;
 						html ="<div class='GameContainer"+myteam.win+"'>"+"<table style='border: none;'><tr>";
 						
 						if(myteam.win == 'Win'){
-						html += "<td style='padding: 25px;'><table style='border: none;'><div>"+gameType+"</div><br /><div style='color:blue;'>"+(myteam.win == 'Win' ? '승리' : '패배')+"</div><br /><div>"+gamemin+"분"+gamesec+"초</div></td></table>";
+						html += "<td style='padding: 20px;'><table style='border: none;'><div>"+gameType+"</div><br /><div style='color:blue;'>"+(myteam.win == 'Win' ? '승리' : '패배')+"</div><br /><div>"+gamemin+"분"+gamesec+"초</div></td></table>";
 							
 						}
 						else{
-							html += "<td style='padding: 25px;'><table style='border: none;'><div>"+gameType+"</div><br /><div style='color:red;'>"+(myteam.win == 'Win' ? '승리' : '패배')+"</div><br /><div>"+gamemin+"분"+gamesec+"초</div></td></table>";
+							html += "<td style='padding: 20px;'><table style='border: none;'><div>"+gameType+"</div><br /><div style='color:red;'>"+(myteam.win == 'Win' ? '승리' : '패배')+"</div><br /><div>"+gamemin+"분"+gamesec+"초</div></td></table>";
 							
 						}
-						html += "<td style='padding-right: 13px;'><img class='chap' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+me.championId+".png'/></td>";
-						html += "<td style='padding-right: 13px;'><table style='border: none;'><tr><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+me.spell1Id+".png'/></tr>";
+						html += "<td style='padding-right: 11px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+me.championIdNum+"'><img class='chap' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+me.championId+".png'/></a><div class='championKO'>"+me.championKO+"</div></td>";
+						html += "<td style='padding-right: 11px;'><table style='border: none;'><tr><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+me.spell1Id+".png'/></tr>";
 						html += "<tr><img class='spell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+me.spell2Id+".png'/></tr>";
 						html += "<tr><img class='spell' src='//opgg-static.akamaized.net/images/lol/perk/"+me.perk0+".png'/></tr>";
 						html += "<tr><img class='spell' src='//opgg-static.akamaized.net/images/lol/perkStyle/"+me.perkSubStyle+".png'/></tr>";
 						
 						html +="</table></td>";
-						html += "<td style='padding-right: 13px;'>"+me.kills+" / "+me.deaths+" / "+me.assists+"</br>("+((Number(me.kills) + Number(me.assists)) / Number(me.deaths)).toFixed(1)+")</td>";
-						html += "<td style='padding-right: 13px;'>"+me.champLevel+"레벨</td>";
-						html += "<td style='padding-right: 13px;'><table style='border: none;'>";
+						html += "<td style='padding-right: 11px;'>"+me.kills+" / "+me.deaths+" / "+me.assists+"</br>("+((Number(me.kills) + Number(me.assists)) / Number(me.deaths)).toFixed(1)+")</td>";
+						html += "<td style='padding-right: 11px;'>"+me.champLevel+"레벨</td>";
+						html += "<td style='padding-right: 11px;'><table style='border: none;'>";
 						html += "<tr>"+(me.item0 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item0+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item1 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item1+".png'/>")+"</tr>";
 						html += "<tr>"+(me.item2 == 0 ? "" : "<img class='item' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/item/"+me.item2+".png'/>")+"</tr><br />";
@@ -870,7 +888,7 @@ margin: 0 8px;
 						else{
 						html +="<tr style='background-color: white; border-color: white;'>";	
 						}
-						html += "<td style='padding-left:25px;'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></td>";
+						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a></td>";
 						html += "<td><table style='border: none;'><tr>";
 						html += "<img class='minispell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[i].participants<%=i%>.spell1Id+".png'/>";
 						html += "</tr><tr>";
@@ -939,7 +957,7 @@ margin: 0 8px;
 						else{
 							html +="<tr style='background-color: white; border-color:white;'>";	
 						}
-						html += "<td style='padding-left:25px;'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></td>";
+						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a></td>";
 						html += "<td><table style='border: none;'><tr>";
 						html += "<img class='minispell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[i].participants<%=i%>.spell1Id+".png'/>";
 						html += "</tr><tr>";
