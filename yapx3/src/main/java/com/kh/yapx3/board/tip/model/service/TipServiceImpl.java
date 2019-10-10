@@ -73,4 +73,34 @@ public class TipServiceImpl implements TipService {
 		return tipDAO.selectTipTotal();
 	}
 
+	@Override
+	public int selectCommentNumber(int tipBoardNo) {
+		return tipDAO.selectCommentNumber(tipBoardNo);
+	}
+
+	@Override
+	public String likeUserList(String tipboardNo) {
+		return tipDAO.likeUserList(tipboardNo);
+	}
+
+	@Override
+	public void likeincrease(String userEmail, String tipboardNo) {
+		tipDAO.likeincrease(userEmail, tipboardNo);
+	}
+
+	@Override
+	public void likeincrease2(String likeUserList, String tipboardNo) {
+		tipDAO.likeincrease2(likeUserList, tipboardNo);
+	}
+
+	@Override
+	public void deleteLike(String likeUserList, String tipboardNo) {
+		tipDAO.deleteLike(likeUserList, tipboardNo);
+	}
+
+	@Override
+	public int likeValue(String tipboardNo) {
+		return tipDAO.likeValue(tipboardNo);
+	}
+
 }

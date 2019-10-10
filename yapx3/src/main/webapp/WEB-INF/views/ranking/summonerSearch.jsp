@@ -222,7 +222,7 @@ table tr:not(:first-child):hover{
 			}, 500);
 		}
 		$("tr:not(:first-child)").hover(function(e){
-			$(e.target).parent("tr").css("background-color", "rgba(0,123,255,.25)");
+			$(e.target).parent("tr").css("background-color", "#D8ECEA");
 		}, function(e){
 			$("td:contains("+equalsName+")").parent().css("background-color", "#738e9c");
 			$(e.target).parent("tr").css("background-color", "");

@@ -163,7 +163,7 @@ $(()=>{
 		history.go(-1);
 	}
 	$("tr:not(:first-child)").hover(function(e){
-		$(e.target).parent("tr").css("background-color", "rgba(0,123,255,.25)");
+		$(e.target).parent("tr").css("background-color", "#D8ECEA");
 	}, function(e){
 		$(e.target).parent("tr").css("background-color", "");
 	});

@@ -30,7 +30,7 @@ public interface FreeService {
 
 	String likeUserList(String freeboardNo);
 
-	void likeincrease(String userNickname, String freeboardNo);
+	void likeincrease(String userEmail, String freeboardNo);
 
 	void likeincrease2(String likeUserList, String freeboardNo);
 

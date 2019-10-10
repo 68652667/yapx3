@@ -78,9 +78,9 @@ public class FreeDAOImpl implements FreeDAO {
 	}
 
 	@Override
-	public void likeincrease(String userNickname, String freeboardNo) {
+	public void likeincrease(String userEmail, String freeboardNo) {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("userNickname", userNickname);
+		map.put("userEmail", userEmail);
 		map.put("freeboardNo", freeboardNo);
 		sqlSession.update("free.likeincrease", map);
 	}

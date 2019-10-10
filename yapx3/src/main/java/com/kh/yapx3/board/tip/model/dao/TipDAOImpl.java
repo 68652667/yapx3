@@ -1,6 +1,8 @@
 package com.kh.yapx3.board.tip.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -72,6 +74,45 @@ public class TipDAOImpl implements TipDAO {
 	@Override
 	public int selectTipTotal() {
 		return sqlSession.selectOne("tip.selectTipTotal");
+	}
+
+	@Override
+	public int selectCommentNumber(int tipBoardNo) {
+		return sqlSession.selectOne("tip.selectCommentNumber", tipBoardNo);
+	}
+
+	@Override
+	public String likeUserList(String tipboardNo) {
+		return sqlSession.selectOne("tip.likeUserList", tipboardNo);
+	}
+
+	@Override
+	public void likeincrease(String userEmail, String tipboardNo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userEmail", userEmail);
+		map.put("tipboardNo", tipboardNo);
+		sqlSession.update("tip.likeincrease", map);
+	}
+
+	@Override
+	public void likeincrease2(String likeUserList, String tipboardNo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("likeUserList", likeUserList);
+		map.put("tipboardNo", tipboardNo);
+		sqlSession.update("tip.likeincrease2", map);
+	}
+
+	@Override
+	public void deleteLike(String likeUserList, String tipboardNo) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("likeUserList", likeUserList);
+		map.put("tipboardNo", tipboardNo);
+		sqlSession.update("tip.deleteList", map);
+	}
+
+	@Override
+	public int likeValue(String tipboardNo) {
+		return sqlSession.selectOne("tip.likeValue", tipboardNo);
 	}
 	
 }

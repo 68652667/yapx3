@@ -94,4 +94,41 @@
 	<delete id="tipCommentDel">
 		delete from t_b_c where COMMENT_NO = #{commentNo}
 	</delete>
+	
+	<select id="selectCommentNumber" resultType="int">
+		select count(*)
+		from t_b_c
+		where tip_board_no = #{tipBoardNo}
+	</select>
+	
+	<select id="likeUserList" resultType="String">
+		select tip_board_likelist
+		from t_b
+		where tip_board_no = #{tipboardNo}
+	</select>
+	
+	<update id="likeincrease" parameterType="map">
+		update t_b
+		set tip_board_like = tip_board_like + 1, tip_board_likelist = #{userEmail}
+		where tip_board_no = #{tipboardNo}
+	</update>
+	
+	<update id="likeincrease2" parameterType="map">
+		update t_b
+		set tip_board_like = tip_board_like + 1, tip_board_likelist = #{likeUserList}
+		where tip_board_no = #{tipboardNo}
+	</update>
+	
+	<update id="deleteList" parameterType="map">
+		update t_b
+		set tip_board_like = tip_board_like - 1, tip_board_likelist = #{likeUserList}
+		where tip_board_no = #{tipboardNo}
+	</update>
+	
+	<select id="likeValue" resultType="int">
+		select tip_board_like
+		from t_b
+		where tip_board_no = #{tipboardNo}
+	</select>
+	
 </mapper>

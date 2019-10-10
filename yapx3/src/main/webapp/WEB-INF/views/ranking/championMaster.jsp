@@ -1904,7 +1904,7 @@ $(".searchInput").keyup(e=>{
 });
 $(document).on({
     mouseenter: function (e) {
-        $(this).css("background-color", "rgba(0,123,255,.25)");
+        $(this).css("background-color", "#D8ECEA");
     },
     mouseleave: function (e) {
         $(this).css("background-color", "");

@@ -30,4 +30,16 @@ public interface TipService {
 
 	int selectTipTotal();
 
+	int selectCommentNumber(int tipBoardNo);
+
+	String likeUserList(String tipboardNo);
+
+	void likeincrease(String userEmail, String tipboardNo);
+
+	void likeincrease2(String likeUserList, String tipboardNo);
+
+	void deleteLike(String likeUserList, String tipboardNo);
+
+	int likeValue(String tipboardNo);
+
 }

@@ -3,14 +3,18 @@ package com.kh.yapx3.board.tip.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.kh.yapx3.board.tip.model.service.TipService;
 import com.kh.yapx3.board.tip.model.vo.ChampSkills;
 import com.kh.yapx3.board.tip.model.vo.Tip;
@@ -105,9 +111,11 @@ public class TipController {
 		
 		List<TipComment> commentList = null;
 		commentList = tipService.selectCommentList(tipBoardNo);
+		int commentNumber = tipService.selectCommentNumber(tipBoardNo);
 		
 		mav.addObject("tip", tip);
 		mav.addObject("commentList", commentList);
+		mav.addObject("commentNumber", commentNumber);
 		
 		return mav;
 	}
@@ -210,6 +218,50 @@ public class TipController {
 		int result = tipService.tipCommentDel(commentNo);
 		mav.setViewName("redirect:/tip/tipBoardView.do?tipBoardNo="+tipBoardNo);
 		return mav;
+	}
+	
+	@RequestMapping("/tipboardLike")
+	public void tipboardLike(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Integer> likeValue = new HashMap<String, Integer>();
+		String tipboardNo = request.getParameter("tipboardNo");
+		String userEmail = request.getParameter("userEmail");
+		
+		String likeUserList = tipService.likeUserList(tipboardNo);
+		if(likeUserList==null) {
+			tipService.likeincrease(userEmail, tipboardNo);
+		}
+		else if(!likeUserList.contains(userEmail)) {
+			likeUserList += ", "+userEmail;
+			tipService.likeincrease2(likeUserList, tipboardNo);
+		}
+		else {
+			if(userEmail.equals(likeUserList)) {
+				likeUserList = null;
+			}
+			else {
+				if(likeUserList.contains(", "+userEmail)) {
+					likeUserList.replaceAll(", "+userEmail, "");
+				}
+				else {
+					likeUserList.replaceAll(userEmail, "");
+				}
+			}
+			tipService.deleteLike(likeUserList, tipboardNo);
+		}
+		int like = tipService.likeValue(tipboardNo);
+		
+		likeValue.put("like", like);
+		
+		response.setCharacterEncoding("utf-8");
+		try {
+			new Gson().toJson(likeValue, response.getWriter());
+		} catch (JsonIOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

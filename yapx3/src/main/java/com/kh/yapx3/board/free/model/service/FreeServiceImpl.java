@@ -75,8 +75,8 @@ public class FreeServiceImpl implements FreeService {
 	}
 
 	@Override
-	public void likeincrease(String userNickname, String freeboardNo) {
-		freeDAO.likeincrease(userNickname, freeboardNo);
+	public void likeincrease(String userEmail, String freeboardNo) {
+		freeDAO.likeincrease(userEmail, freeboardNo);
 	}
 
 	@Override

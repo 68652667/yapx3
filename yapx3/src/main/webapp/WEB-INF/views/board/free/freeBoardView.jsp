@@ -103,9 +103,6 @@ table#tbl-comment tr td:last-child{
 .commentContent2{
 	padding-left: 35px;
 }
-img{
-	
-}
 </style>
 <script>
 var num = 0;
