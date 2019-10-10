@@ -11,6 +11,8 @@
 }
 .championPerkPage img, .championSubPerkPage img{
 	width: 35px;
+	margin-top: 10px;
+	margin-left: 10px;
 }
 .perkRow{
 	text-align: -webkit-center;
@@ -20,6 +22,8 @@
 }
 .subPerkPage img{
 	width: 25px;
+	margin-top:20px;
+	margin-left: 10px;
 }
 .championPerkDiv{
 	text-align: center;
@@ -33,6 +37,7 @@
 	<thead>
       <tr>
       	<th colspan="3"><h2>룬</h2></th>
+      	<th><h2>픽률</h2></th>
       </tr>
     </thead>
 	<c:forEach items="${championPerkList}" var="perk">
@@ -964,8 +969,13 @@
 							</div>
 						</div>
 					</div>
-			</td>
-		</tr>
+				</td>
+				<td style="text-align:center; font-size:20px; padding-top: 100px;">
+					<div class="perkPickDiv">
+						<div class="perkPickScore"> ${perk.championRunePercenter } </div>
+					</div>
+				</td>
+			</tr>
 		<hr />
 	</c:forEach>
 </table>

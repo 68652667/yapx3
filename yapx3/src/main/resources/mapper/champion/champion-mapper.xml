@@ -5,7 +5,7 @@
 <mapper namespace="champion">
 	<insert id="championTipInsert" parameterType="com.kh.yapx3.champion.model.vo.ChampionTipBoardVO" >
 		insert into champion_tip(champtip_no, champion_no, user_email, user_nickname, champtip_content, champtip_date, champtip_like, champtip_likelist)
-		values(champion_tip_seq.nextval, #{championNo}, #{userNickName}||'.naver.com', #{userNickName}, #{champTipContent}, default, default, default )
+		values(champion_tip_seq.nextval, #{championNo}, #{userEmail}, #{userNickName}, #{champTipContent}, default, default, default )
 	</insert>
 	<select id="championTipList" resultMap = "tipVO">
 		select * from champion_tip where champion_no = ${value}

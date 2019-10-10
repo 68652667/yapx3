@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -56,6 +57,9 @@ public class ChampionInfoController{
 	private int championKey;
 	@Autowired
 	ChampionInfoServiceImpl championInfoService;
+	
+	@Autowired
+	ServletContext servletContext;
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -130,11 +134,13 @@ public class ChampionInfoController{
 	public ModelAndView championTipMethod(HttpServletRequest request, HttpServletResponse response) {
 		String tipWriter = request.getParameter("tipWriter");
 		String content = request.getParameter("content");
+		String email = request.getParameter("email");
 		
 		ChampionTipBoardVO tipBoard = new ChampionTipBoardVO();
 		tipBoard.setChampionNo(championKey);
 		tipBoard.setUserNickName(tipWriter);
 		tipBoard.setChampTipContent(content);
+		tipBoard.setUserEmail(email);
 		
 		int result = championInfoService.championTipInsert(tipBoard);
 		ModelAndView mav = new ModelAndView();
@@ -152,7 +158,7 @@ public class ChampionInfoController{
 		List<ChampionKoN> list = new ArrayList<ChampionKoN>();
         try {
         	list = championInfoService.championAll();
-        	try(FileReader reader = new FileReader("/Users/anchangho/git/yapx3/yapx3/json파일/championLane.json");
+        	try(FileReader reader = new FileReader(servletContext.getRealPath("/resources/json/championLane.json"));
     				BufferedReader br = new BufferedReader(reader);){
     			list = championInfoService.championAll();
     			Map<String, String> championLane = new HashMap<String, String>();
