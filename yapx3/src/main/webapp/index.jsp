@@ -128,6 +128,14 @@ img {
 	  </a>
   </c:if>
  </div>
+<div class="form-group">
+<input class="form-control" id="exampleInputEmail1" placeholder="소환사 이름을 입력하세요." type="text" name="username"
+  style="position: absolute;
+    width: 190px;
+    height: 30px;
+    text-align: center;
+    margin-left: 80%;">
+</div>
 </div>
 
 <!-- Page Container -->
@@ -139,26 +147,16 @@ img {
 					<h1>League Of Legends</h1>
 					<p>전적 검색</p>
 					<br>
-					<form role="form">
 						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">소환사 이름</label> 
 							<input class="form-control" id="exampleInputEmail1"
 								   placeholder="소환사 이름을 입력하세요." 
 								   type="text" name="username"
-								   style="width : 500px; text-align : center; margin-left: 100px;">
+								   style="width : 500px; text-align : center; margin-left: 200px;">
 						</div>
-						<button type="button" class="btn btn-default">Search</button>
-						<table id="summonerStatus" style="text-align: center; margin-left: 100px;"></table>
-						<table id="summonerRank" style="text-align: center; margin-left: 100px; margin-top : 10px;"></table>
-					</form>
 					<br> <br>
 					<form role="form">
-						<button id="spectatorBoolean" style="display: none;">인게임정보</button>
-					</form>
-					<br /><br />
-					<form role="form">
-						<div class="form-group">
-							<label class="control-label" for="exampleInputEmail1">금주의 로테이션</label> 
+						<div class="form-group" style="margin-left: 49px;">
+							<label class="control-label" for="exampleInputEmail1" style="margin-bottom: 28px; margin-right: 51px; font-size: 25px;">금주의 로테이션</label> 
 							<table id="championLote" style="text-align: center; margin-left: 100px; margin-top : 10px;">
 								
 							</table>
@@ -251,12 +249,20 @@ function myBoardClick() {
 		
 		
 		
-		$(".btn").on("click", function(){
-			$("#summonerRank").html("");
-			$("#spectatorBoolean").attr("style","display: none;");
-			var summonerName = $(".form-control").val();
+		
+		
+		$("#exampleInputEmail1").on("keypress", function(e){
 			
+			console.log(e.keyCode);
+			
+			if(e.keyCode == '13'){
+			
+			$("#summonerRank").html("");
+			
+			var summonerName = $(".form-control").val();
 			location.href = "${pageContext.request.contextPath}/summoner/summonerView?Name=" + summonerName;
+			
+			}
 			
 		});
 		

@@ -154,37 +154,4 @@ public class SummonerController {
 		
 	}
 	
-	@GetMapping("/spectator")
-	public void spectator (HttpServletRequest request,
-						  HttpServletResponse response) {
-		
-		String key = "RGAPI-b0f1c9f8-bc6b-48c9-bd2d-e303c45548ff";
-		String summonerId = request.getParameter("summonerId");
-		String urlStr = "https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/"+summonerId+"?api_key="+ApiKey;
-		
-		try {
-			
-			URL url = new URL(urlStr);
-			
-			BufferedReader br = new BufferedReader
-					( new InputStreamReader( url.openConnection().getInputStream() ) );
-			
-			String sb = br.readLine();
-			
-			JSONObject jobj = new JSONObject( sb.toString() );
-			
-			response.setCharacterEncoding("utf-8");
-			response.getWriter().append(jobj.toString());
-			
-			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
 }
