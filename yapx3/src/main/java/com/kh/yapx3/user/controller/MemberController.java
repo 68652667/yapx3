@@ -29,7 +29,9 @@ import com.kh.yapx3.user.model.vo.Member;
 @Controller
 @SessionAttributes( { "memberLoggedIn" } )
 public class MemberController {
-
+	final int NUM_PER_PAGE = 10;
+	final int pageBarSize = 10;
+	
 	@Autowired
 	MemberService ms;
 	
@@ -80,8 +82,14 @@ public class MemberController {
 		
 		
 		//2.view단처리
-		m.addAttribute( "msg", result>0?"비밀번호 신규발급 성공!":"비밀번호 신규발급 실패!" );
-		m.addAttribute( "loc", "/" );
+		if( result == 1 ) {
+			m.addAttribute( "msg", "비밀번호 신규발급 성공!" );
+		}else if( result == -2147482646 ) {
+			m.addAttribute( "msg", "비밀번호 신규발급 성공!" );
+		}else {
+			m.addAttribute( "msg", "비밀번호 신규발급 실패!" );
+		}
+		m.addAttribute( "loc", "/user/findPW.do" );
 		return "common/msg";
 	}
 	
@@ -220,7 +228,11 @@ public class MemberController {
 				result = ms.updateMember( member );
 			}else {
 				if( serchMember.getUserPassword().length() == 30 ) {
-					result = -10;
+					if( serchMember.getUserYn() == "Y" ) {
+						result = -10;
+					}else {
+						result = ms.updateMember( member );
+					}
 				}else {
 					result = ms.updateMember( member );
 				}
@@ -265,9 +277,14 @@ public class MemberController {
 			int result = ms.updateMember( member );
 			
 			if( result == 1 ) {
+				
 				msg = "비밀번호가 변경되었습니다.";
 			}else {
-				msg = "비밀번호변경중 오류가 발생했습니다.";
+				if( result == -2147482646 ) {
+					msg = "비밀번호가 변경되었습니다.";
+				}else {
+					msg = "비밀번호변경중 오류가 발생했습니다.";
+				}
 			}
 		}
 		//1-3.비밀번호가 틀린 경우
@@ -324,5 +341,71 @@ public class MemberController {
 		m.addAttribute( "tList", tList);
 		
 		return "user/myBoardList";
+	}
+	
+	@RequestMapping( "/memberList" )
+	public String memberList( Model m,
+			 				  @RequestParam(value="cPage", defaultValue="1", required=false) int cPage) {
+		
+		List<Member> list = ms.selectMemberList(cPage);
+		
+		int totalBoard = ms.selectMemberTotal();
+		
+		int totalPage = (int) Math.ceil((double)totalBoard/NUM_PER_PAGE);
+		String pageBar = "";
+		int pageStart = ((cPage-1)/pageBarSize)*pageBarSize+1;
+		int pageEnd = pageStart+pageBarSize-1;
+		int pageNo = pageStart;
+		//a.[이전]
+		if(pageNo==1) {
+//			pageBar += "<span>&laquo;</span>";
+			pageBar += "<a href='#' class='none'>&laquo;</a>"; 
+		}
+		else {
+			pageBar += "<a href='/yapx3/user/memberList?cPage="+(pageNo-1)+"'>&laquo;</a>"; 
+		}
+		
+		//b.page
+		while(pageNo<=pageEnd && pageNo<=totalPage) {
+			//현재 페이지인 경우. 링크필요없음
+			if(pageNo == cPage) {
+//				pageBar += "<span class='active'>"+pageNo+"</span>";
+				pageBar += "<a href='/yapx3/user/memberList?cPage="+pageNo+"' class='active'>"+pageNo+"</a>"; 
+			}
+			else {
+				pageBar += "<a href='/yapx3/user/memberList?cPage="+pageNo+"'>"+pageNo+"</a>"; 
+			}
+			pageNo++;
+		}
+		
+		//c.[다음]
+		if(pageNo>totalPage) {
+			pageBar += "<a href='#' class='none'>&raquo;</a>";
+		}
+		else {
+			pageBar += "<a href='/yapx3/user/memberList?cPage="+pageNo+"'>&raquo;</a>"; 
+		}
+		
+		m.addAttribute("list", list);
+		m.addAttribute("pageBar", pageBar);
+		
+		return "user/memberList";
+	}
+	
+	@RequestMapping( "/memberDelete" )
+	public String memberDelete( Model m,
+			                  String memberId ) {
+		
+		Member serchMember = ms.selectOneMember( memberId );
+		
+		serchMember.setUserYn( "N" );
+		int result = ms.updateMember( serchMember );
+		
+		//2. view단 처리
+		m.addAttribute( "msg", result == 0 ? "회원삭제에 실패했습니다.":"회원삭제에 성공하였습니다." );
+		m.addAttribute( "loc", "/user/memberList" );
+
+		
+		return "common/msg";
 	}
 }

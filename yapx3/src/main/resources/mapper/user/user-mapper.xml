@@ -6,6 +6,19 @@
 	<select id="selectOneMember" resultType="user" >
 		select * from YAP_USER
 		where USER_EMAIL = #{memberId}
+		and user_yn = 'Y'
+	</select>
+	
+	<select id="selectMemberList" resultType="user">
+		select *
+		from YAP_USER
+		where user_yn = 'Y'
+		order by user_enrolldate
+	</select>
+	
+	<select id="selectMemberTotal" resultType="int">
+		select count( * ) from YAP_USER
+		where user_yn = 'Y'
 	</select>
 	
 	<insert id="insertMember" >
@@ -18,7 +31,8 @@
 		  #{userPassword},
 		  sysdate,
 		  null,
-		  null )
+		  null,
+		  'Y' )
 	</insert>
 	
 	<update id="updateMember">
@@ -32,6 +46,9 @@
 		</if>
 		<if test="userPassword != null and userPassword !=''">
 		USER_PASSWORD = #{userPassword},
+		</if>
+		<if test="userYn != null and userYn !=''">
+		user_yn = #{userYn},
 		</if>
 		</trim>
 		WHERE USER_EMAIL = #{userEmail}

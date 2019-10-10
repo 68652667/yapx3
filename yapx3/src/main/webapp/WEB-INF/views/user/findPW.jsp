@@ -10,26 +10,34 @@
 <meta charset="UTF-8">
 <title>reset password</title>
 
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
-<!-- 부트스트랩관련 라이브러리 -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <style>
 
-/*중복아이디체크관련*/
-div#memberId-container{position:relative; padding:0px;}
-div#memberId-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-div#memberId-container span.ok{color:green;}
-div#memberId-container span.error{color:red;}
+
+.yapx3Margin{
+	margin-left:auto;
+	margin-right:auto;
+}
+
 </style>
+
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.4.1.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </head>
-<body>
-<div id="findPW-container">
+<body class="w3-theme-l5">
+<div id="container" class="w3-top w3-center w3-display-position" >
 	<form name="findPWFrm" action="${pageContext.request.contextPath}/user/findPWEnd.do" method="post" onsubmit="return validate();" >
-		<table>
+		<table class="table">
 			<tr>
-				<th></th>
-				<td>새로운 password가 이메일로 보내집니다.</td>
+				<td colspan="2">새로운 password가 이메일로 보내집니다.</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
@@ -45,8 +53,13 @@ div#memberId-container span.error{color:red;}
 				    </div>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" class="btn btn-sm btn-success" value="RESET" >
+					<input type="button" class="btn btn-sm btn-success" onclick="self.close();" value="닫기" />	
+				</td>
+			</tr>
 		</table>
-		<input type="submit" value="RESET" >
 	</form>
 </div>
 
@@ -84,7 +97,7 @@ $(()=>{
 
 function validate(){
 	var memberId = $("#email");
-	if( $( "#idDuplicateCheck" ).val().length < 4 ) {
+	if( memberId.val().length < 4 ) {
 		alert("아이디를 입력하세요.");
 		memberId.focus();
 		return false;

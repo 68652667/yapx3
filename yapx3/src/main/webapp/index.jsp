@@ -87,8 +87,10 @@ img {
 		<div class="w3-dropdown-content w3-card-4 w3-bar-block w3-white">
 		    <button class="w3-bar-item w3-button" onclick="messageClick();" title="" id="messageBtn" >쪽지함</button>
 			<button class="w3-bar-item w3-button" onclick="myPassClick();" title="">비밀번호 변경</button>
-			<!-- <button class="w3-bar-item w3-button" onclick="bookmarkClick();" title="">즐겨찾기</button> -->
 			<button class="w3-bar-item w3-button" onclick="myBoardClick();" title="">내글보기</button>
+			<c:if test="${memberLoggedIn.userCode == 0 }">
+				<button class="w3-bar-item w3-button" onclick="memberClick();" title="">회원관리</button>
+			</c:if>
 		</div>
 	</div>
 	<script>
@@ -211,8 +213,8 @@ function myPassClick() {
 	window.open( "${pageContext.request.contextPath}/user/updatePassword?memberId=${memberLoggedIn.userEmail}", "", popup ).focus();
 }
 
-function bookmarkClick() {
-	alert( "bookmarkClick" );	
+function memberClick() {
+	location.href = "${pageContext.request.contextPath}/user/memberList";
 }
 
 function myBoardClick() {

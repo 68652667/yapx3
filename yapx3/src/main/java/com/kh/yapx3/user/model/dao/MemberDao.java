@@ -1,5 +1,7 @@
 package com.kh.yapx3.user.model.dao;
 
+import java.util.List;
+
 import com.kh.yapx3.user.model.vo.Member;
 
 public interface MemberDao {
@@ -9,5 +11,9 @@ public interface MemberDao {
 	int insertMember(Member member);
 
 	int updateMember(Member member);
+
+	List<Member> selectMemberList(int cPage);
+
+	int selectMemberTotal();
 
 }

@@ -25,9 +25,9 @@
 
 div#login-container{
 	position:relative; 
-	padding:20px 30px;
+	padding:20px 40px;
 	
-	width:300px; 
+	width:340px; 
 	height:300px;
 	top:234px;
 	margin-left:auto; 
@@ -86,7 +86,7 @@ div#login-container{
 			<tr>
 				<td>
 				<input name="remember_me" type="checkbox" id="reme" >Remember Me</input>
-				<a href="${pageContext.request.contextPath}/user/findPW.do">Forget Password</a>
+				<a onclick="window.open( this.href, 'reset password', 'width=470, height=170' ); return false;" href="${pageContext.request.contextPath}/user/findPW.do">Forget Password</a>
 				
 				</td>
 			</tr>
