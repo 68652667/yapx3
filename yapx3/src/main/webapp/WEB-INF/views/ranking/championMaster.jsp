@@ -1851,7 +1851,7 @@ $(document).on("click", ".champion", function(e){
 							} else{
 								console.log(res.statusText);
 							}
-						}).catch(err=>console.error(err));
+						}).catch(err=>alert("잠시후 다시 시도해주세요!"));
 					},
 					onHidden(instance){
 						$(".w3-content").css("min-height", "748px");

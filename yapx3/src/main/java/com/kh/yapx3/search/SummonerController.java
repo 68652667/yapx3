@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
+import com.kh.yapx3.search.model.vo.RotationCham;
 
 
 @Controller
@@ -124,7 +125,9 @@ public class SummonerController {
 
 			Iterator num = dataObject.keys();
 			
-			List<String> list = new ArrayList<String>();
+			List<RotationCham> list = new ArrayList<RotationCham>();
+			
+			RotationCham RC = new RotationCham();
 			
 			while( num.hasNext() ) {
 				String dataKey = num.next().toString();
@@ -138,7 +141,10 @@ public class SummonerController {
 				for( int i = 0; i < jar.length(); i++ ) {
 					String chap = jar.get(i).toString();
 					if( championKey.equals( chap ) ) {
-						list.add( img );
+						RC = new RotationCham();
+						RC.setChamName(img);
+						RC.setChamNum(championKey);
+						list.add(RC);
 					}
 				}
 			}
