@@ -905,7 +905,7 @@ margin: 0 8px;
 						else{
 						html +="<tr style='background-color: white; border-color: white;'>";	
 						}
-						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a></td>";
+						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a>"+data[i].participants<%=i%>.championKO+"</td>";
 						html += "<td><table style='border: none;'><tr>";
 						html += "<img class='minispell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[i].participants<%=i%>.spell1Id+".png'/>";
 						html += "</tr><tr>";
@@ -974,7 +974,7 @@ margin: 0 8px;
 						else{
 							html +="<tr style='background-color: white; border-color:white;'>";	
 						}
-						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a></td>";
+						html += "<td style='padding-left:25px;'><a href='${pageContext.request.contextPath}/champion/championInfo?championId="+data[i].participants<%=i%>.championIdNum+"'><img class='moreCham' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].participants<%=i%>.championId+".png'/></a>"+data[i].participants<%=i%>.championKO+"</td>";
 						html += "<td><table style='border: none;'><tr>";
 						html += "<img class='minispell' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/spell/"+data[i].participants<%=i%>.spell1Id+".png'/>";
 						html += "</tr><tr>";
