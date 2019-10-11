@@ -40,11 +40,12 @@ function statWin() {
 		dataType : "json",
 		success : function(data){
 			var html = "<tr><th style='width: 200px;'>챔피언</th><th onclick='statWinB()'>승률</th><th onclick='statPick()'>픽률</th><th onclick='statBan()'>밴률</th></tr>";
+			var numP = 1;
 			for(var i in data){
 				var winRate = data[i].win/data[i].pick*100;
 				var pickRate = data[i].pick/42028*100;
 				var banRate = data[i].ban/27543*100;
-				html += "<tr><td><a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
+				html += "<tr><td>#"+numP+"&nbsp;&nbsp;&nbsp;<a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
 				if(winRate > 50){
 					html += "<td><div class='Progress Blue' style='width: "+winRate+"%'></div> "+winRate.toFixed(2)+"%</td>";
 				} else {
@@ -60,6 +61,7 @@ function statWin() {
 				} else {
 					html += "<td><div class='Progress' style='width: "+banRate+"%'></div> "+banRate.toFixed(2)+"%</td></tr>";
 				}
+				numP = numP + 1;
 			}
 			$("#statTable").html(html);
 		},
@@ -75,11 +77,12 @@ function statWinB() {
 		dataType : "json",
 		success : function(data){
 			var html = "<tr><th style='width: 200px;'>챔피언</th><th onclick='statWin()'>승률</th><th onclick='statPick()'>픽률</th><th onclick='statBan()'>밴률</th></tr>";
+			var numP = 1;
 			for(var i in data){
 				var winRate = data[i].win/data[i].pick*100;
 				var pickRate = data[i].pick/42028*100;
 				var banRate = data[i].ban/27543*100;
-				html += "<tr><td><a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
+				html += "<tr><td>#"+numP+"&nbsp;&nbsp;&nbsp;<a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
 				if(winRate > 50){
 					html += "<td><div class='Progress Blue' style='width: "+winRate+"%'></div> "+winRate.toFixed(2)+"%</td>";
 				} else {
@@ -95,6 +98,7 @@ function statWinB() {
 				} else {
 					html += "<td><div class='Progress' style='width: "+banRate+"%'></div> "+banRate.toFixed(2)+"%</td></tr>";
 				}
+				numP = numP + 1;
 			}
 			$("#statTable").html(html);
 		},
@@ -110,11 +114,12 @@ function statPick() {
 		dataType : "json",
 		success : function(data){
 			var html = "<tr><th style='width: 200px;'>챔피언</th><th onclick='statWin()'>승률</th><th onclick='statPickB()'>픽률</th><th onclick='statBan()'>밴률</th></tr>";
+			var numP = 1;
 			for(var i in data){
 				var winRate = data[i].win/data[i].pick*100;
 				var pickRate = data[i].pick/42028*100;
 				var banRate = data[i].ban/27543*100;
-				html += "<tr><td><a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
+				html += "<tr><td>#"+numP+"&nbsp;&nbsp;&nbsp;<a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
 				if(winRate > 50){
 					html += "<td><div class='Progress Blue' style='width: "+winRate+"%'></div> "+winRate.toFixed(2)+"%</td>";
 				} else {
@@ -130,6 +135,7 @@ function statPick() {
 				} else {
 					html += "<td><div class='Progress' style='width: "+banRate+"%'></div> "+banRate.toFixed(2)+"%</td></tr>";
 				}
+				numP = numP + 1;
 			}
 			$("#statTable").html(html);
 		},
@@ -145,11 +151,12 @@ function statPickB() {
 		dataType : "json",
 		success : function(data){
 			var html = "<tr><th style='width: 200px;'>챔피언</th><th onclick='statWin()'>승률</th><th onclick='statPick()'>픽률</th><th onclick='statBan()'>밴률</th></tr>";
+			var numP = 1;
 			for(var i in data){
 				var winRate = data[i].win/data[i].pick*100;
 				var pickRate = data[i].pick/42028*100;
 				var banRate = data[i].ban/27543*100;
-				html += "<tr><td><a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
+				html += "<tr><td>#"+numP+"&nbsp;&nbsp;&nbsp;<a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
 				if(winRate > 50){
 					html += "<td><div class='Progress Blue' style='width: "+winRate+"%'></div> "+winRate.toFixed(2)+"%</td>";
 				} else {
@@ -165,6 +172,7 @@ function statPickB() {
 				} else {
 					html += "<td><div class='Progress' style='width: "+banRate+"%'></div> "+banRate.toFixed(2)+"%</td></tr>";
 				}
+				numP = numP + 1;
 			}
 			$("#statTable").html(html);
 		},
@@ -180,11 +188,12 @@ function statBan() {
 		dataType : "json",
 		success : function(data){
 			var html = "<tr><th style='width: 200px;'>챔피언</th><th onclick='statWin()'>승률</th><th onclick='statPick()'>픽률</th><th onclick='statBanB()'>밴률</th></tr>";
+			var numP = 1;
 			for(var i in data){
 				var winRate = data[i].win/data[i].pick*100;
 				var pickRate = data[i].pick/42028*100;
 				var banRate = data[i].ban/27543*100;
-				html += "<tr><td><a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
+				html += "<tr><td>#"+numP+"&nbsp;&nbsp;&nbsp;<a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
 				if(winRate > 50){
 					html += "<td><div class='Progress Blue' style='width: "+winRate+"%'></div> "+winRate.toFixed(2)+"%</td>";
 				} else {
@@ -200,6 +209,7 @@ function statBan() {
 				} else {
 					html += "<td><div class='Progress' style='width: "+banRate+"%'></div> "+banRate.toFixed(2)+"%</td></tr>";
 				}
+				numP = numP + 1;
 			}
 			$("#statTable").html(html);
 		},
@@ -215,11 +225,12 @@ function statBanB() {
 		dataType : "json",
 		success : function(data){
 			var html = "<tr><th style='width: 200px;'>챔피언</th><th onclick='statWin()'>승률</th><th onclick='statPick()'>픽률</th><th onclick='statBan()'>밴률</th></tr>";
+			var numP = 1;
 			for(var i in data){
 				var winRate = data[i].win/data[i].pick*100;
 				var pickRate = data[i].pick/42028*100;
 				var banRate = data[i].ban/27543*100;
-				html += "<tr><td><a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
+				html += "<tr><td>#"+numP+"&nbsp;&nbsp;&nbsp;<a href=''><img class='champImg' src='http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/"+data[i].championName+".png'></a> "+data[i].id+"</td>";
 				if(winRate > 50){
 					html += "<td><div class='Progress Blue' style='width: "+winRate+"%'></div> "+winRate.toFixed(2)+"%</td>";
 				} else {
@@ -235,6 +246,7 @@ function statBanB() {
 				} else {
 					html += "<td><div class='Progress' style='width: "+banRate+"%'></div> "+banRate.toFixed(2)+"%</td></tr>";
 				}
+				numP = numP + 1;
 			}
 			$("#statTable").html(html);
 		},
@@ -262,6 +274,7 @@ function statBanB() {
     <%for(int i=0; i<list.size(); i++) {%>
     	<tr>
     		<td>
+    			#<%=i+1 %>&nbsp;&nbsp;
     			<a href=""><img class="champImg" src="http://ddragon.leagueoflegends.com/cdn/9.18.1/img/champion/<%=imgList.get(i) %>.png" alt="" /></a>
     			<%=list.get(i).getChampionName() %>
     		</td>
