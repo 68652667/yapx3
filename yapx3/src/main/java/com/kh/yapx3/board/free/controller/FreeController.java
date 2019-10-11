@@ -189,24 +189,25 @@ public class FreeController {
 		String userEmail = request.getParameter("userEmail");
 		
 		String likeUserList = freeService.likeUserList(freeboardNo);
+		String userEmail_ = ", "+userEmail;
 		//System.out.println(likeUserList);
 		if(likeUserList==null) {
 			freeService.likeincrease(userEmail, freeboardNo);
 		}
 		else if(!likeUserList.contains(userEmail)){
-			likeUserList += ", "+userEmail;
+			likeUserList = likeUserList + userEmail_;
 			freeService.likeincrease2(likeUserList, freeboardNo);
 		}
-		else {
+		else if(likeUserList.contains(userEmail)){
 			if(userEmail.equals(likeUserList)) {
 				likeUserList = null;
 			}
 			else {
-				if(likeUserList.contains(", "+userEmail)) {
-					likeUserList.replaceAll(", "+userEmail, "");
+				if(likeUserList.contains(userEmail_)) {
+					likeUserList = likeUserList.replace(userEmail_, "");
 				}
 				else {
-					likeUserList.replaceAll(userEmail, "");
+					likeUserList = likeUserList.replace(userEmail, "");
 				}
 			}
 			freeService.deleteLike(likeUserList, freeboardNo);

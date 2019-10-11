@@ -227,23 +227,24 @@ public class TipController {
 		String userEmail = request.getParameter("userEmail");
 		
 		String likeUserList = tipService.likeUserList(tipboardNo);
+		String userEmail_ = ", "+userEmail;
 		if(likeUserList==null) {
 			tipService.likeincrease(userEmail, tipboardNo);
 		}
 		else if(!likeUserList.contains(userEmail)) {
-			likeUserList += ", "+userEmail;
+			likeUserList = likeUserList + userEmail_;
 			tipService.likeincrease2(likeUserList, tipboardNo);
 		}
-		else {
+		else if(likeUserList.contains(userEmail)){
 			if(userEmail.equals(likeUserList)) {
 				likeUserList = null;
 			}
 			else {
-				if(likeUserList.contains(", "+userEmail)) {
-					likeUserList.replaceAll(", "+userEmail, "");
+				if(likeUserList.contains(userEmail_)) {
+					likeUserList = likeUserList.replace(userEmail_, "");
 				}
 				else {
-					likeUserList.replaceAll(userEmail, "");
+					likeUserList = likeUserList.replace(userEmail, "");
 				}
 			}
 			tipService.deleteLike(likeUserList, tipboardNo);
