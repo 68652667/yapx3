@@ -26,7 +26,7 @@ public class MessageController {
 	@RequestMapping( "/messageCount.do" )
 	public int activeCheck( @RequestParam String memberId ) {
 		
-		logger.info( "memberId={}", memberId );
+		//logger.info( "memberId={}", memberId );
 		int count = ms.selectCount( memberId );
 		
 		return count;
@@ -40,7 +40,7 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping( "/getMsg.do" )
 	public Message getMsg( @RequestParam int msgNo ) {
-		logger.info( "getMsg msgNo={}", msgNo );
+		//logger.info( "getMsg msgNo={}", msgNo );
 		Message msg = ms.selectOnebyNo( msgNo );
 		
 		msg.setMessageRead( "Y" );
@@ -75,10 +75,10 @@ public class MessageController {
 	@RequestMapping( "/sendMsg.do" )
 	public String sendMsg( Message msg, Model m ) {
 		
-		logger.info( "send msg = {}", msg);
+		//logger.info( "send msg = {}", msg);
 		int result = ms.insertMessage( msg );
 		
-		logger.info( "설마 또!? 1 이 아니라 -21어찌고?? ={}", result );
+		//logger.info( "설마 또!? 1 이 아니라 -21어찌고?? ={}", result );
 		
 		//2.view단처리
 		if( result == 1 ) {

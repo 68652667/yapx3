@@ -50,7 +50,7 @@ public class ItemController {
 	@RequestMapping("/pick/{id}")
 	public ResponseEntity<?> itemPick(@PathVariable("id") String id){
 		String championId = id;
-		logger.info(championId);
+		//logger.info(championId);
 		net.sf.json.JSONArray pickItem = itemsExportService.pickitem(championId);
 		return ResponseEntity.ok(pickItem);
 	}
@@ -105,7 +105,7 @@ public class ItemController {
 //		        	for(int j = 0; j < itemList.size(); j++) {
 //		        		for(int k = 0; k < 7; k++) {
 //		        			sql = "update championItems set " + championIdList.get(x)+ " = " + championIdList.get(x) + " + (select count(*) from match where participant"+i+" like '%championId:\""+championKey.get(x)+"\"%' and participant"+i+" like '%item"+k+":\""+itemList.get(j)+"\"%') where itemsname = " + itemList.get(j)+";";
-//		        			logger.info("sql: " + sql);
+//		        			//logger.info("sql: " + sql);
 //		        			fw.write(sql +"\n");
 //		        		}
 //		        	}

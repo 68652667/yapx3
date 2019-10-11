@@ -168,9 +168,9 @@ public class ChampionInfoServiceImpl {
  					}
 					
 				}
-				logger.info("sortedMap: " + sortedMap);
+				//logger.info("sortedMap: " + sortedMap);
 				return sortedMap;
-//				logger.info("jobj: " + jobj);
+//				//logger.info("jobj: " + jobj);
 				
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -194,7 +194,7 @@ public class ChampionInfoServiceImpl {
 				
 				for(int i = 0 ; i < jarr.length();i++) {
 					if(jarr.getJSONObject(i).getInt("key") == championId) {
-						logger.info("jsonObject: " + jarr.getJSONObject(i).getInt("key"));
+						//logger.info("jsonObject: " + jarr.getJSONObject(i).getInt("key"));
 						championInfo = new ChampionInfoVO();
 						championInfo.setSummonerSpell1id(jarr.getJSONObject(i).get("spell1id").toString());
 						championInfo.setSummonerSpell2id(jarr.getJSONObject(i).get("spell2id").toString());
@@ -381,21 +381,21 @@ public class ChampionInfoServiceImpl {
 			int result = 0;
 			if(likeSelectId == null) {
 				tip.setChampionTipLikeList(tip.getUserId()+", ");
-				logger.info("likeSelectId == null: " + tip.getUserId());
+				//logger.info("likeSelectId == null: " + tip.getUserId());
 				result = championDAO.championTipLike(tip);
 			}else {
 				likeSelectIdSplit = likeSelectId.split(", ");
 				for(int i= 0; i < likeSelectIdSplit.length; i++) {
 					if(likeSelectIdSplit[i].equals(tip.getUserId())) {
-						logger.info("리턴이다!");
+						//logger.info("리턴이다!");
 						return likeSelectIdSplit;
 					}
-					logger.info("likeSelectIdSplit : " + likeSelectIdSplit[i]);
+					//logger.info("likeSelectIdSplit : " + likeSelectIdSplit[i]);
 					likeSelectUser += likeSelectIdSplit[i]+", "; 
 				}
-				logger.info("likeSelectUser: " + likeSelectUser);
+				//logger.info("likeSelectUser: " + likeSelectUser);
 				tip.setChampionTipLikeList(likeSelectUser+tip.getUserId());
-				logger.info("tip.getChampionTipLikeList(): " + tip.getChampionTipLikeList());
+				//logger.info("tip.getChampionTipLikeList(): " + tip.getChampionTipLikeList());
 				result = championDAO.championTipLike(tip);
 			}
 		}

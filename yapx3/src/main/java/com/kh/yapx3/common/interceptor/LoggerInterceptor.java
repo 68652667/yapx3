@@ -24,9 +24,9 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 							 HttpServletResponse response, 
 							 Object handler)
 			throws Exception {
-		logger.debug("======================= START ========================");
-		logger.debug(request.getRequestURI());
-		logger.debug("------------------------------------------------------");
+		//logger.debug("======================= START ========================");
+		//logger.debug(request.getRequestURI());
+		//logger.debug("------------------------------------------------------");
 		//super.preHandle() => 항상 true
 		return super.preHandle(request, response, handler);
 	}
@@ -39,7 +39,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 							throws Exception {
 		
 		super.postHandle(request, response, handler, modelAndView);
-		logger.debug("------------------------ VIEW -----------------------");
+		//logger.debug("------------------------ VIEW -----------------------");
 		
 	}
 
@@ -50,7 +50,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 								Exception ex)
 			throws Exception {
 		
-		logger.debug("_________________________ END ________________________");
+		//logger.debug("_________________________ END ________________________");
 		
 		super.afterCompletion(request, response, handler, ex);
 		

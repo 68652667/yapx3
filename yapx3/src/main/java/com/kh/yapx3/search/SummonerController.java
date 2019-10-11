@@ -60,7 +60,7 @@ public class SummonerController {
 			
 		} catch ( Exception e ) {
 			e.printStackTrace();
-			logger.info("없는 아이디입니다.");
+			//logger.info("없는 아이디입니다.");
 			
 			response.setCharacterEncoding("utf-8");
 			try {
@@ -74,10 +74,10 @@ public class SummonerController {
 	public void league( HttpServletRequest request,
 						HttpServletResponse response) {
 		String summonerId = request.getParameter("summonerId");
-		logger.debug( summonerId );
+		//logger.debug( summonerId );
 		String key = "RGAPI-b0f1c9f8-bc6b-48c9-bd2d-e303c45548ff";
 		String urlStr = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerId + "?api_key=" + ApiKey;
-		logger.debug( urlStr );
+		//logger.debug( urlStr );
 		try {
 			URL url = new URL( urlStr );
 			BufferedReader br = new BufferedReader
@@ -113,7 +113,7 @@ public class SummonerController {
 			String sb = br.readLine();
 			String sb2 = br2.readLine();
 			
-			logger.debug( sb );
+			//logger.debug( sb );
 
 			JSONObject jobj = new JSONObject( sb.toString() );
 			JSONObject jobj2 = new JSONObject( sb2.toString() );
@@ -121,7 +121,7 @@ public class SummonerController {
 			JSONArray jar = (JSONArray)jobj.get("freeChampionIds");
 			JSONObject dataObject = jobj2.getJSONObject("data");
 			
-			logger.debug( dataObject.toString() );
+			//logger.debug( dataObject.toString() );
 
 			Iterator num = dataObject.keys();
 			
@@ -149,7 +149,7 @@ public class SummonerController {
 				}
 			}
 			
-			System.out.println( list.toString() );
+			//System.out.println( list.toString() );
 			
 			response.setCharacterEncoding("utf-8");
 			new Gson().toJson(list, response.getWriter());

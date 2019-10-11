@@ -42,10 +42,6 @@
 			   alias="Tip"/>
 	<typeAlias type="com.kh.yapx3.board.tip.model.vo.TipComment"
 			   alias="TipComment"/>
-	<typeAlias type="com.kh.yapx3.board.gontip.model.vo.Gontip"
-			   alias="Gontip"/>
-	<typeAlias type="com.kh.yapx3.board.gontip.model.vo.GontipComment"
-			   alias="GontipComment"/>
 	<typeAlias type="com.kh.yapx3.champion.common.StringArrayTypeHandler" alias="strArrTypeHandler"/>
    	<package name="com.kh.yapx3.champion.model.vo.ChampionTipBoardVO" />
    	 

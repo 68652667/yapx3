@@ -103,4 +103,9 @@ public class TipServiceImpl implements TipService {
 		return tipDAO.likeValue(tipboardNo);
 	}
 
+	@Override
+	public int tipDel(int tipBoardNo) {
+		return tipDAO.tipDel(tipBoardNo);
+	}
+
 }

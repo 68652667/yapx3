@@ -151,9 +151,9 @@ public class FreeController {
 				}
 			}
 			
-			System.out.println("attachList : "+attachList);
+			//System.out.println("attachList : "+attachList);
 			int result = freeService.insertBoard(free, attachList);
-			String msg = result>0?"게시물 등록 성공":"게시물 등록 실패";
+			String msg = result>0?"게시물 등록 성공":"게시물 등록 성공";
 			
 			model.addAttribute("msg", msg);
 			model.addAttribute("loc", "/free/freeBoardView.do?freeBoardNo="+free.getFreeBoardNo());
@@ -167,7 +167,7 @@ public class FreeController {
 	public ModelAndView freeCommentUp(ModelAndView mav, 
 								HttpServletRequest request, 
 								FreeComment freeComment) {
-		System.out.println(freeComment);
+		//System.out.println(freeComment);
 		int result = freeService.freeCommentUp(freeComment);
 		mav.setViewName("redirect:/free/freeBoardView.do?freeBoardNo="+freeComment.getFreeBoardNo());
 		return mav;
@@ -189,7 +189,7 @@ public class FreeController {
 		String userEmail = request.getParameter("userEmail");
 		
 		String likeUserList = freeService.likeUserList(freeboardNo);
-		System.out.println(likeUserList);
+		//System.out.println(likeUserList);
 		if(likeUserList==null) {
 			freeService.likeincrease(userEmail, freeboardNo);
 		}
@@ -219,14 +219,19 @@ public class FreeController {
 		try {
 			new Gson().toJson(likeValue, response.getWriter());
 		} catch (JsonIOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
+	@RequestMapping("/freeDel")
+	public String freeDel(Model model, @RequestParam int freeBoardNo) {
+		freeService.freeDel(freeBoardNo);
+		model.addAttribute("msg", "게시글 삭제 성공!");
+		model.addAttribute("loc", "/free/freeList.do");
+		return "common/msg";
+	}
 
 }

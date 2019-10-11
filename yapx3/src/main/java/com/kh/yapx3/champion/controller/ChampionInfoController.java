@@ -161,7 +161,7 @@ public class ChampionInfoController{
 		String likeType = request.getParameter("likeType");
 		String userEmail = request.getParameter("userEmail");
 		
-		logger.info("like: " +like);
+		//logger.info("like: " +like);
 		int idx = userEmail.indexOf("@");
 		String emailId = userEmail.substring(0, idx);
 		
@@ -247,7 +247,7 @@ public class ChampionInfoController{
 		try {
 			request.setCharacterEncoding("UTF-8");
 			String keyword = request.getParameter("searchChampionName");
-			logger.info(keyword);
+			//logger.info(keyword);
 			int[] macholl = new int[20];
 			ChampionKoN championKon;
 			
@@ -256,7 +256,7 @@ public class ChampionInfoController{
 			for(int i=0; i < list.size(); i++) {
 				if(matchString(keyword, list.get(i).getChampionName().replace(" ", ""))) {
 					championKon = new ChampionKoN();
-					logger.info("sss" + list.get(i).getChampionName());
+					//logger.info("sss" + list.get(i).getChampionName());
 					itemTitle[i] = list.get(i).getChampionId();
 					championKon.setChampionId(list.get(i).getChampionId());
 					championKon.setChampionKey(list.get(i).getChampionKey());

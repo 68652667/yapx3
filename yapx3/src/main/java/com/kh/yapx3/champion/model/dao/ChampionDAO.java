@@ -43,7 +43,7 @@ public class ChampionDAO {
 
 	public int championTipLike(ChampionTipBoardVO tip) {
 		int result = sqlSession.update("champion.championTipLike", tip);
-		logger.info("sqlSession.update(champion.championTipLike, tip): " + result );
+		//logger.info("sqlSession.update(champion.championTipLike, tip): " + result );
 		return sqlSession.update("champion.championTipLike", tip);
 	}
 

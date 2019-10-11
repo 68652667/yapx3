@@ -74,7 +74,7 @@ public class MatchController {
 	@RequestMapping("/itemList")
 	public ResponseEntity<?> itemList(){
 		List<JSONObject> jobj = matchService.itemLits();
-		logger.info("matchController: "  + jobj);
+		//logger.info("matchController: "  + jobj);
 		
 		return ResponseEntity.ok(jobj);
 	}

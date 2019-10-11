@@ -53,7 +53,7 @@ public class StompController {
 	@RequestMapping("/createRoomCheck.do")
 	public int createRoomCheck( @RequestParam("userId") String userId ) {
 		
-		logger.info( "userId={}", userId );
+		//logger.info( "userId={}", userId );
 		
 		int result = stompService.selectUserId( userId );
 
@@ -70,17 +70,17 @@ public class StompController {
 	public String createRoomEnd( @ModelAttribute("chatRoom") summonerJobsChatRoom chatRoom,
 			Model model ) {
 		
-		logger.info( "createchatRoom={}", chatRoom );
+		//logger.info( "createchatRoom={}", chatRoom );
 		
 		int result = stompService.createRoom( chatRoom );
 		
-		logger.info( "result={}", result );
+		//logger.info( "result={}", result );
 		
 		if( result == -2147482646 ) result = 1;
 		
 		summonerJobsChatRoom robiRoom = stompService.findUserEmail( chatRoom.getUserEmail() );
 		
-		logger.info( "robiRoom={}", robiRoom );
+		//logger.info( "robiRoom={}", robiRoom );
 		
 		model.addAttribute( "robiRoom", robiRoom);
 		model.addAttribute("msg", result > 0 ? " 방 생성 성공 !!" : " 방 생성 실패 !!");
@@ -96,12 +96,12 @@ public class StompController {
 							@RequestParam("summonerName") String summonerName
 							) {
 		
-		logger.info( "boarNoSelectRobi={}", boardNo );
+		//logger.info( "boarNoSelectRobi={}", boardNo );
 		
 		summonerJobsChatRoom robiRoom = stompService.selectRoom( boardNo );
-		logger.info( "robiRoom={}", robiRoom );
-		logger.info( "robiRoom.getChatContent()111={}", robiRoom.getChatContent() );
-		logger.info( "robiRoom.getChatContent()222={}", robiRoom.getChatContent() == null );
+		//logger.info( "robiRoom={}", robiRoom );
+		//logger.info( "robiRoom.getChatContent()111={}", robiRoom.getChatContent() );
+		//logger.info( "robiRoom.getChatContent()222={}", robiRoom.getChatContent() == null );
 		boolean bool = false;
 		
 		if( robiRoom.getChatContent() == null ) {
@@ -116,7 +116,7 @@ public class StompController {
 			if( bool != true ) robiRoom.setChatContent( robiRoom.getChatContent() + "," + summonerName ); 
 		}
 		
-		logger.info( "robiRoomSelectRobi={}", robiRoom );
+		//logger.info( "robiRoomSelectRobi={}", robiRoom );
 		
 		int result = stompService.updateRoom( robiRoom );
 		
@@ -127,7 +127,7 @@ public class StompController {
 		map.put( "summonerName", summonerName );
 		map.put( "bool", String.valueOf(bool) );
 		
-		logger.info("===========================================.");
+		//logger.info("===========================================.");
 		return map;
 	}
 
@@ -136,9 +136,9 @@ public class StompController {
 	public ModelAndView visitRoom( ModelAndView mav, HttpSession session,
 								   @RequestParam String roomId,
 								   @RequestParam String summonerName) {
-		logger.info("방을들어간다 !!");
-		logger.info("roomId={}", roomId);
-		logger.info("summonerName={}", summonerName);
+		//logger.info("방을들어간다 !!");
+		//logger.info("roomId={}", roomId);
+		//logger.info("summonerName={}", summonerName);
 		List<summonerJobsChatRoom> rlist = stompService.visitRoom( roomId );
 		
 		mav.addObject( "rlist", rlist);
@@ -174,7 +174,7 @@ public class StompController {
 	@RequestMapping("/boardPersonnelNo.do")
 	public int boardPersonnelNo( @RequestParam("roomId") String roomId ) {
 		
-		logger.info( "boardRoomId={}", roomId );
+		//logger.info( "boardRoomId={}", roomId );
 		
 		int result = stompService.boardPersonnelNo( roomId );
 		
@@ -183,7 +183,7 @@ public class StompController {
 			
 			summonerJobsChatRoom sjc = (summonerJobsChatRoom)rlist.get( 0 );
 			
-			logger.info( "boardsjc={}", sjc );
+			//logger.info( "boardsjc={}", sjc );
 			
 			result = sjc.getBoardPersonnelNo();
 		}
@@ -194,26 +194,26 @@ public class StompController {
 	@RequestMapping("/outRoom.do")
 	public int outRoom( @RequestParam("roomId") String roomId,
 						@RequestParam("summonerId") String summonerId) {
-		logger.info( "outRoomroomId1111={}", roomId );
+		//logger.info( "outRoomroomId1111={}", roomId );
 		
 		int result = stompService.outRoomboardPersonnelNo( roomId );
 		
 		if( result > 0 || result == -2147482646 ) {
 			List<summonerJobsChatRoom> rlist = stompService.visitRoom( roomId );
 			
-			logger.info( "outRoomrlist = {}", rlist );
+			//logger.info( "outRoomrlist = {}", rlist );
 			
 			summonerJobsChatRoom sjc = (summonerJobsChatRoom)rlist.get( 0 );
 			
-			logger.info( "boardsjc={}", sjc );
-			logger.info( "boardsjc.getChatContent()=[{}]", sjc.getChatContent() );
-			logger.info( "boardsjc.getChatContent().split(',')=[{}]", sjc.getChatContent().split(",").length);
+			//logger.info( "boardsjc={}", sjc );
+			//logger.info( "boardsjc.getChatContent()=[{}]", sjc.getChatContent() );
+			//logger.info( "boardsjc.getChatContent().split(',')=[{}]", sjc.getChatContent().split(",").length);
 			
 			String[] arr = sjc.getChatContent().split(","); 
 			
-			System.out.println( arr.toString() );
+			//System.out.println( arr.toString() );
 			
-			logger.info( "arr=[{}]", arr );
+			//logger.info( "arr=[{}]", arr );
 			
 			String str = "";
 			
@@ -226,13 +226,13 @@ public class StompController {
 				}
 			}
 			
-			logger.info( "boardstr={}", str );
+			//logger.info( "boardstr={}", str );
 			
 			sjc.setChatContent( str );
 			
 			result = stompService.updateRoom( sjc );
 			
-			logger.info( "boardresult={}", result );
+			//logger.info( "boardresult={}", result );
 			
 			if( result > 0 || result == -2147482646 ) {
 				result = sjc.getBoardPersonnelNo();
@@ -249,24 +249,24 @@ public class StompController {
 	@RequestMapping("/deleteRoom.do")
 	public int deleteRoom( @RequestParam("roomId") String roomId) {
 		
-		logger.info( "outRoomroomId222={}", roomId );
+		//logger.info( "outRoomroomId222={}", roomId );
 		
 		int result = stompService.deleteRoom( roomId );
 		
 		if( result == -2147482646 ) {
 			result = 1;
 			
-			logger.info("result11={}", result);
+			//logger.info("result11={}", result);
 			return result;
 			
 		}else if( result == 1 ){
 			
-			logger.info("result22={}", result);
+			//logger.info("result22={}", result);
 			return result;
 			
 		}else {
 			
-			logger.info("result33={}", result);
+			//logger.info("result33={}", result);
 			return result;
 			
 		}

@@ -42,4 +42,6 @@ public interface TipService {
 
 	int likeValue(String tipboardNo);
 
+	int tipDel(int tipBoardNo);
+
 }

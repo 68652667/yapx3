@@ -22,15 +22,15 @@ public class ChatSocket {
 	
 	@OnMessage
 	public void onMessage( String message, Session session ) throws IOException {
-		logger.info( "message1={}", message );
+		//logger.info( "message1={}", message );
 		
 		synchronized( clients ) {
-			logger.info( "message2={}", message );
+			//logger.info( "message2={}", message );
 			for( Session client : clients ) {
 				
-				logger.info( "message3={}", message );
+				//logger.info( "message3={}", message );
 				
-				logger.info( "session={}", session );
+				//logger.info( "session={}", session );
 				
 				client.getBasicRemote().sendText( message );
 			
@@ -40,7 +40,7 @@ public class ChatSocket {
 	
 	@OnOpen
 	public void opOpen( Session session ) {
-		logger.info( "session={}", session );
+		//logger.info( "session={}", session );
 		clients.add( session );
 	}
 	

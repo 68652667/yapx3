@@ -42,4 +42,6 @@ public interface FreeService {
 
 	int selectCommentNumber(int freeBoardNo);
 
+	int freeDel(int freeBoardNo);
+
 }

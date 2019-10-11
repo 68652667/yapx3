@@ -45,7 +45,7 @@ public class ItemsExportService {
 		List<String> itemList = new ArrayList<String>();
 		for (int i = 0; i < jarr.length(); i++) {
 			itemList.add(jarr.getJSONObject(i).getString("itemId"));
-			logger.info("jobj:" + jarr.getJSONObject(i).getString("itemId"));
+			//logger.info("jobj:" + jarr.getJSONObject(i).getString("itemId"));
 		}
 		return jobj;
 	}
@@ -59,7 +59,7 @@ public class ItemsExportService {
 		List<String> itemList = new ArrayList<String>();
 		for (int i = 0; i < jarr.length(); i++) {
 			itemList.add(jarr.getJSONObject(i).getString("itemId"));
-			logger.info("jobj:" + jarr.getJSONObject(i).getString("itemId"));
+			//logger.info("jobj:" + jarr.getJSONObject(i).getString("itemId"));
 		}
 
 		net.sf.json.JSONArray list = new net.sf.json.JSONArray();
@@ -68,9 +68,9 @@ public class ItemsExportService {
 		// participant별 챔피언 픽률
 //		net.sf.json.JSONArray list = new net.sf.json.JSONArray();
 //		list = itemDAO.pickItems(championId);
-//		logger.info("listSize: " + list.size());
+//		//logger.info("listSize: " + list.size());
 //		for(int i = 0 ; i <list.size(); i++) {
-//			logger.info("list: " + list.getJSONObject(i).get("participant" + i));
+//			//logger.info("list: " + list.getJSONObject(i).get("participant" + i));
 //		}
 		return list;
 	}
@@ -97,8 +97,8 @@ public class ItemsExportService {
 
 		for(int i = 0; i<jobjList.size(); i++) {
 			JSONObject jobj = (JSONObject) jobjList.get(i);
-			logger.info("jobjList: " + jobjList.get(i));
-			logger.info("jobj: " + jobj);
+			//logger.info("jobjList: " + jobjList.get(i));
+			//logger.info("jobj: " + jobj);
 			
 		}
 		

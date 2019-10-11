@@ -131,4 +131,7 @@
 		where tip_board_no = #{tipboardNo}
 	</select>
 	
+	<delete id="tipDel">
+		delete from t_b where TIP_BOARD_NO = #{tipboardNo}
+	</delete>
 </mapper>

@@ -49,7 +49,7 @@ public class RankingController {
 	@RequestMapping("/ladder")
 	public ModelAndView ladder(@RequestParam(value="page", defaultValue="1", required=false) int page) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(page);
+		//System.out.println(page);
 		int cPage = (page-1)*NUM_PER_PAGE;
 		int view = page*NUM_PER_PAGE;
 		
@@ -194,7 +194,7 @@ public class RankingController {
 	
 	@RequestMapping("/summonerSearch")
 	public String summonerNameSearch(@RequestParam String searchName, Model model) {
-		System.out.println(searchName);
+		//System.out.println(searchName);
 		
 		String challenger1 = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I?page=1&api_key="+key;
 		apikeyuse++;
@@ -285,7 +285,7 @@ public class RankingController {
 					break;
 				}
 			}
-			System.out.println(page);
+			//System.out.println(page);
 			page = (int) Math.ceil((double)page/NUM_PER_PAGE);
 			int cPage = (page-1)*NUM_PER_PAGE;
 			int view = page*NUM_PER_PAGE;
@@ -309,8 +309,8 @@ public class RankingController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("equalsName"+equalsName);
-		System.out.println("page"+page);
+		//System.out.println("equalsName"+equalsName);
+		//System.out.println("page"+page);
 		int totalPage = (int) Math.ceil((double)totalRanker/NUM_PER_PAGE);
 		String pageBar = "";
 		int pageStart = ((page-1)/pageBarSize)*pageBarSize+1;
@@ -391,7 +391,7 @@ public class RankingController {
 	
 	@RequestMapping("/champSearch")
 	public void champSearch(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("champSearch Test!!");
+		//System.out.println("champSearch Test!!");
 		
 		String srchName = request.getParameter("srchName");
 		String url = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/champion.json";
@@ -438,22 +438,22 @@ public class RankingController {
 		if(apikeyuse%2!=0) {
 			apikeyuse--;
 		}
-		System.out.println("champ Click!");
+		//System.out.println("champ Click!");
 		String champName = request.getParameter("champName");
-		System.out.println(champName);
+		//System.out.println(champName);
 //		String url = "http://ddragon.leagueoflegends.com/cdn/9.19.1/data/ko_KR/champion.json";
 //		org.json.JSONObject jobj = urlSession2(url);
 //		org.json.JSONObject dataObject = (org.json.JSONObject) jobj.get("data");
 //		Iterator i = (Iterator) dataObject.keys();
 //		while(i.hasNext()) {
 //			String dataKey = i.next().toString();
-////			System.out.println(dataKey);
+////			//System.out.println(dataKey);
 //			if(champName.equals(dataKey)) {
-//				System.out.println("일치함!");
+//				//System.out.println("일치함!");
 //				org.json.JSONObject data = dataObject.getJSONObject(champName);
 //				org.json.JSONObject image = (org.json.JSONObject) data.get("image");
 //				String img = (String) image.get("full").toString();
-//				System.out.println(img);
+//				//System.out.println(img);
 //				Map<String, String> champ_ = new HashMap<>();
 //				champ_.put("champImg", img);
 //				champ.add(champ_);
@@ -481,7 +481,7 @@ public class RankingController {
 				}
 			}
 		}
-		System.out.println(champ);
+		//System.out.println(champ);
 		response.setCharacterEncoding("utf-8");
 		
 		try {
@@ -559,8 +559,8 @@ public class RankingController {
 	}
 	
 	public String apikeyuse() {
-		System.out.println("api사용 횟수 : "+apikeyuse);
-			System.out.println("현재 키 : "+key);
+		//System.out.println("api사용 횟수 : "+apikeyuse);
+			//System.out.println("현재 키 : "+key);
 			String presentKey = key;
 			switch(key) {
 			case "RGAPI-fcefb3f5-9901-4070-9a91-48dc3f71f099" : 
@@ -600,7 +600,7 @@ public class RankingController {
 				}
 				break;
 			}
-			System.out.println("바꾼 키 : "+key);
+			//System.out.println("바꾼 키 : "+key);
 		return key;
 		
 	}

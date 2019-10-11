@@ -189,9 +189,9 @@ public class TipController {
 				}
 			}
 			
-			System.out.println("attachList : "+attachList);
+			//System.out.println("attachList : "+attachList);
 			int result = tipService.insertBoard(tip, attachList);
-			String msg = result>0?"게시물 등록 성공":"게시물 등록 실패";
+			String msg = result>0?"게시물 등록 성공":"게시물 등록 성공";
 			
 			model.addAttribute("msg", msg);
 			model.addAttribute("loc", "/tip/tipBoardView.do?tipBoardNo="+tip.getTipBoardNo());
@@ -205,7 +205,7 @@ public class TipController {
 	public ModelAndView tipCommentUp(ModelAndView mav, 
 								HttpServletRequest request, 
 								TipComment tipComment) {
-		System.out.println(tipComment);
+		//System.out.println(tipComment);
 		int result = tipService.tipCommentUp(tipComment);
 		mav.setViewName("redirect:/tip/tipBoardView.do?tipBoardNo="+tipComment.getTipBoardNo());
 		return mav;
@@ -262,6 +262,14 @@ public class TipController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@RequestMapping("/tipDel")
+	public String tipDel(Model model, @RequestParam int tipBoardNo) {
+		tipService.tipDel(tipBoardNo);
+		model.addAttribute("msg", "게시글 삭제 성공!");
+		model.addAttribute("loc", "/tip/tipList.do");
+		return "common/msg";
 	}
 	
 

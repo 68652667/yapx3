@@ -115,5 +115,10 @@ public class FreeDAOImpl implements FreeDAO {
 	public int selectCommentNumber(int freeBoardNo) {
 		return sqlSession.selectOne("free.selectCommentNumber", freeBoardNo);
 	}
+
+	@Override
+	public int freeDel(int freeBoardNo) {
+		return sqlSession.delete("free.freeDel", freeBoardNo);
+	}
 	
 }

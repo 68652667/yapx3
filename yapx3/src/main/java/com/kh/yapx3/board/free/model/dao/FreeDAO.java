@@ -42,5 +42,7 @@ public interface FreeDAO {
 
 	int selectCommentNumber(int freeBoardNo);
 
+	int freeDel(int freeBoardNo);
+
 
 }

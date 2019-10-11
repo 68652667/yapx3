@@ -103,4 +103,10 @@ public class FreeServiceImpl implements FreeService {
 	public int selectCommentNumber(int freeBoardNo) {
 		return freeDAO.selectCommentNumber(freeBoardNo);
 	}
+
+	@Override
+	public int freeDel(int freeBoardNo) {
+		return freeDAO.freeDel(freeBoardNo);
+		
+	}
 }

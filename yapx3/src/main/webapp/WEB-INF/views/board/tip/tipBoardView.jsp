@@ -202,6 +202,15 @@ $(document).on("click", ".btn-like", (e)=>{
 		}
 	});
 });
+function tipModi() {
+	
+}
+function tipDel() {
+	if(!confirm("정말 삭제하시겠습니까?")){
+		return;
+	}
+	location.href="${pageContext.request.contextPath}/tip/tipDel?tipBoardNo=${tip.tipBoardNo}";
+}
 </script>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">
@@ -209,7 +218,7 @@ $(document).on("click", ".btn-like", (e)=>{
 		<div class="header">
 			<div class="title">${tip.tipBoardTitle }</div><br />
 			<div class="leftInfo">
-				<a href="${pageContext.request.contextPath}/tip/tipList.do" class="boardType">팁</a>
+				<a href="${pageContext.request.contextPath}/tip/tipList.do" class="boardType">공략</a>
 				<span class="date">${tip.tipBoardDate }</span>
 				<div class="w3-button" id="btnSendMsg" title="쪽지보내기" >
 				${tip.userNickName } 
@@ -223,6 +232,14 @@ $(document).on("click", ".btn-like", (e)=>{
 		</div>
 	<br />
 		<div class="content">
+		
+			<c:if test="${memberLoggedIn.userEmail == tip.userEmail || memberLoggedIn.userCode == 0}">
+			<div style="text-align: right;">
+			<button class="btn-like btn btn-small btn-pink" onclick="tipModi();">수정</button>
+			<button class="btn-like btn btn-small btn-pink" onclick="tipDel();">삭제</button>
+			</div>
+			</c:if>
+		
 			<c:if test="${!empty tip.attachList }">
 				<c:forEach items="${tip.attachList}" var="a" varStatus="vs">
 					<img src="${pageContext.request.contextPath}/resources/upload/board/${a.renamedFileName}" alt="" style="width: 400px;"/>

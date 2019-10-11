@@ -187,7 +187,7 @@ function addImg(e) {
 			  enctype="multipart/form-data">
 			<input type="text" class="form-control" placeholder="제목" 
 					name="tipBoardTitle" id="boardTitle" required>
-			<input type="text" class="form-control" 
+			<input type="hidden" class="form-control" 
 					name="userEmail" value="${memberLoggedIn.userEmail}" readonly required>
 			<input type="text" class="form-control" 
 					name="userNickName" value="${memberLoggedIn.userNickname}" readonly required>

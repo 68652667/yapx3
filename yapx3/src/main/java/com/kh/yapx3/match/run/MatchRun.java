@@ -52,7 +52,7 @@ public class MatchRun {
         	String spell2 = c.getString("spell2");
         	String spell3 = c.getString("spell3");
         	String spell4 = c.getString("spell4");
-        	System.out.println(id+", "+passive+", "+spell1+", "+spell2+", "+spell3+", "+spell4);
+        	//System.out.println(id+", "+passive+", "+spell1+", "+spell2+", "+spell3+", "+spell4);
         }
 	}
 
@@ -116,7 +116,7 @@ public class MatchRun {
 				jo.put("spell3", spell3);
 				jo.put("spell4", spell4);
 				jo.put("passive", pa);
-				System.out.println(jo.toJSONString());
+				//System.out.println(jo.toJSONString());
 				jsa.add(jo);
 //				fw.write("	\""+id+"\" : {\n		\"id\" : \""+id+"\"\n	},\n");
 			}
@@ -126,7 +126,7 @@ public class MatchRun {
 		org.json.simple.JSONObject ob = new org.json.simple.JSONObject();
 		ob.put("champs", jsa);
 		String jsonInfo = ob.toJSONString();
-		System.out.println(jsonInfo);
+		//System.out.println(jsonInfo);
 		
 //		fw.write("}\n");
 //		fw.close();
@@ -152,7 +152,7 @@ public class MatchRun {
 		
 		for(int i=0; i<chalIdList.size(); i++) {
 			if(i != 0 && i%95 == 0) {
-				System.out.println("아이디 리스트 : " + i);
+				//System.out.println("아이디 리스트 : " + i);
 				Thread.sleep(120001);
 			}
 			URL url2 = new URL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/"+chalIdList.get(i)+"?api_key="+key);
@@ -171,14 +171,14 @@ public class MatchRun {
 			list.add(sum1);
 		}
 		
-		System.out.println("매치 맵 시작!");
+		//System.out.println("매치 맵 시작!");
 		Thread.sleep(120001);
 		
 		Map<String, String> matchMap = new HashMap<String, String>();
 		
 		for(int i=0; i<list.size(); i++) {
 			if(i != 0 && i%95 == 0) {
-				System.out.println("매치 리스트 : " + i);
+				//System.out.println("매치 리스트 : " + i);
 				Thread.sleep(120001);
 			}
 			URL url3 = new URL("https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/"+list.get(i).getAccountId()+"?api_key="+key);
@@ -194,7 +194,7 @@ public class MatchRun {
 			
 		}
 		
-		System.out.println("파일 시작!");
+		//System.out.println("파일 시작!");
 		
 		File file = new File("chellengerMatches.sql");
 		
@@ -226,7 +226,7 @@ public class MatchRun {
 		
 		for(int i=0; i<chalIdList.size(); i++) {
 			if(i != 0 && i%95 == 0) {
-				System.out.println("아이디 리스트 : " + i);
+				//System.out.println("아이디 리스트 : " + i);
 				Thread.sleep(120001);
 			}
 			URL url2 = new URL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/"+chalIdList.get(i)+"?api_key="+key);
@@ -245,14 +245,14 @@ public class MatchRun {
 			list.add(sum1);
 		}
 		
-		System.out.println("매치 맵 시작!");
+		//System.out.println("매치 맵 시작!");
 		Thread.sleep(120001);
 		
 		Map<String, String> matchMap = new HashMap<String, String>();
 		
 		for(int i=0; i<list.size(); i++) {
 			if(i != 0 && i%95 == 0) {
-				System.out.println("매치 리스트 : " + i);
+				//System.out.println("매치 리스트 : " + i);
 				Thread.sleep(120001);
 			}
 			URL url3 = new URL("https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/"+list.get(i).getAccountId()+"?api_key="+key);
@@ -268,7 +268,7 @@ public class MatchRun {
 			
 		}
 		
-		System.out.println("파일 시작!");
+		//System.out.println("파일 시작!");
 		
 		File file = new File("GMMatches.sql");
 		

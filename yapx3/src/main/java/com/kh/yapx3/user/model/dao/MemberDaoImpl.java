@@ -28,7 +28,7 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public int insertMember(Member member) {
-		logger.info( "member={}", member );
+		//logger.info( "member={}", member );
 		return sqlS.insert( "user.insertMember", member);
 	}
 

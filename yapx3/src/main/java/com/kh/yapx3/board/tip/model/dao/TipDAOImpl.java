@@ -114,5 +114,10 @@ public class TipDAOImpl implements TipDAO {
 	public int likeValue(String tipboardNo) {
 		return sqlSession.selectOne("tip.likeValue", tipboardNo);
 	}
+
+	@Override
+	public int tipDel(int tipBoardNo) {
+		return sqlSession.delete("tip.tipDel", tipBoardNo);
+	}
 	
 }

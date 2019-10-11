@@ -96,7 +96,7 @@ th, td {
 	        </tr>
 	        <tr>
 	        	<td colspan='3' >
-	        		<textarea id="messageContent" cols="51" rows="15" disabled readonly style="resize:none;" ></textarea>
+	        		<textarea id="messageContent" cols="51" rows="15" disabled readonly style="resize:none; width: 396px;" ></textarea>
 	        	</td>
 	        </tr>
 	    </table>

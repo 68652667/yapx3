@@ -205,6 +205,15 @@ $(document).on("click", ".btn-like", (e)=>{
 		}
 	});
 });
+function freeModi() {
+	
+}
+function freeDel() {
+	if(!confirm("정말 삭제하시겠습니까?")){
+		return;
+	}	
+	location.href="${pageContext.request.contextPath}/free/freeDel?freeBoardNo=${free.freeBoardNo}";
+}
 </script>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 768px;">
@@ -226,6 +235,14 @@ $(document).on("click", ".btn-like", (e)=>{
 	</div>
 		<br />
 		<div class="content">
+		
+			<c:if test="${memberLoggedIn.userEmail == free.userEmail || memberLoggedIn.userCode == 0}">
+			<div style="text-align: right;">
+			<button class="btn-like btn btn-small btn-pink" onclick="freeModi();">수정</button>
+			<button class="btn-like btn btn-small btn-pink" onclick="freeDel();">삭제</button>
+			</div>
+			</c:if>
+		
 			<c:if test="${!empty free.attachList }">
 				<c:forEach items="${free.attachList}" var="a" varStatus="vs">
 					<img src="${pageContext.request.contextPath}/resources/upload/board/${a.renamedFileName}" alt="" style="width: 400px;"/>
@@ -279,7 +296,7 @@ $(document).on("click", ".btn-like", (e)=>{
 								</td>
 								<td>
 									<button class="btn-reply btn btn-small btn-pink" value="${c.commentNo }">답글</button>
-									<c:if test="${memberLoggedIn.userEmail == c.userEmail }">
+									<c:if test="${memberLoggedIn.userEmail == c.userEmail || memberLoggedIn.userCode == 0}">
 										<button class="btn-delete btn btn-small btn-gray" value="${c.commentNo }">삭제</button>
 									</c:if>
 								</td>
@@ -298,7 +315,7 @@ $(document).on("click", ".btn-like", (e)=>{
 									<span class="commentContent2">${c.commentContent }</span>
 								</td>
 								<td>
-									<c:if test="${memberLoggedIn.userEmail == c.userEmail }">
+									<c:if test="${memberLoggedIn.userEmail == c.userEmail || memberLoggedIn.userCode == 0}">
 										<button class="btn-delete btn btn-small btn-gray" value="${c.commentNo }">삭제</button>
 									</c:if>
 								</td>
