@@ -8,6 +8,7 @@
 <script src="https://unpkg.com/popper.js@1"></script>
 <script src="https://unpkg.com/tippy.js@5"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script&display=swap&subset=korean" rel="stylesheet">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .em3but {height: 3em;}
@@ -18,6 +19,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	background: #292e38;
 	padding: 30px;
 	position: relative;
+	font-family: 'Nanum Pen Script', cursive;
+	font-size: 30px;
+}
+.championInfoBody{
+	font-family: 'Nanum Pen Script', cursive;
+	font-size: 30px;
 }
 .championHeaderImg{
 	color: white;
@@ -36,6 +43,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	width: 50px;
 	height: 50px;
 	display: inline-block;
+}
+.itemImg{
+	margin-left: 25px;
 }
 
 .championHeaderSkill{
@@ -63,13 +73,20 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	right: 5px;
 	float:left;
 }
+.percent{
+	font-size: 30px;
+}
 .championPosition{
 	background: #2e7fdd;
 	width:200px;
+	font-size: 20px;
 }
 .championPosition img{
 	height: 30px;
 	width: 30px;
+}
+h2{
+	font-family: 'Nanum Pen Script', cursive;
 }
 ul {
 	margin-left: 10px;
@@ -84,11 +101,10 @@ li {
 	margin-top: 15px;
     border : 1px;
     float: left;
-    font-size: 10px;
+    font-size: 20px;
 }
 .chapmpionTipCount{
-	display: block;
-	float:left;
+   	text-align: -webkit-left;
 }
 .chapmpionTipCount span, .chapmpionTipCount h3{
 	display: inline-block;
@@ -106,16 +122,18 @@ li {
 }
 .championTipList ul{
 	width: 800px;
-	
+	height: auto;
 }
 .championTipContent{
 	color: black;
-	margin-top: -50px;
+	margin-top: -46px;
 }
-.championTipList .championTip, .championTipList .championTipContent, .championTipList .championTipExtra {
-	display: inline-grid;
-	width:100px;
-	text-align: center;
+.championTipList .championTip  {
+	width:800px;
+	text-align: left;
+}
+.championTipList .championTipContent{
+	margin-left: 30px;
 }
 .writerUser{
 	margin-top: -50px;
@@ -137,6 +155,7 @@ li {
 }
 #tipFrm{
 	background: white;
+	height:auto;
 }
 .tirg{
 	font-size: 20px;
@@ -146,10 +165,13 @@ li {
 	float: right;
 	bottom: 0px;
 	right: 0px;
+	font-size: 20px;
 }
 .like{
 	border: 0;
 	outline: 0;
+	text-align: left;
+	
 }
 #content{
 	margin-left: 100px;
@@ -159,9 +181,10 @@ li {
 	height: 20px;
 	margin-top: 10px;
 }
-::placeholder{
-	color: black;
+[name=itemImg], [name=spell]{
+	margin-left: 25px;
 }
+
 </style>
 <script>
 
@@ -169,7 +192,7 @@ li {
 	$(()=>{
 		var memberLoggedIn = "${memberLoggedIn.userEmail}";
         console.log( "${memberLoggedIn.userEmail}" );
-        $("#content").on( "click", function(){
+        $("[name=content]").on( "click", function(){
             if( memberLoggedIn == "" ){
                 alert("로그인후 사용가능합니다 !")
                 location.href="${pageContext.request.contextPath}/user/loginClick.do";
@@ -272,7 +295,7 @@ li {
 		});
 	});
 	function check(){
-		var content = $("#content").val();
+		var content = $("[name=content]").val();
 		
 		if(content == ""){
 			alert("내용을 입력하세요");
@@ -281,7 +304,7 @@ li {
 		return true;
 	}
 </script>
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:115px; min-height: 768px;">
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:115px; min-height: 768px;text-align: -webkit-center;">
 	<div class="championHeaderInfo">
 		<div class="championLaneInfo">
 			<ul>
@@ -379,12 +402,12 @@ li {
 					<tr>
 						<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem1 }" class="start1${championItemListSum.startItem1 }" alt="" /> 
 							<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem2 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem2 }"  class="start2${championItemListSum.startItem2 }"alt="" /></td>
-							<td style="text-align:center; font-size:20px;">${championItemListSum.itemStartPercent1 }</td>
+							<td style="text-align:center; font-size:20px;" class="percent">${championItemListSum.itemStartPercent1 }</td>
 					</tr>
 					<tr>
 						<td><img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem1 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem1 }" class="start1${championItemListSum.startItem1 }" alt="" /> 
 							<img src="//opgg-static.akamaized.net/images/lol/item/${championItemListSum.startItem3 }.png?image=w_42&v=1" name="itemImg" start="${championItemListSum.startItem3 }" class="start3${championItemListSum.startItem3 }"alt="" /></td>
-							<td style="text-align:center; font-size:20px;">${championItemListSum.itemStartPercent2 }</td>
+							<td style="text-align:center; font-size:20px;"class="percent">${championItemListSum.itemStartPercent2 }</td>
 					</tr>
 			</table>
 			<table class="table table-bordered" style="width:800px; ">
@@ -408,37 +431,38 @@ li {
 		<jsp:include page="/WEB-INF/views/common/championInfoTable.jsp"/>
 	</div>
 	<div class="championTipBody" style="display: none;">
-		<div class="chapmpionTipCount" style="width: 100%; margin-left:0px;">
+		<div class="chapmpionTipCount" style="width: 800px; margin-left:0px;">
 			<span>등록된 팁</span>
 			<h3>${championTipListCount }</h3>
 		</div>
-		<br /><br />
 		<div class="championTipWriteDiv">
-			<form action="${pageContext.request.contextPath }/champion/championTipWrite" id="tipFrm" method="post" onsubmit="return check()">
+			<form action="${pageContext.request.contextPath }/champion/championTipWrite" id="tipFrm" method="post" onsubmit="return check();">
 				<input type="hidden" name="email" value="${memberLoggedIn.userEmail}"/>
-				<input type="text" readonly="readonly" name="tipWriter" value="${memberLoggedIn.userNickname }"/>
-				<textarea rows="5px" id="content" name="content" cols="90px" style="resize: none; border:0; overflow-y:scroll; background:clear;" placeholder="내용을 입력하세요"></textarea>
-				<input type="submit" value="등록" />
+				<input type="hidden" name="tipWriter" value="${memberLoggedIn.userNickname }"/>
+				<div class="form-group">
+				    <span class="badge badge-secondary" style="width: 70px; height: 20px; float: left;">${memberLoggedIn.userNickname }</span>
+				    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  name="content"  style="resize: none; border:0; background:clear;" placeholder="내용을 입력하세요"></textarea>
+					<input type="submit" class="btn btn-success" style="float:right;" value="등록" />
+			    </div>
 			</form>
 			<div class="championTipList">
-				<c:forEach items="${championTipList }" var="tip">
-					<ul>
-						<div class="championTip" id="${tip.champTipNo }">
-						<input type="hidden" id="${tip.champTipNo }">
-						<button value="${tip.champTipNo }" like="${tip.champTipLike }" userEmail="${tip.userEmail }" class="like" id="up">&and;</button>
-						<br />
-							<span>${tip.champTipLike }</span>
-						<br />
-						</div>
-						<div class="championTipContent">
-							<div class="writerUser">${tip.userNickName }</div>
-							<div class="writerContent">${tip.champTipContent }</div>
-						</div>
-						<div class="championTipExtra">
-							<button id="extraBtn">신고</button>
-						</div>
-					</ul>
-				</c:forEach>
+				<div class="form-group">
+					<c:forEach items="${championTipList }" var="tip">
+						<ul>
+							<div class="championTip" id="${tip.champTipNo }">
+							<input type="hidden" id="${tip.champTipNo }">
+							<button value="${tip.champTipNo }" like="${tip.champTipLike }" userEmail="${tip.userEmail }" class="like" id="up">&and;</button>
+							<br>
+								<span class="badge badge-pill badge-info" style="font-size: 12px;">${tip.champTipLike }</span>
+							<br>
+							</div>
+							<div class="championTipContent">
+							<span class="badge badge-secondary" style="width: 70px; height: 20px; float: left;">${tip.userNickName }</span>
+								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  name="tipContent"  style="resize: none; border:0; background:clear;" readonly="readonly" placeholder="내용을 입력하세요">${tip.champTipContent }</textarea>
+							</div>
+						</ul>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 	</div>

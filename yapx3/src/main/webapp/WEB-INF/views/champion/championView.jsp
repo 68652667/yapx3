@@ -40,10 +40,10 @@ li {
 	color: gray;
 	width: 70px;
 	text-align: center;
-	margin-top: 15px;
+	margin-top: 9px;
     border : 1px;
     float: left;
-    font-size: 10px;
+    font-size: 18px;
 }
 li:hover{
 	border-bottom: 3px solid skyblue;
@@ -65,7 +65,6 @@ li:hover{
 			<li id="MIDDLE" value="미드">미드</li>
 			<li id="JUNGLE" value="정글">정글</li>
 			<li id="BOTTOM" value="바텀">바텀</li>
-			<li id="LOTATION" value="로테이션">로테이션</li>
 		</ul>
 		<div id="championSearch">
 			<input type="text" placeholder="챔피언 검색 (가렌, ㄱㄹ, ...)" id="searchName"></input>

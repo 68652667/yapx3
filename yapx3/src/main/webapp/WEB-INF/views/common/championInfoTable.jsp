@@ -972,7 +972,7 @@
 				</td>
 				<td style="text-align:center; font-size:20px; padding-top: 100px;">
 					<div class="perkPickDiv">
-						<div class="perkPickScore"> ${perk.championRunePercenter } </div>
+						<div class="percent"> ${perk.championRunePercenter } </div>
 					</div>
 				</td>
 			</tr>
