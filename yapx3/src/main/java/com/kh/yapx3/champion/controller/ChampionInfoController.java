@@ -161,11 +161,10 @@ public class ChampionInfoController{
 		String likeType = request.getParameter("likeType");
 		String userEmail = request.getParameter("userEmail");
 		
-		//logger.info("like: " +like);
+
 		int idx = userEmail.indexOf("@");
 		String emailId = userEmail.substring(0, idx);
 		
-		logger.info(emailId);
 		ChampionTipBoardVO tip = new ChampionTipBoardVO();
 		tip.setChampTipNo(tipNo);
 		tip.setUserId(emailId);
@@ -307,7 +306,7 @@ public class ChampionInfoController{
 		int slen = keyword.length();
 		
 		
-		if(seof < 0 || keyword.length() < 2) {
+		if(seof < 0 || keyword.length() < 1) {
 			return false;
 		}
 		for(int i = 0 ; i <= seof; i++) {

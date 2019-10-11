@@ -387,7 +387,7 @@ public class ChampionInfoServiceImpl {
 				likeSelectIdSplit = likeSelectId.split(", ");
 				for(int i= 0; i < likeSelectIdSplit.length; i++) {
 					if(likeSelectIdSplit[i].equals(tip.getUserId())) {
-						logger.info(likeSelectIdSplit[i]+" == " + tip.getUserId());
+//						logger.info(likeSelectIdSplit[i]+" == " + tip.getUserId());
 						return likeSelectIdSplit;
 					}
 					//logger.info("likeSelectIdSplit : " + likeSelectIdSplit[i]);

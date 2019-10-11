@@ -52,6 +52,7 @@ $(()=>{
 </script>
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1024px;margin-top:175px; min-height: 660px;">
+<h2>팁/공략 게시판</h2>
 <c:if test="${memberLoggedIn!=null}">
 	<p style="text-align: right;"><button type="button" class="btn btn-secondary btn-sm" id="makeTip" onclick="makeTip();">글쓰기</button></p>
 </c:if>
