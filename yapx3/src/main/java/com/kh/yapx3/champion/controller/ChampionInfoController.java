@@ -165,6 +165,7 @@ public class ChampionInfoController{
 		int idx = userEmail.indexOf("@");
 		String emailId = userEmail.substring(0, idx);
 		
+		logger.info(emailId);
 		ChampionTipBoardVO tip = new ChampionTipBoardVO();
 		tip.setChampTipNo(tipNo);
 		tip.setUserId(emailId);

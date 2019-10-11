@@ -451,7 +451,7 @@ li {
 						<ul>
 							<div class="championTip" id="${tip.champTipNo }">
 							<input type="hidden" id="${tip.champTipNo }">
-							<button value="${tip.champTipNo }" like="${tip.champTipLike }" userEmail="${tip.userEmail }" class="like" id="up">&and;</button>
+							<button value="${tip.champTipNo }" like="${tip.champTipLike }" userEmail="${memberLoggedIn.userEmail}" class="like" id="up">&and;</button>
 							<br>
 								<span class="badge badge-pill badge-info" style="font-size: 12px;">${tip.champTipLike }</span>
 							<br>
